@@ -1,10 +1,10 @@
 ---
-name: 'enscribe'
+name: 'Darwin Danish'
 pronouns: 'he/him'
-avatar: 'https://gravatar.com/avatar/9bfdc4ec972793cf05cb91efce5f4aaaec2a0da1bf4ec34dad0913f1d845faf6.webp?size=256'
-bio: 'd(-_-)b'
-website: 'https://enscribe.dev'
+avatar: 'https://2.gravatar.com/avatar/c53c92c02db7e4b3ca932c040fec22a4f365b977d2f45b72b26cd363c2dedbec?size=256&d=initials'
+bio: 'F1 Enthusiast and Music & Movie Lover'
+website: 'https://darwindanish.dev'
 twitter: 'https://twitter.com/enscry'
-github: 'https://github.com/jktrn'
-mail: 'jason@enscribe.dev'
+github: 'https://github.com/Darwin2429'
+mail: 'lumina.ai.devs@gmail.com'
 ---
