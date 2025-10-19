@@ -252,6 +252,7 @@ const DiscordPresence = () => {
         activityContent={
           <ActivityDisplay 
             activity={{
+              type: 0,
               name: 'Discord',
               details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
               state: 'Building cool stuff & watching F1',
@@ -310,6 +311,7 @@ const DiscordPresence = () => {
         activityContent={
           <ActivityDisplay 
             activity={{
+              type: 0,
               name: 'Discord',
               details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
               state: 'Building cool stuff & watching F1',

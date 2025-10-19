@@ -25,7 +25,7 @@ const MAX_RETRIES = 3
 const SpotifyPresence = () => {
   const [displayData, setDisplayData] = useState<Track | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [, setError] = useState<string | null>(null)
   const retryCountRef = useRef(0)
   const fetchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
