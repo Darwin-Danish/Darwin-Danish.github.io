@@ -17,8 +17,19 @@ import rehypeDocument from 'rehype-document'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  site: 'https://enscribe.dev',
-  integrations: [expressiveCode(), mdx(), react(), sitemap(), icon()],
+  site: 'https://darwindanish.dev',
+  integrations: [
+    expressiveCode(), 
+    mdx(), 
+    react(), 
+    sitemap({
+      filter: (page) => !page.includes('404'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+    }), 
+    icon()
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
