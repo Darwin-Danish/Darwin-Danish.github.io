@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn, getElapsedTime } from '@/lib/utils'
 import AvatarComponent from '@/components/ui/avatar'
 
-const DISCORD_USER_ID = '747519888347627550'
+const DISCORD_USER_ID = 'YOUR_DISCORD_USER_ID' // Replace with your actual Discord User ID (enable Developer Mode in Discord, right-click your username, copy User ID)
 
 interface Activity {
   type: number
@@ -107,9 +107,9 @@ const DecorativeBadges = memo(() => {
 
 const UserInfo = memo(() => (
   <div className="bg-border/50 flex flex-col gap-y-1 p-3">
-    <span className="text-base leading-none">enscribe</span>
+    <span className="text-base leading-none">Darwin</span>
     <span className="text-muted-foreground text-xs leading-none">
-      @enscribe
+      @darwindanish
     </span>
   </div>
 ))
@@ -120,9 +120,9 @@ const AvatarSection = memo<{
   <div className="flex justify-between gap-x-1">
     <div className="relative">
       <AvatarComponent
-        src="/static/bento/avatar.webp"
-        alt="Avatar"
-        fallback="e"
+        src="https://2.gravatar.com/avatar/c53c92c02db7e4b3ca932c040fec22a4f365b977d2f45b72b26cd363c2dedbec?size=256&d=initials"
+        alt="Darwin's Avatar"
+        fallback="D"
         className="-mt-12 aspect-square size-16 rounded-full sm:-mt-[4.5rem] sm:size-24"
       />
       <div
@@ -146,13 +146,12 @@ const DiscordLayout = memo<{
   activityContent: React.ReactNode
 }>(({ statusIndicator, activityContent }) => (
   <div
-    data-trigger
     className="group/discord relative size-full overflow-hidden"
   >
     <p className="text-foreground/80 bg-muted absolute top-4 left-30 hidden border p-2 text-xs opacity-0 transition-opacity duration-200 group-hover/discord:opacity-100 sm:block">
-      Feel free
+      Looking for friends who love
       <br />
-      to add me!
+      F1, movies & music! 🏎️🎬🎵
     </p>
     <div className="grid size-full grid-rows-4">
       <div className="bg-border/25 bg-[url('/static/bento/discord-banner.png')] bg-cover bg-center bg-no-repeat" />
@@ -183,9 +182,9 @@ const ActivityDisplay = memo<{
   }, [activity?.assets?.small_image, activity?.application_id])
 
   const displayActivity = activity || {
-    name: 'No status',
-    details: "I'm probably sleeping...",
-    state: 'Enjoy your stay!',
+    name: 'Discord',
+    details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
+    state: 'Building cool stuff & watching F1',
   }
 
   const displayElapsedTime = elapsedTime || '∞:00 elapsed'
@@ -245,6 +244,25 @@ const LoadingSkeleton = memo(() => (
 ))
 
 const DiscordPresence = () => {
+  // If no valid Discord User ID is provided, show a fallback
+  if (DISCORD_USER_ID === 'YOUR_DISCORD_USER_ID') {
+    return (
+      <DiscordLayout
+        statusIndicator={<StatusIndicator status="offline" />}
+        activityContent={
+          <ActivityDisplay 
+            activity={{
+              name: 'Discord',
+              details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
+              state: 'Building cool stuff & watching F1',
+            }} 
+            elapsedTime="Always online" 
+          />
+        }
+      />
+    )
+  }
+
   const {
     data: lanyard,
     isLoading,
@@ -286,7 +304,21 @@ const DiscordPresence = () => {
   }
 
   if (error || !lanyard?.data) {
-    return null
+    return (
+      <DiscordLayout
+        statusIndicator={<StatusIndicator status="offline" />}
+        activityContent={
+          <ActivityDisplay 
+            activity={{
+              name: 'Discord',
+              details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
+              state: 'Building cool stuff & watching F1',
+            }} 
+            elapsedTime="Always online" 
+          />
+        }
+      />
+    )
   }
 
   const { discord_status } = lanyard.data

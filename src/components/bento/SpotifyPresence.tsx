@@ -64,7 +64,7 @@ const SpotifyPresence = () => {
       const timeoutId = setTimeout(() => controller.abort(), 10000)
 
       const response = await fetch(
-        'https://lastfm-last-played.biancarosa.com.br/enscribe/latest-song',
+        'https://lastfm-last-played.biancarosa.com.br/DarwinDanish/latest-song',
         {
           signal: controller.signal,
           headers: {

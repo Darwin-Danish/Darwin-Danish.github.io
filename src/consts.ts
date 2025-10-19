@@ -1,10 +1,10 @@
 import type { IconMap, SocialLink, Site } from '@/types'
 
 export const SITE: Site = {
-  title: 'Smooth Operator',
+  title: 'Darwin Danish',
   description:
-    'I am 16 years student that really love tech',
-  href: 'https://enscribe.dev',
+    'A young computer engineering student and tech enthusiast passionate about IoT, machine learning, software development, and Formula 1',
+  href: 'https://darwindanish.dev',
   author: 'Darwin',
   locale: 'en-US',
   featuredPostCount: 2,

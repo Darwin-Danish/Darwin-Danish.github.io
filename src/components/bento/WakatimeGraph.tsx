@@ -31,7 +31,9 @@ const CHART_COLORS = [
   'hsl(var(--chart-7))',
 ] as const
 
-const WAKATIME_API_URL =
+const PRIMARY_WAKATIME_API_URL =
+  'https://wakatime.com/share/@d0f744b2-fafc-4652-8a16-4bdc7e18ab67/dbcbcb0f-bdcb-4efa-9e44-560db58a9044.json'
+const DEFAULT_WAKATIME_API_URL =
   'https://wakatime.com/share/@jktrn/ef6e633b-589d-44f2-9ae6-0eb93445cf2a.json'
 const MAX_LANGUAGES = 7
 const ICON_SIZE = 20
@@ -121,13 +123,22 @@ const useWakatimeData = (omitLanguages: string[]) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let data
       try {
-        const response = await fetch(WAKATIME_API_URL)
+        // Try primary URL first
+        let response = await fetch(PRIMARY_WAKATIME_API_URL)
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`)
         }
-
-        const data = await response.json()
+        data = await response.json()
+        // If blank data, fallback to default URL
+        if (!data?.data || data.data.length === 0) {
+          response = await fetch(DEFAULT_WAKATIME_API_URL)
+          if (!response.ok) {
+            throw new Error(`Failed to fetch default data: ${response.statusText}`)
+          }
+          data = await response.json()
+        }
         const processedLanguages = data.data
           .filter(
             (lang: { name: string }) => !omitLanguages.includes(lang.name),

@@ -1,4 +1,5 @@
 ---
+import AgeCounter from '@/components/AgeCounter.tsx'
 import DiscordPresence from '@/components/bento/DiscordPresence.tsx'
 import GithubCalendar from '@/components/bento/GithubCalendar.tsx'
 import SpotifyPresence from '@/components/bento/SpotifyPresence.tsx'
@@ -40,33 +41,37 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0))
                 <p
                   class="text-foreground/80 bg-background block border p-3 text-sm text-pretty"
                 >
-                  Hey, I&rsquo;m Jason! I&rsquo;m a <Link
-                    href="https://en.wikipedia.org/wiki/Design_engineer#In_software_engineering"
+                  Hey, I&rsquo;m Darwin! I&rsquo;m a <Link
+                    href="https://en.wikipedia.org/wiki/Computer_engineering"
                     external
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >design engineer</Link
-                  > and security researcher based in Los Angeles.
+                    >computer engineering</Link
+                  > student and tech enthusiast with a dream to work in <Link
+                    href="https://en.wikipedia.org/wiki/Formula_One"
+                    external
+                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
+                    >Formula 1</Link
+                  > one day.
                 </p>
                 <p
                   class="text-foreground/80 bg-background block border p-3 text-sm text-pretty"
                 >
-                  Outside of undergraduate studies, I contract as a web designer
-                  and organize <Link
-                    href="https://en.wikipedia.org/wiki/Capture_the_flag_(cybersecurity)"
+                  As a <AgeCounter birthYear={2009} birthMonth={2} birthDay={24} client:load />-year-old student, I&rsquo;m passionate about <Link
+                    href="https://en.wikipedia.org/wiki/Internet_of_things"
                     external
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >security CTF</Link
-                  > competitions with <Link
-                    href="https://sekai.team"
+                    >IoT</Link
+                  >, <Link
+                    href="https://en.wikipedia.org/wiki/Software_development"
                     external
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >Project Sekai CTF</Link
-                  > and the <Link
-                    href="https://ctf.mt"
+                    >software development</Link
+                  >, <Link
+                    href="https://en.wikipedia.org/wiki/Machine_learning"
                     external
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >Friendly Maltese Citizens</Link
-                  >. You can read more about me <Link
+                    >machine learning</Link
+                  >, and all things tech. I&rsquo;m studying computer engineering early and love building projects that bridge the physical and digital worlds. You can read more about me <Link
                     href="/about"
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
                     >here</Link
@@ -89,8 +94,7 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0))
             <p
               class="text-foreground/80 bg-background absolute top-1/2 left-0 mr-24 ml-4 -translate-y-1/2 border p-3 text-xs text-pretty"
             >
-              This blog contains educational resources pertaining to CTFs and
-              cybersecurity. I hope you enjoy reading!
+              This blog contains my IoT projects, ML experiments, tech tutorials, F1 insights, and software development adventures. I hope you enjoy reading!
             </p>
           </div>
         </div>
@@ -107,7 +111,7 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0))
       </div>
     </div>
     <div class="aspect-auto p-2 [grid-area:d] sm:aspect-square">
-      <div class="bg-muted size-full border">
+      <div data-trigger class="bg-muted size-full border">
         <DiscordPresence client:load />
       </div>
     </div>
@@ -173,7 +177,7 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0))
           </div>
         </div>
         <div class="flex size-full items-center justify-center p-8">
-          <GithubCalendar username="jktrn" client:load />
+          <GithubCalendar username="Darwin-Danish" client:load />
         </div>
       </div>
     </div>
