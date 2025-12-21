@@ -9,6 +9,10 @@ export async function getStaticPaths() {
   const tagMap = await getAllTags()
   const uniqueTags = Array.from(tagMap.keys())
 
+  if (uniqueTags.length === 0) {
+    return []
+  }
+
   return Promise.all(
     uniqueTags.map(async (tag) => {
       const posts = await getPostsByTag(tag)
@@ -24,6 +28,7 @@ export async function getStaticPaths() {
 }
 
 const { tag, posts } = Astro.props
+const hasPosts = posts.length > 0
 ---
 
 <Layout class="max-w-3xl">
@@ -40,13 +45,20 @@ const { tag, posts } = Astro.props
     ]}
   />
 
-  <ul class="flex flex-col gap-y-4">
-    {
-      posts.map((post) => (
-        <li>
-          <BlogCard entry={post} />
-        </li>
-      ))
-    }
-  </ul>
+  {hasPosts ? (
+    <ul class="flex flex-col gap-y-4">
+      {
+        posts.map((post) => (
+          <li>
+            <BlogCard entry={post} />
+          </li>
+        ))
+      }
+    </ul>
+  ) : (
+    <div class="flex min-h-[calc(100vh-18rem)] flex-col items-center justify-center gap-y-4 text-center">
+      <p class="text-muted-foreground text-lg">No blog posts at the moment.</p>
+      <p class="text-muted-foreground">Please come back later.</p>
+    </div>
+  )}
 </Layout>

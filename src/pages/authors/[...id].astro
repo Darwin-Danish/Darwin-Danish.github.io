@@ -8,6 +8,9 @@ import { getAllAuthors, getPostsByAuthor } from '@/lib/data-utils'
 
 export async function getStaticPaths() {
   const authors = await getAllAuthors()
+  if (authors.length === 0) {
+    return []
+  }
   return authors.map((author) => ({
     params: { id: author.id },
     props: { author },

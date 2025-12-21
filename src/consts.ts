@@ -32,12 +32,12 @@ export const NAV_LINKS: SocialLink[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: 'https://github.com/Darwin-Danish',
-    label: 'GitHub',
+    href: 'https://www.instagram.com/darwin.danish29',
+    label: 'Instagram',
   },
   {
-    href: 'https://twitter.com/enscry',
-    label: 'Twitter',
+    href: 'https://gravatar.com/darwindanish',
+    label: 'Gravatar',
   },
   {
     href: 'mailto:lumina.ai.devs@gmail.com',
@@ -51,9 +51,9 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const ICON_MAP: IconMap = {
   Website: 'lucide:globe',
-  GitHub: 'lucide:github',
+  Instagram: 'lucide:instagram',
+  Gravatar: 'gravatar',
   LinkedIn: 'lucide:linkedin',
-  Twitter: 'lucide:twitter',
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
 }

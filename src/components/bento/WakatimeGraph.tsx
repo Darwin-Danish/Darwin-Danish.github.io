@@ -13,7 +13,7 @@ import { getLanguageIcon } from '@/components/bento/LanguageIcons'
 
 interface Language {
   name: string
-  hours: number
+  value: number
   fill: string
 }
 
@@ -40,8 +40,8 @@ const ICON_SIZE = 20
 const CIRCLE_RADIUS = 16
 
 const chartConfig: ChartConfig = {
-  hours: {
-    label: 'Hours',
+  value: {
+    label: 'Value',
     color: 'var(--primary)',
   },
   label: {
@@ -144,11 +144,16 @@ const useWakatimeData = (omitLanguages: string[]) => {
             (lang: { name: string }) => !omitLanguages.includes(lang.name),
           )
           .slice(0, MAX_LANGUAGES)
-          .map((lang: { name: string; hours: number }, index: number) => ({
-            name: lang.name,
-            hours: Number(lang.hours.toFixed(2)),
-            fill: CHART_COLORS[index % CHART_COLORS.length],
-          }))
+          .map(
+            (
+              lang: { name: string; percent: number },
+              index: number,
+            ) => ({
+              name: lang.name,
+              value: lang.percent,
+              fill: CHART_COLORS[index % CHART_COLORS.length],
+            }),
+          )
 
         setLanguages(processedLanguages)
       } catch (err) {
@@ -171,14 +176,8 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
 
   if (isLoading) return <LoadingSkeleton />
   if (error) {
-    return (
-      <div className="flex h-full items-center justify-center rounded-3xl p-4">
-        <div className="text-center">
-          <p className="text-destructive">Error loading data</p>
-          <p className="text-muted-foreground text-sm">Please email me!</p>
-        </div>
-      </div>
-    )
+    // Silently fail and show skeleton instead of error message
+    return <LoadingSkeleton />
   }
 
   return (
@@ -189,7 +188,7 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
         layout="vertical"
         margin={{
           left: 0,
-          right: 0,
+          right: 30,
           top: 4,
           bottom: 4,
         }}
@@ -206,11 +205,11 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
         />
         <XAxis type="number" hide />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <Bar dataKey="hours" radius={[0, 0, 0, 0]} isAnimationActive={false}>
+        <Bar dataKey="value" radius={[0, 0, 0, 0]} isAnimationActive={false}>
           <LabelList
-            dataKey="hours"
+            dataKey="value"
             position="right"
-            formatter={(value: number) => `${Math.round(value)}h`}
+            formatter={(value: number) => `${Math.round(value)}%`}
             className="fill-foreground/80 font-medium"
             fontSize={13}
           />

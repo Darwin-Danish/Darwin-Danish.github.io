@@ -50,7 +50,7 @@ export const GET: APIRoute = async ({ site }) => {
   const currentDate = new Date().toISOString()
   
   // Generate URLs for blog posts with images
-  const blogUrls = blogPosts.map(post => {
+  const blogUrls = blogPosts.length > 0 ? blogPosts.map(post => {
     const url = `/blog/${post.id}/`
     let imageTags = ''
     
@@ -73,10 +73,10 @@ export const GET: APIRoute = async ({ site }) => {
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>${imageTags}
   </url>`
-  }).join('\n')
+  }).join('\n') : ''
 
   // Generate URLs for projects with images
-  const projectUrls = projects.map(project => {
+  const projectUrls = projects.length > 0 ? projects.map(project => {
     const url = `/work#${project.id}`
     let imageTags = ''
     
@@ -99,10 +99,10 @@ export const GET: APIRoute = async ({ site }) => {
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>${imageTags}
   </url>`
-  }).join('\n')
+  }).join('\n') : ''
 
   // Generate URLs for authors
-  const authorUrls = authors.map(author => {
+  const authorUrls = authors.length > 0 ? authors.map(author => {
     const url = `/authors/${author.id}/`
     return `  <url>
     <loc>${site}${url}</loc>
@@ -110,7 +110,7 @@ export const GET: APIRoute = async ({ site }) => {
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>`
-  }).join('\n')
+  }).join('\n') : ''
 
   // Generate URLs for static pages
   const staticUrls = staticPages.map(page => {

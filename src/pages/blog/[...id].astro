@@ -30,6 +30,9 @@ import { render } from 'astro:content'
 
 export async function getStaticPaths() {
   const posts = await getAllPostsAndSubposts()
+  if (posts.length === 0) {
+    return []
+  }
   return posts.map((post) => ({
     params: { id: post.id },
     props: post,
@@ -38,6 +41,12 @@ export async function getStaticPaths() {
 
 const post = Astro.props
 const currentPostId = Astro.params.id
+
+// Safety check: if post is invalid or missing, return 404
+if (!post || !post.data) {
+  return Astro.redirect('/404')
+}
+
 const { Content, headings } = await render(post)
 const authors = await parseAuthors(post.data.authors ?? [])
 

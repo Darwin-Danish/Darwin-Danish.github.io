@@ -33,7 +33,7 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     class="flex flex-col gap-4 sm:flex-row"
   >
     {
-      entry.data.image && (
+      entry.data.image && typeof entry.data.image === 'object' && 'src' in entry.data.image && (
         <div class="max-w-3xs sm:shrink-0">
           <Image
             src={entry.data.image}
