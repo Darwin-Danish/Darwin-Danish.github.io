@@ -14,25 +14,25 @@ const hasTags = sortedTags.length > 0
   <PageHead slot="head" title="Tags" />
   <Breadcrumbs items={[{ label: 'Tags', icon: 'lucide:tags' }]} />
 
-  {hasTags ? (
-    <div class="flex flex-col gap-4">
-      <div class="flex flex-wrap gap-2">
-        {
-          sortedTags.map(({ tag, count }) => (
+  {
+    hasTags ? (
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-wrap gap-2">
+          {sortedTags.map(({ tag, count }) => (
             <Link href={`/tags/${tag}`}>
               <Badge text={tag}>
                 {tag}
                 <span class="text-muted-foreground ml-1.5">({count})</span>
               </Badge>
             </Link>
-          ))
-        }
+          ))}
+        </div>
       </div>
-    </div>
-  ) : (
-    <div class="flex min-h-[calc(100vh-18rem)] flex-col items-center justify-center gap-y-4 text-center">
-      <p class="text-muted-foreground text-lg">No tags at the moment.</p>
-      <p class="text-muted-foreground">Please come back later.</p>
-    </div>
-  )}
+    ) : (
+      <div class="flex min-h-[calc(100vh-18rem)] flex-col items-center justify-center gap-y-4 text-center">
+        <p class="text-muted-foreground text-lg">No tags at the moment.</p>
+        <p class="text-muted-foreground">Please come back later.</p>
+      </div>
+    )
+  }
 </Layout>

@@ -64,7 +64,12 @@ const latestPostImage =
                 <p
                   class="text-foreground/80 bg-background block border p-3 text-sm text-pretty"
                 >
-                  As a <AgeCounter birthYear={2009} birthMonth={2} birthDay={24} client:load />-year-old student, I&rsquo;m passionate about <Link
+                  As a <AgeCounter
+                    birthYear={2009}
+                    birthMonth={2}
+                    birthDay={24}
+                    client:load
+                  />-year-old student, I&rsquo;m passionate about <Link
                     href="https://en.wikipedia.org/wiki/Internet_of_things"
                     external
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
@@ -79,7 +84,9 @@ const latestPostImage =
                     external
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
                     >machine learning</Link
-                  >, and all things tech. I&rsquo;m studying computer engineering early and love building projects that bridge the physical and digital worlds. You can read more about me <Link
+                  >, and all things tech. I&rsquo;m studying computer
+                  engineering early and love building projects that bridge the
+                  physical and digital worlds. You can read more about me <Link
                     href="/about"
                     class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
                     >here</Link
@@ -102,7 +109,9 @@ const latestPostImage =
             <p
               class="text-foreground/80 bg-background absolute top-1/2 left-0 mr-24 ml-4 -translate-y-1/2 border p-3 text-xs text-pretty"
             >
-              This blog contains my IoT projects, ML experiments, tech tutorials, F1 insights, and software development adventures. I hope you enjoy reading!
+              This blog contains my IoT projects, ML experiments, tech
+              tutorials, F1 insights, and software development adventures. I
+              hope you enjoy reading!
             </p>
           </div>
         </div>
@@ -134,11 +143,16 @@ const latestPostImage =
             <p
               class="text-foreground/80 bg-background absolute bottom-4 left-16 border p-2 text-xs text-pretty sm:top-[42.5%] sm:right-4 sm:bottom-[inherit] sm:left-[inherit] sm:-translate-y-1/2"
             >
-              {latestPost ? (
-                <>Read my latest<br /> blog post!</>
-              ) : (
-                <>No Blog Yet</>
-              )}
+              {
+                latestPost ? (
+                  <>
+                    Read my latest
+                    <br /> blog post!
+                  </>
+                ) : (
+                  <>No Blog Yet</>
+                )
+              }
             </p>
           </div>
           <div class="p-3 sm:size-full sm:p-6">
@@ -153,7 +167,9 @@ const latestPostImage =
                 </Link>
               ) : (
                 <div class="flex h-full items-center justify-center">
-                  <p class="text-muted-foreground text-center text-sm">No blog posts available yet</p>
+                  <p class="text-muted-foreground text-center text-sm">
+                    No blog posts available yet
+                  </p>
                 </div>
               )
             }
@@ -281,8 +297,8 @@ const latestPostImage =
             aria-hidden="true"
           />
           <Link
-            href={SOCIAL_LINKS.find((link) => link.label === 'LinkedIn')?.href ||
-              '#'}
+            href={SOCIAL_LINKS.find((link) => link.label === 'LinkedIn')
+              ?.href || '#'}
             title="Visit my LinkedIn profile"
             aria-label="Visit my LinkedIn profile"
             external
