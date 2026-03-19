@@ -136,7 +136,7 @@ const AvatarSection = memo<{
 ))
 
 const DiscordIcon = memo(() => (
-  <div className="bg-primary absolute top-0 right-0 m-3 flex size-14 items-center justify-center rounded-full z-0">
+  <div className="bg-primary absolute top-0 right-0 z-0 m-3 flex size-14 items-center justify-center rounded-full">
     <FaDiscord className="text-background size-10" />
   </div>
 ))
@@ -145,9 +145,7 @@ const DiscordLayout = memo<{
   statusIndicator: React.ReactNode
   activityContent: React.ReactNode
 }>(({ statusIndicator, activityContent }) => (
-  <div
-    className="group/discord relative size-full overflow-hidden"
-  >
+  <div className="group/discord relative size-full overflow-hidden">
     <p className="text-foreground/80 bg-muted absolute top-4 left-30 z-10 hidden border p-2 text-xs opacity-0 transition-opacity duration-200 group-hover/discord:opacity-100 sm:block">
       Looking for friends who love
       <br />
@@ -250,14 +248,14 @@ const DiscordPresence = () => {
       <DiscordLayout
         statusIndicator={<StatusIndicator status="offline" />}
         activityContent={
-          <ActivityDisplay 
+          <ActivityDisplay
             activity={{
               type: 0,
               name: 'Discord',
               details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
               state: 'Building cool stuff & watching F1',
-            }} 
-            elapsedTime="Always online" 
+            }}
+            elapsedTime="Always online"
           />
         }
       />
@@ -309,14 +307,14 @@ const DiscordPresence = () => {
       <DiscordLayout
         statusIndicator={<StatusIndicator status="offline" />}
         activityContent={
-          <ActivityDisplay 
+          <ActivityDisplay
             activity={{
               type: 0,
               name: 'Discord',
               details: 'Looking for F1, movie & music friends! 🏎️🎬🎵',
               state: 'Building cool stuff & watching F1',
-            }} 
-            elapsedTime="Always online" 
+            }}
+            elapsedTime="Always online"
           />
         }
       />

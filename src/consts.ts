@@ -9,7 +9,15 @@ export const SITE: Site = {
   locale: 'en-US',
   featuredPostCount: 2,
   postsPerPage: 4,
-  keywords: ['Computer Engineering', 'IoT', 'Machine Learning', 'Software Development', 'Artificial Intelligence', 'Portfolio', 'Darwin Danish'],
+  keywords: [
+    'Computer Engineering',
+    'IoT',
+    'Machine Learning',
+    'Software Development',
+    'Artificial Intelligence',
+    'Portfolio',
+    'Darwin Danish',
+  ],
 }
 
 export const NAV_LINKS: SocialLink[] = [

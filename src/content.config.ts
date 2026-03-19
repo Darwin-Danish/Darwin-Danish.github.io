@@ -11,7 +11,12 @@ const blog = defineCollection({
       order: z.number().optional(),
       // CMS uploads live in /public/uploads and should be treated as plain paths,
       // not Astro-processed assets, to avoid dev-time ImageNotFound races.
-      image: z.string().url().or(z.string().startsWith('/')).or(image()).optional(),
+      image: z
+        .string()
+        .url()
+        .or(z.string().startsWith('/'))
+        .or(image())
+        .optional(),
       tags: z.array(z.string()).optional(),
       authors: z.array(z.string()).optional(),
       draft: z.boolean().optional(),

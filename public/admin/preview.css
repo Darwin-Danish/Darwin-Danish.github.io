@@ -4,8 +4,16 @@
 
 html,
 body {
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    'Apple Color Emoji',
+    'Segoe UI Emoji';
   background: #0b0a08;
   color: #e9d3b6;
 }
@@ -51,8 +59,9 @@ body {
 
 .prose code,
 .frame-content code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
   font-size: 0.95em;
 }
 
@@ -83,4 +92,3 @@ img {
   max-width: 100%;
   height: auto;
 }
-

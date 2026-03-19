@@ -136,7 +136,9 @@ const useWakatimeData = (omitLanguages: string[]) => {
         if (!data?.data || data.data.length === 0) {
           response = await fetch(DEFAULT_WAKATIME_API_URL)
           if (!response.ok) {
-            throw new Error(`Failed to fetch default data: ${response.statusText}`)
+            throw new Error(
+              `Failed to fetch default data: ${response.statusText}`,
+            )
           }
           data = await response.json()
         }
