@@ -52,35 +52,55 @@ export const GET: APIRoute = async ({ url }) => {
         </head>
         <body>
           <div class="content">
-            <h2>Completing authentication...</h2>
-            <p>This window should close automatically.</p>
+            <h2 id="status-title">Completing authentication...</h2>
+            <p id="status-text">Connecting back to the CMS...</p>
+            <p id="debug-info" style="font-size: 10px; color: #999; margin-top: 20px;"></p>
           </div>
           <script>
             (function() {
               const authData = ${JSON.stringify(data)};
               const message = 'authorization:github:success:' + JSON.stringify(authData);
+              const debug = document.getElementById('debug-info');
+              const statusText = document.getElementById('status-text');
               
-              // 1. Try to send the message immediately
-              if (window.opener) {
-                console.log("Sending success message to opener...");
-                window.opener.postMessage(message, "*");
-              } else {
-                console.log("No opener found.");
-                document.querySelector('p').innerText = "Error: No opener window found. Please try closing this and logging in again.";
+              debug.innerText = "Opener: " + (window.opener ? "Found" : "NOT FOUND") + " | Origin: " + window.location.origin;
+
+              if (!window.opener) {
+                statusText.innerText = "Error: Authentication window lost connection to the CMS. Please close this and try again.";
+                statusText.style.color = "red";
+                return;
               }
 
-              // 2. Also listen for the 'authorizing:github' handshake just in case Decap CMS needs it
+              // Function to send the message
+              function send() {
+                try {
+                  window.opener.postMessage(message, "*");
+                  window.opener.postMessage("authorizing:github", "*");
+                  console.log("Sent message to opener...");
+                } catch (e) {
+                  debug.innerText += " | Error: " + e.message;
+                }
+              }
+
+              // Send immediately
+              send();
+
+              // Also listen for a handshake
               window.addEventListener("message", function(e) {
-                console.log("Received message from opener:", e.data);
+                console.log("Received handshake:", e.data);
                 if (e.data === "authorizing:github") {
-                  window.opener.postMessage(message, e.origin);
+                  send();
                 }
               }, false);
 
-              // 3. Signal that we are ready for the handshake
-              if (window.opener) {
-                window.opener.postMessage("authorizing:github", "*");
-              }
+              // Repeat every 500ms until the window is closed by the CMS
+              const interval = setInterval(() => {
+                if (!window.opener || window.opener.closed) {
+                  clearInterval(interval);
+                  return;
+                }
+                send();
+              }, 500);
             })()
           </script>
         </body>
