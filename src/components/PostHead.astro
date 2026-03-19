@@ -22,12 +22,14 @@ const author =
   post.data.authors && post.data.authors.length > 0
     ? post.data.authors.join(', ')
     : SITE.author
+const keywords = [...SITE.keywords, ...(post.data.tags || [])]
 ---
 
 <title>{`${title} | ${SITE.title}`}</title>
 <meta name="title" content={`${title} | ${SITE.title}`} />
 <meta name="description" content={description} />
-<link rel="canonical" href={SITE.href} />
+<meta name="keywords" content={keywords.join(', ')} />
+<link rel="canonical" href={Astro.url} />
 
 {isSubpost(post.id) && <meta name="robots" content="noindex" />}
 

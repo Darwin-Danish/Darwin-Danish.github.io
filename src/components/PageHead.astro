@@ -5,19 +5,23 @@ interface Props {
   title?: string
   description?: string
   noindex?: boolean
+  keywords?: string[]
 }
 
 const {
   title = SITE.title,
   description = SITE.description,
   noindex = false,
+  keywords = SITE.keywords,
 } = Astro.props
 const image = new URL('/static/twitter-card.png', Astro.site)
 ---
 
 <title>{`${title} | ${SITE.title}`}</title>
+<meta name="title" content={`${title} | ${SITE.title}`} />
 <meta name="description" content={description} />
-<link rel="canonical" href={SITE.href} />
+<meta name="keywords" content={keywords.join(', ')} />
+<link rel="canonical" href={Astro.url} />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 
 <meta property="og:title" content={`${title} | ${SITE.title}`} />

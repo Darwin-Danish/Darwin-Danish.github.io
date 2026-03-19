@@ -25,9 +25,8 @@ export const GET: APIRoute = async ({ site }) => {
   const authors = await getAllAuthors()
   const tags = await getSortedTags()
   
-  // Also get subposts
+  // Also get subposts (all blog entries including subposts)
   const allPosts = await getCollection('blog', ({ data }) => !data.draft)
-  const subposts = allPosts.filter(post => post.id.includes('/'))
 
   // Static pages
   const staticPages = [
