@@ -58,7 +58,7 @@ export const GET: APIRoute = async ({ site }) => {
   let paginationUrls = ''
   if (totalPages > 1) {
     for (let i = 2; i <= totalPages; i++) {
-      const loc = new URL(`/blog/${i}/`, site).href
+      const loc = new URL(`/blog/posts/${i}/`, site).href
       paginationUrls += `  <url>
     <loc>${loc}</loc>
     <lastmod>${currentDate}</lastmod>
@@ -70,7 +70,7 @@ export const GET: APIRoute = async ({ site }) => {
 
   // 3. Blog Posts (Top-level and Subposts)
   const allPostUrls = allPosts.map(post => {
-    const url = `/blog/${post.id}/`
+    const url = `/blog/posts/${post.id}/`
     const loc = new URL(url, site).href
     let imageTags = ''
     

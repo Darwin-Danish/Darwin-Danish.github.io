@@ -96,19 +96,19 @@ const tocSections = await getTOCSections(currentPostId)
           ...(isCurrentSubpost && parentPost
             ? [
                 {
-                  href: `/blog/${parentPost.id}`,
+                  href: `/blog/posts/${parentPost.id}`,
                   label: parentPost.data.title,
                   icon: 'lucide:book-open',
                 },
                 {
-                  href: `/blog/${currentPostId}`,
+                  href: `/blog/posts/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:file-text',
                 },
               ]
             : [
                 {
-                  href: `/blog/${currentPostId}`,
+                  href: `/blog/posts/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:book-open-text',
                 },

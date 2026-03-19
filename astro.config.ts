@@ -123,5 +123,7 @@ export default defineConfig({
     '/blog/shctf-2022/compilation': '/blog/shctf-2022-compilation',
     '/blog/wolvctf-2023/wannaflag': '/blog/wolvctf-2023-wannaflag',
     '/sitemap.xml': '/sitemap-index.xml',
+    // Support legacy blog paths after moving to SSR /blog/posts/
+    '/blog/[...id]': '/blog/posts/[...id]',
   },
 })

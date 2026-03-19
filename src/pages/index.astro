@@ -158,7 +158,7 @@ const latestPostImage =
           <div class="p-3 sm:size-full sm:p-6">
             {
               latestPost ? (
-                <Link href={`/blog/${latestPost.id}`} class="flex h-full">
+                <Link href={`/blog/posts/${latestPost.id}`} class="flex h-full">
                   <img
                     src={latestPostImage ?? '#'}
                     alt={`Featured image for the latest post: ${latestPost.data.title}`}
@@ -177,7 +177,7 @@ const latestPostImage =
           {
             latestPost && (
               <Link
-                href={`/blog/${latestPost.id}`}
+                href={`/blog/posts/${latestPost.id}`}
                 title={`Read latest blog post: ${latestPost.data.title}`}
                 aria-label={`Read latest blog post: ${latestPost.data.title}`}
                 class="bg-border/50 text-primary ring-ring group/blog-link absolute end-0 bottom-0 m-3 rounded-full p-3 transition-[box-shadow] duration-300 hover:ring-2 focus-visible:ring-2"
