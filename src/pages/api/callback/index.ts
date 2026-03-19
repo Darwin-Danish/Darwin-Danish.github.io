@@ -43,20 +43,44 @@ export const GET: APIRoute = async ({ url }) => {
     const content = `
       <!DOCTYPE html>
       <html>
+        <head>
+          <title>Authenticating...</title>
+          <style>
+            body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f4; }
+            .content { text-align: center; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+          </style>
+        </head>
         <body>
+          <div class="content">
+            <h2>Completing authentication...</h2>
+            <p>This window should close automatically.</p>
+          </div>
           <script>
             (function() {
-              function receiveMessage(e) {
-                console.log("Receiving message:", e.data);
-                if (e.data == "authorizing:github") {
-                  window.opener.postMessage(
-                    'authorization:github:success:${JSON.stringify(data)}',
-                    e.origin
-                  );
-                }
+              const authData = ${JSON.stringify(data)};
+              const message = 'authorization:github:success:' + JSON.stringify(authData);
+              
+              // 1. Try to send the message immediately
+              if (window.opener) {
+                console.log("Sending success message to opener...");
+                window.opener.postMessage(message, "*");
+              } else {
+                console.log("No opener found.");
+                document.querySelector('p').innerText = "Error: No opener window found. Please try closing this and logging in again.";
               }
-              window.addEventListener("message", receiveMessage, false);
-              window.opener.postMessage("authorizing:github", "*");
+
+              // 2. Also listen for the 'authorizing:github' handshake just in case Decap CMS needs it
+              window.addEventListener("message", function(e) {
+                console.log("Received message from opener:", e.data);
+                if (e.data === "authorizing:github") {
+                  window.opener.postMessage(message, e.origin);
+                }
+              }, false);
+
+              // 3. Signal that we are ready for the handshake
+              if (window.opener) {
+                window.opener.postMessage("authorizing:github", "*");
+              }
             })()
           </script>
         </body>
