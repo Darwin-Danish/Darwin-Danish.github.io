@@ -26,10 +26,10 @@ const hasProjects = projects.length > 0
     <article class="prose">
       <Content />
     </article>
-    {hasProjects ? (
-      <div class="flex flex-col gap-y-8">
-        {
-          years.map((year) => (
+    {
+      hasProjects ? (
+        <div class="flex flex-col gap-y-8">
+          {years.map((year) => (
             <section class="flex flex-col gap-y-4">
               <div class="font-medium">{year}</div>
               <ul class="flex flex-col gap-4">
@@ -40,14 +40,16 @@ const hasProjects = projects.length > 0
                 ))}
               </ul>
             </section>
-          ))
-        }
-      </div>
-    ) : (
-      <div class="flex min-h-[calc(100vh-18rem)] flex-col items-center justify-center gap-y-4 text-center">
-        <p class="text-muted-foreground text-lg">No projects at the moment.</p>
-        <p class="text-muted-foreground">Please come back later.</p>
-      </div>
-    )}
+          ))}
+        </div>
+      ) : (
+        <div class="flex min-h-[calc(100vh-18rem)] flex-col items-center justify-center gap-y-4 text-center">
+          <p class="text-muted-foreground text-lg">
+            No projects at the moment.
+          </p>
+          <p class="text-muted-foreground">Please come back later.</p>
+        </div>
+      )
+    }
   </section>
 </Layout>
