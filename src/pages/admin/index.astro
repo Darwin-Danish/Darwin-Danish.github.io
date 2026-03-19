@@ -11,15 +11,11 @@
     <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
-    <script is:inline>
-      window.CMS_MANUAL_INIT = true
-    </script>
+    <script is:inline src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.CMS === 'undefined') return
         
-        window.CMS.init()
         window.CMS.registerPreviewStyle('/admin/preview.css')
         window.CMS.registerPreviewStyle(
           'https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css',
