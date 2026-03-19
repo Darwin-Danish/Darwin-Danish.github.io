@@ -24,7 +24,8 @@ const { project } = Astro.props
   >
     {
       project.data.image &&
-        (typeof project.data.image === 'object' && 'src' in project.data.image ? (
+        (typeof project.data.image === 'object' &&
+        'src' in project.data.image ? (
           <div class="max-w-3xs sm:shrink-0">
             <Image
               src={project.data.image}

@@ -13,7 +13,9 @@ const title = post.data.title || SITE.title
 const description = post.data.description || SITE.description
 const image = new URL('/static/twitter-card.png', Astro.site)
 const resolvedImage =
-  typeof post?.data?.image === 'object' && post.data.image && 'src' in post.data.image
+  typeof post?.data?.image === 'object' &&
+  post.data.image &&
+  'src' in post.data.image
     ? `${SITE.href}${post.data.image.src}`
     : typeof post?.data?.image === 'string'
       ? `${SITE.href}${post.data.image}`
@@ -35,10 +37,7 @@ const keywords = [...SITE.keywords, ...(post.data.tags || [])]
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta
-  property="og:image"
-  content={resolvedImage}
-/>
+<meta property="og:image" content={resolvedImage} />
 <meta property="og:image:alt" content={title} />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content={SITE.locale} />
@@ -48,10 +47,7 @@ const keywords = [...SITE.keywords, ...(post.data.tags || [])]
 
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta
-  property="twitter:image"
-  content={resolvedImage}
-/>
+<meta property="twitter:image" content={resolvedImage} />
 <meta name="twitter:image:alt" content={title} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content={author} />
