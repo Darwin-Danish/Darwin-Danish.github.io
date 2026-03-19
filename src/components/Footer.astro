@@ -10,6 +10,10 @@ import SocialIcons from './SocialIcons.astro'
     <span class="text-muted-foreground text-sm">
       &copy; {new Date().getFullYear()} Darwin Danish
     </span>
-    <SocialIcons links={SOCIAL_LINKS} />
+    <SocialIcons
+      links={SOCIAL_LINKS.filter(
+        (link) => link.label !== 'GitHub' && link.label !== 'LinkedIn'
+      )}
+    />
   </div>
 </footer>

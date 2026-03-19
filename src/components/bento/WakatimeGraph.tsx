@@ -13,7 +13,8 @@ import { getLanguageIcon } from '@/components/bento/LanguageIcons'
 
 interface Language {
   name: string
-  value: number
+  hours: number
+  percent: number
   fill: string
 }
 
@@ -32,7 +33,7 @@ const CHART_COLORS = [
 ] as const
 
 const PRIMARY_WAKATIME_API_URL =
-  'https://wakatime.com/share/@d0f744b2-fafc-4652-8a16-4bdc7e18ab67/dbcbcb0f-bdcb-4efa-9e44-560db58a9044.json'
+  'https://wakatime.com/share/@d0f744b2-fafc-4652-8a16-4bdc7e18ab67/1ef189ba-f2db-4739-9e9d-0996e1c7a461.json'
 const DEFAULT_WAKATIME_API_URL =
   'https://wakatime.com/share/@jktrn/ef6e633b-589d-44f2-9ae6-0eb93445cf2a.json'
 const MAX_LANGUAGES = 7
@@ -40,8 +41,8 @@ const ICON_SIZE = 20
 const CIRCLE_RADIUS = 16
 
 const chartConfig: ChartConfig = {
-  value: {
-    label: 'Value',
+  percent: {
+    label: 'Percentage',
     color: 'var(--primary)',
   },
   label: {
@@ -139,21 +140,28 @@ const useWakatimeData = (omitLanguages: string[]) => {
           }
           data = await response.json()
         }
-        const processedLanguages = data.data
+        const filteredData = data.data
           .filter(
             (lang: { name: string }) => !omitLanguages.includes(lang.name),
           )
           .slice(0, MAX_LANGUAGES)
-          .map(
-            (
-              lang: { name: string; percent: number },
-              index: number,
-            ) => ({
-              name: lang.name,
-              value: lang.percent,
-              fill: CHART_COLORS[index % CHART_COLORS.length],
-            }),
-          )
+
+        const totalHours = filteredData.reduce(
+          (acc: number, lang: any) => acc + lang.hours,
+          0,
+        )
+
+        const processedLanguages = filteredData.map(
+          (lang: { name: string; hours: number }, index: number) => ({
+            name: lang.name,
+            hours: Number(lang.hours.toFixed(2)),
+            percent:
+              totalHours > 0
+                ? Number(((lang.hours / totalHours) * 100).toFixed(1))
+                : 0,
+            fill: CHART_COLORS[index % CHART_COLORS.length],
+          }),
+        )
 
         setLanguages(processedLanguages)
       } catch (err) {
@@ -176,8 +184,14 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
 
   if (isLoading) return <LoadingSkeleton />
   if (error) {
-    // Silently fail and show skeleton instead of error message
-    return <LoadingSkeleton />
+    return (
+      <div className="flex h-full items-center justify-center rounded-3xl p-4">
+        <div className="text-center">
+          <p className="text-destructive">Error loading data</p>
+          <p className="text-muted-foreground text-sm">Please email me!</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -188,7 +202,7 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
         layout="vertical"
         margin={{
           left: 0,
-          right: 30,
+          right: 0,
           top: 4,
           bottom: 4,
         }}
@@ -205,9 +219,9 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
         />
         <XAxis type="number" hide />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <Bar dataKey="value" radius={[0, 0, 0, 0]} isAnimationActive={false}>
+        <Bar dataKey="percent" radius={[0, 0, 0, 0]} isAnimationActive={false}>
           <LabelList
-            dataKey="value"
+            dataKey="percent"
             position="right"
             formatter={(value: number) => `${Math.round(value)}%`}
             className="fill-foreground/80 font-medium"

@@ -4,16 +4,23 @@ import {
   SiC,
   SiCplusplus,
   // SiCsharp,
+  SiDart,
   SiCss3,
+  SiGo,
   SiHtml5,
   SiJavascript,
   SiJson,
+  SiKotlin,
   SiLatex,
   SiMarkdown,
   SiMdx,
+  SiOpenjdk,
   SiPython,
+  SiRust,
+  SiSwift,
   SiTypescript,
   SiYaml,
+  SiGnubash,
 } from 'react-icons/si'
 
 export const languageIcons: { [key: string]: IconType } = {
@@ -22,6 +29,16 @@ export const languageIcons: { [key: string]: IconType } = {
   css: SiCss3,
   javascript: SiJavascript,
   python: SiPython,
+  dart: SiDart,
+  rust: SiRust,
+  go: SiGo,
+  java: SiOpenjdk,
+  kotlin: SiKotlin,
+  swift: SiSwift,
+  bash: SiGnubash,
+  shell: SiGnubash,
+  sh: SiGnubash,
+  zsh: SiGnubash,
   c: SiC,
   'c++': SiCplusplus,
   // 'c#': SiCsharp,
@@ -34,6 +51,7 @@ export const languageIcons: { [key: string]: IconType } = {
 }
 
 export const getLanguageIcon = (language: string): React.ReactNode | null => {
-  const Icon = languageIcons[language]
+  const normalized = language.trim().toLowerCase()
+  const Icon = languageIcons[normalized]
   return Icon ? <Icon /> : null
 }

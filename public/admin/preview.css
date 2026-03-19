@@ -1,0 +1,86 @@
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #0b0a08;
+  color: #e9d3b6;
+}
+
+/* Decap preview pane container */
+.frame-content,
+.PreviewPaneContainer,
+.nc-previewPane {
+  background: transparent !important;
+}
+
+/* Reasonable typography defaults similar to the site's "prose" feel */
+.prose,
+.frame-content {
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.frame-content h1,
+.frame-content h2,
+.frame-content h3,
+.frame-content h4 {
+  line-height: 1.2;
+  margin: 1.25em 0 0.5em;
+  font-weight: 600;
+}
+
+.prose p,
+.frame-content p {
+  margin: 0.9em 0;
+}
+
+.prose a,
+.frame-content a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose code,
+.frame-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em;
+}
+
+.prose pre,
+.frame-content pre {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(233, 211, 182, 0.2);
+  padding: 12px 14px;
+  overflow: auto;
+  border-radius: 8px;
+}
+
+.prose blockquote,
+.frame-content blockquote {
+  border-left: 3px solid rgba(233, 211, 182, 0.35);
+  padding-left: 12px;
+  opacity: 0.95;
+}
+
+.prose hr,
+.frame-content hr {
+  border: 0;
+  border-top: 1px solid rgba(233, 211, 182, 0.2);
+  margin: 1.5em 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+

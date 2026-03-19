@@ -119,5 +119,6 @@ export default defineConfig({
       '/blog/sekaictf-2022-forensics-compilation',
     '/blog/shctf-2022/compilation': '/blog/shctf-2022-compilation',
     '/blog/wolvctf-2023/wannaflag': '/blog/wolvctf-2023-wannaflag',
+    '/sitemap.xml': '/sitemap-index.xml',
   },
 })

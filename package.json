@@ -9,6 +9,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "cms:local": "decap-server",
     "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore",
     "postinstall": "patch-package"
   },
@@ -23,6 +24,7 @@
     "@expressive-code/plugin-line-numbers": "^0.40.2",
     "@iconify-json/lucide": "^1.2.26",
     "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/simple-icons": "^1.2.74",
     "@tailwindcss/vite": "^4.0.7",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
@@ -51,6 +53,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "decap-server": "^3.3.0",
     "prettier": "^3.5.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.11",

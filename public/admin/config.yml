@@ -1,0 +1,90 @@
+local_backend: true
+
+backend:
+  name: github
+  repo: Darwin-Danish/darwindanish
+  branch: main
+  base_url: https://darwindanish.dev
+  auth_endpoint: api/auth
+
+publish_mode: editorial_workflow
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    preview_path: "blog/{{slug}}"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
+      - { name: "order", label: "Order (subposts only)", widget: "number", required: false, value_type: "int", min: 0 }
+      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true }
+      - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true, hint: "Matches src/content/authors/<id>.md" }
+      - { name: "image", label: "Image", widget: "image", required: false }
+      - { name: "body", label: "Body", widget: "markdown" }
+
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "tags", label: "Tags", widget: "list", allow_add: true }
+      - { name: "image", label: "Image", widget: "image" }
+      - { name: "link", label: "Link", widget: "string" }
+      - { name: "startDate", label: "Start date", widget: "datetime", required: false }
+      - { name: "endDate", label: "End date", widget: "datetime", required: false }
+      - { name: "order", label: "Order", widget: "number", required: false, value_type: "int", min: 0 }
+      - { name: "body", label: "Notes (optional)", widget: "markdown", required: false }
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "about"
+        label: "About page"
+        file: "src/content/about.mdx"
+        fields:
+          - { name: "body", label: "Body", widget: "markdown" }
+      - name: "work"
+        label: "Work intro"
+        file: "src/content/work.mdx"
+        fields:
+          - { name: "body", label: "Body", widget: "markdown" }
+
+  - name: "authors"
+    label: "Authors"
+    folder: "src/content/authors"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "pronouns", label: "Pronouns", widget: "string", required: false }
+      - { name: "avatar", label: "Avatar (url or /uploads/...)", widget: "string" }
+      - { name: "bio", label: "Bio", widget: "text", required: false }
+      - { name: "mail", label: "Email", widget: "string", required: false }
+      - { name: "website", label: "Website", widget: "string", required: false }
+      - { name: "twitter", label: "Twitter", widget: "string", required: false }
+      - { name: "github", label: "GitHub", widget: "string", required: false }
+      - { name: "linkedin", label: "LinkedIn", widget: "string", required: false }
+      - { name: "discord", label: "Discord", widget: "string", required: false }
+

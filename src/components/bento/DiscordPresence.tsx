@@ -136,7 +136,7 @@ const AvatarSection = memo<{
 ))
 
 const DiscordIcon = memo(() => (
-  <div className="bg-primary absolute top-0 right-0 m-3 flex size-14 items-center justify-center rounded-full">
+  <div className="bg-primary absolute top-0 right-0 m-3 flex size-14 items-center justify-center rounded-full z-0">
     <FaDiscord className="text-background size-10" />
   </div>
 ))
@@ -148,7 +148,7 @@ const DiscordLayout = memo<{
   <div
     className="group/discord relative size-full overflow-hidden"
   >
-    <p className="text-foreground/80 bg-muted absolute top-4 left-30 hidden border p-2 text-xs opacity-0 transition-opacity duration-200 group-hover/discord:opacity-100 sm:block">
+    <p className="text-foreground/80 bg-muted absolute top-4 left-30 z-10 hidden border p-2 text-xs opacity-0 transition-opacity duration-200 group-hover/discord:opacity-100 sm:block">
       Looking for friends who love
       <br />
       F1, movies & music! 🏎️🎬🎵

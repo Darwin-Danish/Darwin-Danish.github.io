@@ -13,6 +13,14 @@ import { cn } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 
 const latestPost = await getAllPosts().then((posts) => posts.at(0) ?? null)
+const latestPostImage =
+  latestPost?.data?.image &&
+  typeof latestPost.data.image === 'object' &&
+  'src' in latestPost.data.image
+    ? latestPost.data.image.src
+    : typeof latestPost?.data?.image === 'string'
+      ? latestPost.data.image
+      : null
 ---
 
 <Layout class="px-2">
@@ -138,7 +146,7 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0) ?? null)
               latestPost ? (
                 <Link href={`/blog/${latestPost.id}`} class="flex h-full">
                   <img
-                    src={latestPost.data.image?.src ?? '#'}
+                    src={latestPostImage ?? '#'}
                     alt={`Featured image for the latest post: ${latestPost.data.title}`}
                     class="h-full border"
                   />
@@ -223,7 +231,7 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0) ?? null)
           >
           </div>
           <Icon
-            name="mdi:github"
+            name="simple-icons:github"
             class="text-primary absolute size-1/2 sm:size-24"
             aria-hidden="true"
           />
@@ -246,40 +254,43 @@ const latestPost = await getAllPosts().then((posts) => posts.at(0) ?? null)
     </div>
     <div class="aspect-square p-2 [grid-area:j]">
       <div class="bg-muted size-full border">
-        <WakatimeGraph omitLanguages={['Markdown', 'JSON']} client:load />
+        <WakatimeGraph
+          omitLanguages={['Markdown', 'JSON', 'TeX']}
+          client:load
+        />
       </div>
     </div>
     <div class="aspect-square p-2 [grid-area:k]">
       <div data-trigger class="bg-muted size-full border">
         <div
-          class="group/twitter relative flex size-full items-center justify-center bg-[url('/static/bento/twitter-background.png')] bg-cover bg-center bg-no-repeat"
+          class="group/linkedin relative flex size-full items-center justify-center bg-[url('/static/bento/twitter-background.png')] bg-cover bg-center bg-no-repeat"
         >
           <div
-            class="size-full bg-[url('/static/bento/twitter-foreground.png')] bg-cover bg-center bg-no-repeat transition-opacity duration-200 sm:opacity-0 sm:group-hover/twitter:opacity-100"
+            class="size-full bg-[url('/static/bento/twitter-foreground.png')] bg-cover bg-center bg-no-repeat transition-opacity duration-200 sm:opacity-0 sm:group-hover/linkedin:opacity-100"
             aria-hidden="true"
           >
             <p
               class="text-foreground/80 bg-background absolute bottom-4 left-4 hidden border p-2 text-xs text-pretty sm:block"
             >
-              Carlos Sainz is<br />GOAT!
+              Let&rsquo;s connect<br />on LinkedIn!
             </p>
           </div>
           <Icon
-            name="mdi:twitter"
+            name="simple-icons:linkedin"
             class="text-primary absolute size-1/2 sm:size-24"
             aria-hidden="true"
           />
           <Link
-            href={SOCIAL_LINKS.find((link) => link.label === 'Twitter')?.href ||
+            href={SOCIAL_LINKS.find((link) => link.label === 'LinkedIn')?.href ||
               '#'}
-            title="Visit my Twitter profile"
-            aria-label="Visit my Twitter profile"
+            title="Visit my LinkedIn profile"
+            aria-label="Visit my LinkedIn profile"
             external
-            class="bg-border/50 text-primary ring-ring group/twitter-link absolute end-0 bottom-0 m-3 rounded-full p-3 transition-[box-shadow] duration-300 hover:ring-2 focus-visible:ring-2"
+            class="bg-border/50 text-primary ring-ring group/linkedin-link absolute end-0 bottom-0 m-3 rounded-full p-3 transition-[box-shadow] duration-300 hover:ring-2 focus-visible:ring-2"
           >
             <Icon
               name="lucide:move-up-right"
-              class="transition-transform duration-300 group-hover/twitter-link:rotate-12"
+              class="transition-transform duration-300 group-hover/linkedin-link:rotate-12"
               size={16}
             />
           </Link>

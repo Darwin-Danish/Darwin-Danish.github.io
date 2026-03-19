@@ -1,0 +1,26 @@
+---
+// Decap CMS entrypoint.
+// We keep the actual config at /admin/config.yml (served from /public/admin/config.yml).
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Content Manager</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
+    <script is:inline>
+      ;(function () {
+        if (typeof window === 'undefined') return
+        if (!window.CMS) return
+        window.CMS.registerPreviewStyle('/admin/preview.css')
+        window.CMS.registerPreviewStyle(
+          'https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css',
+        )
+      })()
+    </script>
+  </body>
+</html>
+

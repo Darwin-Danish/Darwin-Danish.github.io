@@ -23,17 +23,13 @@ const { links } = Astro.props
           class={buttonVariants({ variant: 'outline', size: 'icon' })}
           external
         >
-          {label === 'Gravatar' ? (
-            <img src="/static/icons/gravatar.png" alt="Gravatar Icon" class="size-[1.3rem] gravatar-icon" />
-          ) : (
-            <Icon
-              name={
-                ICON_MAP[label as keyof typeof ICON_MAP] ||
-                'lucide:message-circle-question'
-              }
-              class="size-4"
-            />
-          )}
+          <Icon
+            name={
+              ICON_MAP[label as keyof typeof ICON_MAP] ||
+              'lucide:message-circle-question'
+            }
+            class="size-4"
+          />
         </Link>
       </li>
     ))
@@ -41,16 +37,4 @@ const { links } = Astro.props
 </ul>
 
 <style>
-  .gravatar-icon {
-    /* Convert black image to match foreground color */
-    /* Make black image white, which will match the foreground color in both light and dark themes */
-    filter: brightness(0) saturate(100%) invert(1);
-    opacity: 0.9;
-    transition: opacity 0.2s;
-  }
-  
-  /* Match the icon color on hover */
-  a:hover .gravatar-icon {
-    opacity: 1;
-  }
 </style>

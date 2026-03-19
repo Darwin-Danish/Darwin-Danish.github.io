@@ -23,17 +23,29 @@ const { project } = Astro.props
     external
   >
     {
-      project.data.image && (
-        <div class="max-w-3xs sm:shrink-0">
-          <Image
-            src={project.data.image}
-            alt={project.data.name}
-            width={1200}
-            height={630}
-            class="object-cover"
-          />
-        </div>
-      )
+      project.data.image &&
+        (typeof project.data.image === 'object' && 'src' in project.data.image ? (
+          <div class="max-w-3xs sm:shrink-0">
+            <Image
+              src={project.data.image}
+              alt={project.data.name}
+              width={1200}
+              height={630}
+              class="object-cover"
+            />
+          </div>
+        ) : typeof project.data.image === 'string' ? (
+          <div class="max-w-3xs sm:shrink-0">
+            <img
+              src={project.data.image}
+              alt={project.data.name}
+              width="1200"
+              height="630"
+              loading="lazy"
+              class="object-cover"
+            />
+          </div>
+        ) : null)
     }
     <div class="grow">
       <h3 class="mb-1 text-lg font-medium">

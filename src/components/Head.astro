@@ -45,5 +45,49 @@ import Favicons from './Favicons.astro'
   <Favicons />
   <ClientRouter />
 
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Darwin Danish",
+      "url": "https://darwindanish.dev",
+      "jobTitle": "Student & Developer",
+      "description": "Student and developer from Kapit, Sarawak, focused on building innovative solutions in AI, IoT, and Computer Science.",
+      "homeLocation": {
+        "@type": "Place",
+        "name": "Kapit, Sarawak, Malaysia"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Kapit National Secondary School"
+      },
+      "knowsAbout": [
+        "Computer Science",
+        "Machine Learning",
+        "Artificial Intelligence",
+        "Internet of Things",
+        "Engineering",
+        "Innovation"
+      ],
+      "image": [
+        "https://darwindanish.dev/images/main-profile.webp",
+        "https://darwindanish.dev/images/photo-2.webp",
+        "https://darwindanish.dev/images/photo-3.webp",
+        "https://darwindanish.dev/images/photo-4.webp"
+      ],
+      "sameAs": [
+        "https://www.facebook.com/share/1HuPb31kuo/",
+        "https://linkedin.com/in/darwin-danish",
+        "https://github.com/Darwin-Danish",
+        "https://huggingface.co/DarwinDanish",
+        "https://peerlist.io/darwindanish",
+        "https://gitlab.com/darwindanish",
+        "https://threads.net/darwin.danish29",
+        "https://stackoverflow.com/users/22384131/darwin-danish",
+        "https://t.me/darwindanish29"
+      ]
+    }
+  </script>
+
   <slot />
 </head>
