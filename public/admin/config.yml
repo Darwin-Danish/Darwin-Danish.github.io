@@ -1,10 +1,8 @@
-local_backend: true
-
 backend:
   name: github
   repo: Darwin-Danish/darwindanish
   branch: main
-  base_url: https://darwindanish.dev
+  base_url: https://www.darwindanish.dev
   auth_endpoint: api/auth
 
 publish_mode: editorial_workflow
