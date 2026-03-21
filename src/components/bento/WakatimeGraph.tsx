@@ -149,20 +149,26 @@ const useWakatimeData = (omitLanguages: string[]) => {
           .slice(0, MAX_LANGUAGES)
 
         const totalHours = filteredData.reduce(
-          (acc: number, lang: any) => acc + lang.hours,
+          (acc: number, lang: any) => acc + (lang.hours || 0),
           0,
         )
 
         const processedLanguages = filteredData.map(
-          (lang: { name: string; hours: number }, index: number) => ({
-            name: lang.name,
-            hours: Number(lang.hours.toFixed(2)),
-            percent:
-              totalHours > 0
-                ? Number(((lang.hours / totalHours) * 100).toFixed(1))
-                : 0,
-            fill: CHART_COLORS[index % CHART_COLORS.length],
-          }),
+          (lang: { name: string; hours?: number; percent?: number }, index: number) => {
+            let percent = 0
+            if (lang.percent !== undefined) {
+              percent = lang.percent
+            } else if (totalHours > 0 && lang.hours !== undefined) {
+              percent = Number(((lang.hours / totalHours) * 100).toFixed(1))
+            }
+
+            return {
+              name: lang.name,
+              hours: lang.hours ? Number(lang.hours.toFixed(2)) : 0,
+              percent,
+              fill: CHART_COLORS[index % CHART_COLORS.length],
+            }
+          },
         )
 
         setLanguages(processedLanguages)
@@ -176,7 +182,7 @@ const useWakatimeData = (omitLanguages: string[]) => {
     }
 
     fetchData()
-  }, [omitLanguages])
+  }, [omitLanguages.join(',')])
 
   return { languages, isLoading, error }
 }
@@ -204,7 +210,7 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
         layout="vertical"
         margin={{
           left: 0,
-          right: 0,
+          right: 36,
           top: 4,
           bottom: 4,
         }}

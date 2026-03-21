@@ -157,12 +157,11 @@ export const GET: APIRoute = async ({ site }) => {
   // 7. Important static assets
   const staticAssets = [
     '/static/logo.png',
-    '/static/logo.svg',
     '/static/logo.webp',
     '/static/showcase-card.png',
     '/static/twitter-card.png',
     '/favicon.ico',
-    '/favicon.svg',
+    '/favicon-96x96.png',
     '/apple-touch-icon.png',
     '/site.webmanifest'
   ]

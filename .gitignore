@@ -13,3 +13,6 @@ teaser.pptx
 ~$teaser.pptx
 .vercel
 .env*.local
+
+# Local Netlify folder
+.netlify
