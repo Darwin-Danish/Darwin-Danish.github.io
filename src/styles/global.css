@@ -323,3 +323,10 @@
     transform: translateY(0);
   }
 }
+@utility mask-t-from-90% {
+  mask-image: linear-gradient(to bottom, transparent, black 10%);
+}
+
+@utility mask-b-from-90% {
+  mask-image: linear-gradient(to top, transparent, black 10%);
+}

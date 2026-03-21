@@ -15,7 +15,7 @@ slug:
 
 collections:
   - name: "blog"
-    label: "Blog"
+    label: "Main Posts"
     folder: "src/content/blog"
     create: true
     extension: "mdx"
@@ -27,11 +27,30 @@ collections:
       - { name: "description", label: "Description", widget: "text" }
       - { name: "date", label: "Date", widget: "datetime" }
       - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
-      - { name: "order", label: "Order (subposts only)", widget: "number", required: false, value_type: "int", min: 0 }
-      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true, hint: "Auto-colored tags: crypto, web, reverse, pwn, forensic, osint, travel, tutorial, review, testing, music, movie, f1, ai, iot, game, python, security, photography, docker, database, linux" }
-      - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true, hint: "Use the author file slug (e.g. 'darwindanish'). Matches src/content/authors/<id>.md" }
+      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true, hint: "Auto-colored tags: travel, f1, ai, iot, game, python, etc." }
+      - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true, hint: "Use 'darwindanish'" }
       - { name: "image", label: "Image", widget: "image", required: false }
-      - { name: "body", label: "Body", widget: "markdown", hint: "Use the + toolbar to insert Callout, Challenge, CountryFlag, FirstSubpost, StaticTweet, and Math blocks. For MDX components, add the import at the top of the body (use MDX Import widget)." }
+      - { name: "body", label: "Body", widget: "markdown", hint: "## (H2) and ### (H3) create SECTIONS in the sidebar. Use the + to add Callouts/Math/Challenges." }
+
+  - name: "subposts"
+    label: "Subposts (Series)"
+    folder: "src/content/blog"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    path: "{{parent_slug}}/{{slug}}"
+    fields:
+      - { name: "parent_slug", label: "Parent Post Slug", widget: "string", hint: "MUST match the Main Post slug (e.g. 'test-page')" }
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "order", label: "Order in Series", widget: "number", default: 1, value_type: "int", min: 1 }
+      - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
+      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true }
+      - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true }
+      - { name: "image", label: "Image", widget: "image", required: false }
+      - { name: "body", label: "Body", widget: "markdown", hint: "## (H2) and ### (H3) create SECTIONS in the sidebar." }
 
   - name: "projects"
     label: "Projects"
