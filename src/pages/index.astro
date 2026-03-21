@@ -1,5 +1,5 @@
 ---
-import AgeCounter from '@/components/AgeCounter.tsx'
+
 import DiscordPresence from '@/components/bento/DiscordPresence.tsx'
 import GithubCalendar from '@/components/bento/GithubCalendar.tsx'
 import SpotifyPresence from '@/components/bento/SpotifyPresence.tsx'
@@ -119,12 +119,19 @@ const latestPostImage =
           <div class="p-3 sm:size-full sm:p-6">
             {
               latestPost ? (
-                <Link href={`/blog/posts/${latestPost.id}`} class="flex h-full">
-                  <img
-                    src={latestPostImage ?? '#'}
-                    alt={`Featured image for the latest post: ${latestPost.data.title}`}
-                    class="h-full border"
-                  />
+                <Link href={`/blog/posts/${latestPost.id}`} class="flex h-full w-full">
+                  {latestPostImage ? (
+                    <img
+                      src={latestPostImage}
+                      alt={`Featured image for the latest post: ${latestPost.data.title}`}
+                      class="size-full object-cover border rounded-xl"
+                    />
+                  ) : (
+                    <div class="flex size-full flex-col items-center justify-center border rounded-xl bg-background/50 backdrop-blur-sm p-4 text-center">
+                      <h3 class="text-xl font-bold mb-2 line-clamp-2">{latestPost.data.title}</h3>
+                      <p class="text-muted-foreground text-xs line-clamp-2">{latestPost.data.description}</p>
+                    </div>
+                  )}
                 </Link>
               ) : (
                 <div class="flex h-full items-center justify-center">

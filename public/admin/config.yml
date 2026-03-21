@@ -1,4 +1,4 @@
-local_backend: true
+local_backend: false
 
 backend:
   name: git-gateway
@@ -40,6 +40,9 @@ collections:
     label: "Subposts (Series)"
     folder: "src/content/blog"
     filter: { field: "parent_slug", pattern: ".+" }
+    nested:
+      depth: 5
+      summary: "{{title}}"
     create: true
     extension: "mdx"
     format: "frontmatter"
