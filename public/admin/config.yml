@@ -1,3 +1,5 @@
+local_backend: true
+
 backend:
   name: git-gateway
   repo: Darwin-Danish/darwindanish
@@ -51,7 +53,7 @@ collections:
         search_fields: ["title"]
         value_field: "{{slug}}"
         display_fields: ["title"]
-        hint: "Select the Main Post that this belongs to."
+        hint: "Select the Main Post that this belongs to. (Must have parent_slug: \"\" in its frontmatter)"
       - { name: "title", label: "Title", widget: "string" }
       - { name: "description", label: "Description", widget: "text" }
       - { name: "date", label: "Date", widget: "datetime" }

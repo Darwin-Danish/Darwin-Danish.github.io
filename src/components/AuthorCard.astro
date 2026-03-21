@@ -24,7 +24,7 @@ const socialLinks: SocialLink[] = [
   author.data.mail && { href: `mailto:${author.data.mail}`, label: 'Email' },
 ].filter(Boolean) as SocialLink[]
 
-const nameLink = author.data.discordInvite || `/authors/${author.id}`
+const nameLink = `/authors/${author.id}`
 ---
 
 <div
@@ -33,7 +33,7 @@ const nameLink = author.data.discordInvite || `/authors/${author.id}`
   <div class="flex flex-wrap gap-4">
     <Link
       href={nameLink}
-      class={cn('block', isAuthorPage && !author.data.discordInvite && 'pointer-events-none')}
+      class={cn('block', isAuthorPage && 'pointer-events-none')}
     >
       <AvatarComponent
         client:load
@@ -41,7 +41,7 @@ const nameLink = author.data.discordInvite || `/authors/${author.id}`
         alt={`Avatar of ${name}`}
         fallback={name[0]}
         className={cn(
-          'size-32 rounded-none [&>[data-slot="avatar-fallback"]]:rounded-none',
+          'size-32 rounded-full [&>[data-slot="avatar-fallback"]]:rounded-full',
           !isAuthorPage &&
             'hover:ring-primary transition-shadow duration-300 hover:cursor-pointer hover:ring-2',
         )}

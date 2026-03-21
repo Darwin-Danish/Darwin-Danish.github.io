@@ -163,13 +163,12 @@ const tocSections = await getTOCSections(currentPostId)
                       width="20"
                       height="20"
                       loading="lazy"
-                      class="rounded-full"
+                      class="rounded-full object-cover"
                     />
                     {author.isRegistered ? (
                       <Link
-                        href={author.discordInvite || `/authors/${author.id}`}
-                        underline
-                        class="text-foreground"
+                        href={`/authors/${author.id}`}
+                        class="text-foreground font-medium hover:underline"
                       >
                         <span>{author.name}</span>
                       </Link>
