@@ -104,14 +104,29 @@ collections:
     fields:
       - { name: "name", label: "Name", widget: "string" }
       - { name: "pronouns", label: "Pronouns", widget: "string", required: false }
-      - { name: "avatar", label: "Avatar", widget: "string", hint: "Gravatar URL (https://gravatar.com/avatar/...) or relative path (/uploads/avatar.png). Tip: get your Gravatar URL from gravatar.com" }
+      - { name: "avatar", label: "Avatar", widget: "string", hint: "Gravatar URL or relative path (/uploads/avatar.png)." }
       - { name: "bio", label: "Bio", widget: "text", required: false }
       - { name: "mail", label: "Email", widget: "string", required: false }
       - { name: "website", label: "Website", widget: "string", required: false }
-      - { name: "twitter", label: "Twitter", widget: "string", required: false }
+      - { name: "twitter", label: "Twitter (deprecated, use Discord)", widget: "string", required: false }
+      - { name: "discord", label: "Discord Profile URL", widget: "string", required: false }
+      - { name: "discordUsername", label: "Discord Username (e.g. darwin.danish29)", widget: "string", required: false }
+      - { name: "discordInvite", label: "Discord Server/Invite URL", widget: "string", required: false }
       - { name: "github", label: "GitHub", widget: "string", required: false }
       - { name: "linkedin", label: "LinkedIn", widget: "string", required: false }
-      - { name: "discord", label: "Discord", widget: "string", required: false }
+
+  - name: "home"
+    label: "Home Page Content"
+    folder: "src/content/home"
+    create: false
+    extension: "md"
+    format: "frontmatter"
+    slug: "index"
+    fields:
+      - { name: "title", label: "Page Title", widget: "hidden", default: "Home" }
+      - { name: "bio_line_1", label: "Bio Part 1 (Greeting)", widget: "text", hint: "Hey, I'm Darwin!..." }
+      - { name: "bio_line_2", label: "Bio Part 2 (Passions)", widget: "text", hint: "As a 17-year-old student?..." }
+      - { name: "details", label: "Details Blurb", widget: "text", hint: "This blog contains my IoT projects..." }
 
   - name: "tags"
     label: "Tag Colors & Icons"

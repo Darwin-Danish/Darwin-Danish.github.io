@@ -167,7 +167,7 @@ const tocSections = await getTOCSections(currentPostId)
                     />
                     {author.isRegistered ? (
                       <Link
-                        href={`/authors/${author.id}`}
+                        href={author.discordInvite || `/authors/${author.id}`}
                         underline
                         class="text-foreground"
                       >

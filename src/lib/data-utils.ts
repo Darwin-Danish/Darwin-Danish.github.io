@@ -212,7 +212,18 @@ export async function getParentPost(
   return allPosts.find((post) => post.id === parentId) || null
 }
 
-export async function parseAuthors(authorIds: string[] = []) {
+export interface ParsedAuthor {
+  id: string
+  name: string
+  avatar: string
+  discordUsername?: string
+  discordInvite?: string
+  isRegistered: boolean
+}
+
+export async function parseAuthors(
+  authorIds: string[] = [],
+): Promise<ParsedAuthor[]> {
   if (!authorIds.length) return []
 
   const allAuthors = await getAllAuthors()
@@ -224,6 +235,8 @@ export async function parseAuthors(authorIds: string[] = []) {
       id,
       name: author?.data?.name || id,
       avatar: author?.data?.avatar || '/static/logo.png',
+      discordUsername: author?.data?.discordUsername,
+      discordInvite: author?.data?.discordInvite,
       isRegistered: !!author,
     }
   })

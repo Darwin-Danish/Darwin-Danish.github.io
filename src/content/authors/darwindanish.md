@@ -1,10 +1,14 @@
 ---
 name: 'Darwin Danish'
 pronouns: 'he/him'
-avatar: 'https://2.gravatar.com/avatar/c53c92c02db7e4b3ca932c040fec22a4f365b977d2f45b72b26cd363c2dedbec?size=256&d=initials'
-bio: 'F1 Enthusiast and Music & Movie Lover'
+avatar: '/images/photo-2.webp'
+bio: 'Hey, I’m Darwin! I’m a computer engineering student and tech enthusiast with a dream to work in Formula 1 one day. I love building projects in IoT, AI, and software development.'
 website: 'https://darwindanish.dev'
 twitter: 'https://twitter.com/DarwinDanish29'
-github: 'https://github.com/Darwin2429'
+discord: 'https://discord.com/users/darwin.danish29'
+discordUsername: 'darwin.danish29'
+discordInvite: 'https://discord.gg/your-invite-link'
+github: 'https://github.com/Darwin-Danish'
+linkedin: 'https://linkedin.com/in/darwin-danish'
 mail: 'lumina.ai.devs@gmail.com'
 ---

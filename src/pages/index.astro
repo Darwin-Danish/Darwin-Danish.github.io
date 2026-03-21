@@ -12,6 +12,12 @@ import { getAllPosts } from '@/lib/data-utils'
 import { cn } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 
+import { getEntry, render } from 'astro:content'
+
+const homeEntry = await getEntry('home', 'index')
+const home = homeEntry?.data
+const { Content: BioContent } = homeEntry ? await render(homeEntry) : { Content: null }
+
 const latestPost = await getAllPosts().then((posts) => posts.at(0) ?? null)
 const latestPostImage =
   latestPost?.data?.image &&
@@ -46,52 +52,9 @@ const latestPostImage =
             <div class="flex p-4">
               <div class="hidden w-1/3 sm:block"></div>
               <div class="space-y-4 sm:w-2/3">
-                <p
-                  class="text-foreground/80 bg-background block border p-3 text-sm text-pretty"
-                >
-                  Hey, I&rsquo;m Darwin! I&rsquo;m a <Link
-                    href="https://en.wikipedia.org/wiki/Computer_engineering"
-                    external
-                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >computer engineering</Link
-                  > student and tech enthusiast with a dream to work in <Link
-                    href="https://en.wikipedia.org/wiki/Formula_One"
-                    external
-                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >Formula 1</Link
-                  > one day.
-                </p>
-                <p
-                  class="text-foreground/80 bg-background block border p-3 text-sm text-pretty"
-                >
-                  As a <AgeCounter
-                    birthYear={2009}
-                    birthMonth={2}
-                    birthDay={24}
-                    client:load
-                  />-year-old student, I&rsquo;m passionate about <Link
-                    href="https://en.wikipedia.org/wiki/Internet_of_things"
-                    external
-                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >IoT</Link
-                  >, <Link
-                    href="https://en.wikipedia.org/wiki/Software_development"
-                    external
-                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >software development</Link
-                  >, <Link
-                    href="https://en.wikipedia.org/wiki/Machine_learning"
-                    external
-                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >machine learning</Link
-                  >, and all things tech. I&rsquo;m studying computer
-                  engineering early and love building projects that bridge the
-                  physical and digital worlds. You can read more about me <Link
-                    href="/about"
-                    class="text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors"
-                    >here</Link
-                  >!
-                </p>
+                <div class="text-foreground/80 bg-background [&>p]:border [&>p]:p-3 text-sm text-pretty space-y-4">
+                  {BioContent && <BioContent />}
+                </div>
               </div>
             </div>
           </div>
@@ -109,9 +72,7 @@ const latestPostImage =
             <p
               class="text-foreground/80 bg-background absolute top-1/2 left-0 mr-24 ml-4 -translate-y-1/2 border p-3 text-xs text-pretty"
             >
-              This blog contains my IoT projects, ML experiments, tech
-              tutorials, F1 insights, and software development adventures. I
-              hope you enjoy reading!
+              {home?.details}
             </p>
           </div>
         </div>

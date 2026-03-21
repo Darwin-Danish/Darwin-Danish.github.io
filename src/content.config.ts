@@ -33,9 +33,19 @@ const authors = defineCollection({
     mail: z.string().email().optional(),
     website: z.string().url().optional(),
     twitter: z.string().url().optional(),
+    discord: z.string().url().optional(),
+    discordUsername: z.string().optional(),
+    discordInvite: z.string().url().optional(),
     github: z.string().url().optional(),
     linkedin: z.string().url().optional(),
-    discord: z.string().url().optional(),
+  }),
+})
+
+const home = defineCollection({
+  loader: glob({ pattern: 'index.md', base: 'src/content/home' }),
+  schema: z.object({
+    title: z.string(),
+    details: z.string(),
   }),
 })
 
@@ -63,4 +73,4 @@ const tags = defineCollection({
   }),
 })
 
-export const collections = { blog, authors, projects, tags }
+export const collections = { blog, authors, projects, tags, home }
