@@ -124,6 +124,6 @@ export default defineConfig({
     '/blog/wolvctf-2023/wannaflag': '/blog/wolvctf-2023-wannaflag',
     '/sitemap.xml': '/sitemap-index.xml',
     // Support legacy blog paths after moving to SSR /blog/posts/
-    '/blog/[...id]': '/blog/posts/[...id]',
+    '/blog/[id]': '/blog/posts/[id]',
   },
 })

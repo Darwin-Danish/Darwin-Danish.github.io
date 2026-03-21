@@ -6,25 +6,25 @@ import PaginationComponent from '@/components/ui/pagination'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
-import type { PaginateFunction } from 'astro'
 
-export async function getStaticPaths({
-  paginate,
-}: {
-  paginate: PaginateFunction
-}) {
-  const allPosts = await getAllPosts()
-  if (allPosts.length === 0) {
-    return paginate([], { pageSize: SITE.postsPerPage })
-  }
-  return paginate(allPosts, { pageSize: SITE.postsPerPage })
+const allPosts = await getAllPosts()
+
+const pageParam = Astro.params.page
+const currentPage = pageParam ? parseInt(pageParam) : 1
+const postsPerPage = SITE.postsPerPage
+const totalPages = Math.max(1, Math.ceil(allPosts.length / postsPerPage))
+
+if (currentPage < 1 || (currentPage > totalPages && allPosts.length > 0)) {
+  return Astro.redirect('/404')
 }
 
-const { page } = Astro.props
+const startIndex = (currentPage - 1) * postsPerPage
+const endIndex = startIndex + postsPerPage
+const paginatedPosts = allPosts.slice(startIndex, endIndex)
 
-const postsByYear = groupPostsByYear(page.data)
+const postsByYear = groupPostsByYear(paginatedPosts)
 const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
-const hasPosts = page.data.length > 0
+const hasPosts = paginatedPosts.length > 0
 ---
 
 <Layout class="max-w-3xl">
@@ -33,7 +33,7 @@ const hasPosts = page.data.length > 0
     items={[
       { label: 'Blog', href: '/blog', icon: 'lucide:library-big' },
       ...(hasPosts
-        ? [{ label: `Page ${page.currentPage}`, icon: 'lucide:book-copy' }]
+        ? [{ label: `Page ${currentPage}`, icon: 'lucide:book-copy' }]
         : []),
     ]}
   />
@@ -57,8 +57,8 @@ const hasPosts = page.data.length > 0
         </div>
 
         <PaginationComponent
-          currentPage={page.currentPage}
-          totalPages={page.lastPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
           baseUrl="/blog/"
           client:load
         />
