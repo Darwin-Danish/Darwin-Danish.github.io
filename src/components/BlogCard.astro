@@ -33,10 +33,9 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     class="flex flex-col gap-4 sm:flex-row"
   >
     {
-      entry.data.image &&
-        typeof entry.data.image === 'object' &&
-        'src' in entry.data.image && (
-          <div class="max-w-3xs sm:shrink-0">
+      entry.data.image && (
+        <div class="max-w-3xs sm:shrink-0">
+          {typeof entry.data.image === 'object' && 'src' in entry.data.image ? (
             <Image
               src={entry.data.image}
               alt={entry.data.title}
@@ -44,8 +43,18 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
               height={630}
               class="object-cover"
             />
-          </div>
-        )
+          ) : typeof entry.data.image === 'string' ? (
+            <img
+              src={entry.data.image}
+              alt={entry.data.title}
+              width="1200"
+              height="630"
+              loading="lazy"
+              class="object-cover"
+            />
+          ) : null}
+        </div>
+      )
     }
 
     <div class="grow">

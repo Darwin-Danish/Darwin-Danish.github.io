@@ -28,10 +28,10 @@ collections:
       - { name: "date", label: "Date", widget: "datetime" }
       - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
       - { name: "order", label: "Order (subposts only)", widget: "number", required: false, value_type: "int", min: 0 }
-      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true }
-      - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true, hint: "Matches src/content/authors/<id>.md" }
+      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true, hint: "Auto-colored tags: crypto, web, reverse, pwn, forensic, osint, travel, tutorial, review, testing, music, movie, f1, ai, iot, game, python, security, photography, docker, database, linux" }
+      - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true, hint: "Use the author file slug (e.g. 'darwindanish'). Matches src/content/authors/<id>.md" }
       - { name: "image", label: "Image", widget: "image", required: false }
-      - { name: "body", label: "Body", widget: "markdown" }
+      - { name: "body", label: "Body", widget: "markdown", hint: "Use the + toolbar to insert Callout, Challenge, CountryFlag, FirstSubpost, StaticTweet, and Math blocks. For MDX components, add the import at the top of the body (use MDX Import widget)." }
 
   - name: "projects"
     label: "Projects"
@@ -75,7 +75,7 @@ collections:
     fields:
       - { name: "name", label: "Name", widget: "string" }
       - { name: "pronouns", label: "Pronouns", widget: "string", required: false }
-      - { name: "avatar", label: "Avatar (url or /uploads/...)", widget: "string" }
+      - { name: "avatar", label: "Avatar", widget: "string", hint: "Gravatar URL (https://gravatar.com/avatar/...) or relative path (/uploads/avatar.png). Tip: get your Gravatar URL from gravatar.com" }
       - { name: "bio", label: "Bio", widget: "text", required: false }
       - { name: "mail", label: "Email", widget: "string", required: false }
       - { name: "website", label: "Website", widget: "string", required: false }

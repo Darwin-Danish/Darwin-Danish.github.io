@@ -20,6 +20,9 @@ export default defineConfig({
   site: 'https://darwindanish.dev',
   output: 'server',
   adapter: netlify(),
+  image: {
+    domains: ['gravatar.com', '2.gravatar.com', '0.gravatar.com', '1.gravatar.com'],
+  },
   integrations: [
     expressiveCode(), 
     mdx(), 

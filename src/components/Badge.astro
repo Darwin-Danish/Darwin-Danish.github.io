@@ -99,64 +99,212 @@ const categoryMappings = [
   {
     keywords: ['personal'],
     style: {
-      // color: 'bg-sky-50 text-sky-700 dark:bg-sky-950/30 dark:text-sky-200',
+      color: 'bg-sky-50 text-sky-700 dark:bg-sky-950/30 dark:text-sky-200',
       icon: 'lucide:user',
     },
   },
   {
     keywords: ['open-source'],
     style: {
-      // color: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200',
+      color: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200',
       icon: 'lucide:git-branch',
     },
   },
   {
     keywords: ['freelance'],
     style: {
-      // color: 'bg-teal-50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-200',
+      color: 'bg-teal-50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-200',
       icon: 'lucide:briefcase',
     },
   },
   {
-    keywords: ['team'],
+    keywords: ['team', 'community'],
     style: {
-      // color: 'bg-violet-50 text-violet-700 dark:bg-violet-950/30 dark:text-violet-200',
+      color: 'bg-violet-50 text-violet-700 dark:bg-violet-950/30 dark:text-violet-200',
       icon: 'lucide:users',
     },
   },
   {
     keywords: ['contract'],
     style: {
-      // color: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-200',
+      color: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-200',
       icon: 'lucide:file-text',
     },
   },
   {
     keywords: ['astro'],
     style: {
-      // color: 'bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200',
+      color: 'bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200',
       icon: 'lucide:rocket',
     },
   },
   {
     keywords: ['shopify'],
     style: {
-      // color: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-200',
+      color: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-200',
       icon: 'lucide:shopping-bag',
     },
   },
   {
     keywords: ['html'],
     style: {
-      // color: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-200',
+      color: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-200',
       icon: 'lucide:code-2',
     },
   },
   {
-    keywords: ['figma'],
+    keywords: ['figma', 'design'],
     style: {
-      // color: 'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-200',
+      color: 'bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-200',
       icon: 'lucide:palette',
+    },
+  },
+  // General blog topics
+  {
+    keywords: ['travel', 'trip', 'vacation'],
+    style: {
+      color: 'bg-cyan-50 text-cyan-700 dark:bg-cyan-950/30 dark:text-cyan-200',
+      icon: 'lucide:plane',
+    },
+  },
+  {
+    keywords: ['tutorial', 'guide', 'how-to'],
+    style: {
+      color: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-200',
+      icon: 'lucide:graduation-cap',
+    },
+  },
+  {
+    keywords: ['review'],
+    style: {
+      color: 'bg-pink-50 text-pink-700 dark:bg-pink-950/30 dark:text-pink-200',
+      icon: 'lucide:star',
+    },
+  },
+  {
+    keywords: ['testing', 'test'],
+    style: {
+      color: 'bg-lime-50 text-lime-700 dark:bg-lime-950/30 dark:text-lime-200',
+      icon: 'lucide:flask-conical',
+    },
+  },
+  {
+    keywords: ['music', 'audio', 'song'],
+    style: {
+      color: 'bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-950/30 dark:text-fuchsia-200',
+      icon: 'lucide:music',
+    },
+  },
+  {
+    keywords: ['movie', 'film', 'cinema'],
+    style: {
+      color: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-200',
+      icon: 'lucide:clapperboard',
+    },
+  },
+  {
+    keywords: ['f1', 'formula', 'racing'],
+    style: {
+      color: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-200',
+      icon: 'lucide:flag',
+    },
+  },
+  {
+    keywords: ['ai', 'machine-learning', 'ml', 'deep-learning'],
+    style: {
+      color: 'bg-violet-50 text-violet-700 dark:bg-violet-950/30 dark:text-violet-200',
+      icon: 'lucide:brain',
+    },
+  },
+  {
+    keywords: ['iot', 'embedded', 'hardware', 'arduino', 'raspberry'],
+    style: {
+      color: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200',
+      icon: 'lucide:cpu',
+    },
+  },
+  {
+    keywords: ['game', 'gaming', 'game-hacking'],
+    style: {
+      color: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/30 dark:text-indigo-200',
+      icon: 'lucide:gamepad-2',
+    },
+  },
+  {
+    keywords: ['unity', 'unreal', 'godot'],
+    style: {
+      color: 'bg-slate-50 text-slate-700 dark:bg-slate-950/30 dark:text-slate-200',
+      icon: 'lucide:box',
+    },
+  },
+  {
+    keywords: ['algorithm', 'data-structure'],
+    style: {
+      color: 'bg-sky-50 text-sky-700 dark:bg-sky-950/30 dark:text-sky-200',
+      icon: 'lucide:binary',
+    },
+  },
+  {
+    keywords: ['compilation', 'collection', 'writeup'],
+    style: {
+      color: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-200',
+      icon: 'lucide:layers',
+    },
+  },
+  {
+    keywords: ['python'],
+    style: {
+      color: 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-200',
+      icon: 'lucide:terminal',
+    },
+  },
+  {
+    keywords: ['javascript', 'typescript', 'react', 'nextjs', 'node'],
+    style: {
+      color: 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-200',
+      icon: 'lucide:file-json',
+    },
+  },
+  {
+    keywords: ['security', 'cybersecurity', 'ctf'],
+    style: {
+      color: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-200',
+      icon: 'lucide:shield',
+    },
+  },
+  {
+    keywords: ['academic', 'research', 'paper'],
+    style: {
+      color: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-200',
+      icon: 'lucide:book-open-text',
+    },
+  },
+  {
+    keywords: ['photography', 'photo'],
+    style: {
+      color: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-200',
+      icon: 'lucide:camera',
+    },
+  },
+  {
+    keywords: ['docker', 'kubernetes', 'devops', 'cloud'],
+    style: {
+      color: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-200',
+      icon: 'lucide:container',
+    },
+  },
+  {
+    keywords: ['database', 'sql', 'mongodb'],
+    style: {
+      color: 'bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-200',
+      icon: 'lucide:database',
+    },
+  },
+  {
+    keywords: ['linux', 'ubuntu', 'arch'],
+    style: {
+      color: 'bg-slate-50 text-slate-700 dark:bg-slate-950/30 dark:text-slate-200',
+      icon: 'lucide:terminal-square',
     },
   },
 ]

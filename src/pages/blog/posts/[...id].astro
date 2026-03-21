@@ -1,4 +1,5 @@
 ---
+export const prerender = true
 import Badge from '@/components/Badge.astro'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import Link from '@/components/Link.astro'
@@ -156,11 +157,12 @@ const tocSections = await getTOCSections(currentPostId)
               <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 {authors.map((author) => (
                   <div class="flex items-center gap-x-1.5">
-                    <Image
+                    <img
                       src={author.avatar}
                       alt={author.name}
-                      width={20}
-                      height={20}
+                      width="20"
+                      height="20"
+                      loading="lazy"
                       class="rounded-full"
                     />
                     {author.isRegistered ? (
