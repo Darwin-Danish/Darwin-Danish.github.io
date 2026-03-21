@@ -309,29 +309,35 @@ const categoryMappings = [
   },
 ]
 
-const getCategoryStyle = (content: string) => {
-  const lowerContent = content.toLowerCase()
+import { getCollection } from 'astro:content'
 
-  const match = categoryMappings.find((category) =>
+const allTags = await getCollection('tags')
+const content = text || (typeof children === 'string' ? children : '')
+const lowerContent = content.toLowerCase()
+
+const findTagConfig = () => {
+  // First, check for an exact match in the tags collection
+  const exactMatch = allTags.find((t) => t.id.toLowerCase() === lowerContent)
+  if (exactMatch) return exactMatch.data
+
+  // Second, check for a keyword match in the hardcoded category mappings
+  return categoryMappings.find((category) =>
     category.keywords.some((keyword) => lowerContent.includes(keyword)),
-  )
-
-  return match?.style || null
+  )?.style
 }
 
-const content = text || (typeof children === 'string' ? children : '')
-const categoryStyle = getCategoryStyle(content)
+const tagStyle = findTagConfig()
 ---
 
 <BadgeComponent
-  variant={categoryStyle ? 'secondary' : variant}
-  className={cn(categoryStyle?.color, className)}
+  variant={tagStyle ? 'secondary' : variant}
+  className={cn(tagStyle?.color, className)}
   client:load
 >
   {
     showIcon && (
       <Icon
-        name={categoryStyle ? categoryStyle.icon : 'lucide:hash'}
+        name={tagStyle && tagStyle.icon ? tagStyle.icon : 'lucide:hash'}
         class="size-3"
       />
     )
