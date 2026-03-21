@@ -8,7 +8,7 @@ export async function getAllAuthors(): Promise<CollectionEntry<'authors'>[]> {
 export async function getAllPosts(): Promise<CollectionEntry<'blog'>[]> {
   const posts = await getCollection('blog')
   return posts
-    .filter((post) => !post.data.draft && !isSubpost(post.id))
+    .filter((post) => !post.data.draft && !isSubpostEntry(post))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
@@ -50,19 +50,21 @@ export async function getAdjacentPosts(currentId: string): Promise<{
   older: CollectionEntry<'blog'> | null
   parent: CollectionEntry<'blog'> | null
 }> {
+  const currentPost = await getPostById(currentId)
+  if (!currentPost) return { newer: null, older: null, parent: null }
+
   const allPosts = await getAllPosts()
 
-  if (isSubpost(currentId)) {
-    const parentId = getParentId(currentId)
-    const allPosts = await getAllPosts()
-    const parent = allPosts.find((post) => post.id === parentId) || null
+  if (isSubpostEntry(currentPost)) {
+    const parentSlug = currentPost.data.parent_slug!
+    const parent = allPosts.find((post) => post.id === parentSlug) || null
 
     const posts = await getCollection('blog')
     const subposts = posts
       .filter(
         (post) =>
-          isSubpost(post.id) &&
-          getParentId(post.id) === parentId &&
+          isSubpostEntry(post) &&
+          post.data.parent_slug === parentSlug &&
           !post.data.draft,
       )
       .sort((a, b) => {
@@ -87,7 +89,7 @@ export async function getAdjacentPosts(currentId: string): Promise<{
     }
   }
 
-  const parentPosts = allPosts.filter((post) => !isSubpost(post.id))
+  const parentPosts = allPosts.filter((post) => !isSubpostEntry(post))
   const currentIndex = parentPosts.findIndex((post) => post.id === currentId)
 
   if (currentIndex === -1) {
@@ -137,8 +139,14 @@ export async function getSortedTags(): Promise<
     })
 }
 
-export function getParentId(subpostId: string): string {
-  return subpostId.split('/')[0]
+export function getParentId(postOrId: CollectionEntry<'blog'> | string): string {
+  if (typeof postOrId === 'string') {
+    // Legacy compatibility: if called with a string that contains '/',
+    // fall back to the old directory-based approach
+    if (postOrId.includes('/')) return postOrId.split('/')[0]
+    return postOrId
+  }
+  return postOrId.data.parent_slug || postOrId.id
 }
 
 export async function getSubpostsForParent(
@@ -149,8 +157,8 @@ export async function getSubpostsForParent(
     .filter(
       (post) =>
         !post.data.draft &&
-        isSubpost(post.id) &&
-        getParentId(post.id) === parentId,
+        isSubpostEntry(post) &&
+        post.data.parent_slug === parentId,
     )
     .sort((a, b) => {
       const dateDiff = a.data.date.valueOf() - b.data.date.valueOf()
@@ -196,20 +204,39 @@ export async function hasSubposts(postId: string): Promise<boolean> {
   return subposts.length > 0
 }
 
+/**
+ * Check if a post is a subpost using its data (parent_slug field).
+ * Prefer this over the old directory-based isSubpost.
+ */
+export function isSubpostEntry(post: CollectionEntry<'blog'>): boolean {
+  return !!post.data.parent_slug
+}
+
+/**
+ * @deprecated Use isSubpostEntry(post) with a full post entry instead.
+ * Falls back to directory-based check for compatibility.
+ */
 export function isSubpost(postId: string): boolean {
   return postId.includes('/')
+}
+
+export async function isSubpostById(postId: string): Promise<boolean> {
+  const post = await getPostById(postId)
+  if (!post) return false
+  return isSubpostEntry(post)
 }
 
 export async function getParentPost(
   subpostId: string,
 ): Promise<CollectionEntry<'blog'> | null> {
-  if (!isSubpost(subpostId)) {
+  const post = await getPostById(subpostId)
+  if (!post || !isSubpostEntry(post)) {
     return null
   }
 
-  const parentId = getParentId(subpostId)
+  const parentSlug = post.data.parent_slug!
   const allPosts = await getAllPosts()
-  return allPosts.find((post) => post.id === parentId) || null
+  return allPosts.find((post) => post.id === parentSlug) || null
 }
 
 export interface ParsedAuthor {
@@ -260,7 +287,7 @@ export async function getCombinedReadingTime(postId: string): Promise<string> {
 
   let totalWords = calculateWordCountFromHtml(post.body)
 
-  if (!isSubpost(postId)) {
+  if (!isSubpostEntry(post)) {
     const subposts = await getSubpostsForParent(postId)
     for (const subpost of subposts) {
       totalWords += calculateWordCountFromHtml(subpost.body)
@@ -296,8 +323,9 @@ export async function getTOCSections(postId: string): Promise<TOCSection[]> {
   const post = await getPostById(postId)
   if (!post) return []
 
-  const parentId = isSubpost(postId) ? getParentId(postId) : postId
-  const parentPost = isSubpost(postId) ? await getPostById(parentId) : post
+  const isSub = isSubpostEntry(post)
+  const parentId = isSub ? post.data.parent_slug! : postId
+  const parentPost = isSub ? await getPostById(parentId) : post
 
   if (!parentPost) return []
 

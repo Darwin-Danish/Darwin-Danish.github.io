@@ -84,5 +84,18 @@ const personSchema = {
   <script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)}>
   </script>
 
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', (user) => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/'
+          })
+        }
+      })
+    }
+  </script>
+
   <slot />
 </head>

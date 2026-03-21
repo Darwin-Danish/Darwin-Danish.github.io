@@ -2,21 +2,21 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   getCombinedReadingTime,
-  getParentId,
   getParentPost,
   getPostById,
   getPostReadingTime,
   getSubpostsForParent,
-  isSubpost,
+  isSubpostEntry,
 } from '@/lib/data-utils'
 import { Icon } from 'astro-icon/components'
 
 const { parentId } = Astro.props
 const currentPostId = Astro.params.id as string
-const isCurrentSubpost = isSubpost(currentPostId)
-const rootParentId = isCurrentSubpost ? getParentId(currentPostId) : parentId
+const currentPostEntry = await getPostById(currentPostId)
+const isCurrentSubpost = currentPostEntry ? isSubpostEntry(currentPostEntry) : false
+const rootParentId = isCurrentSubpost && currentPostEntry?.data.parent_slug ? currentPostEntry.data.parent_slug : parentId
 
-const currentPost = !isCurrentSubpost ? await getPostById(currentPostId) : null
+const currentPost = !isCurrentSubpost ? currentPostEntry : null
 const subposts = await getSubpostsForParent(rootParentId)
 const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
 

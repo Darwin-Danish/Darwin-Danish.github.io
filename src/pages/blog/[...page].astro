@@ -39,7 +39,7 @@ const hasPosts = paginatedPosts.length > 0
   <PageHead slot="head" title="Blog" />
   <Breadcrumbs
     items={[
-      { label: 'Blog', href: '/blog', icon: 'lucide:library-big' },
+      { label: 'Blog', href: '/blog/', icon: 'lucide:library-big' },
       ...(hasPosts
         ? [{ label: `Page ${currentPage}`, icon: 'lucide:book-copy' }]
         : []),

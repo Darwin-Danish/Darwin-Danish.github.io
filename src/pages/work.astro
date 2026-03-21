@@ -4,7 +4,6 @@ import PageHead from '@/components/PageHead.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import Layout from '@/layouts/Layout.astro'
 import { getAllProjects, groupProjectsByYear } from '@/lib/data-utils'
-import { Content } from '../content/work.mdx'
 
 const projects = await getAllProjects()
 const projectsByYear = groupProjectsByYear(projects)
@@ -12,6 +11,13 @@ const years = Object.keys(projectsByYear).sort(
   (a, b) => parseInt(b) - parseInt(a),
 )
 const hasProjects = projects.length > 0
+
+// Calculate last updated date from the most recent project
+const lastUpdatedDate = projects.length > 0
+  ? new Date(Math.max(...projects.map(p => (p.data.endDate || p.data.startDate || new Date(0)).getTime())))
+  : new Date();
+
+import { formatDate } from '@/lib/utils'
 ---
 
 <Layout>
@@ -21,11 +27,17 @@ const hasProjects = projects.length > 0
   </div>
 
   <section
-    class="mx-auto flex max-w-[calc(var(--container-3xl)-2rem)] flex-col gap-4"
+    class="mx-auto flex w-full max-w-[calc(var(--container-3xl)-2rem)] flex-col gap-4 text-left"
   >
-    <article class="prose">
-      <Content />
-    </article>
+    <div class="flex flex-col mb-4">
+      <h3 class="text-lg font-medium mb-1">
+        Some work I&rsquo;ve done <span class="text-muted-foreground">ヽ(o^ ^o)ﾉ</span>
+      </h3>
+      <span class="text-muted-foreground text-xs">
+        Last updated: {formatDate(lastUpdatedDate)}
+      </span>
+    </div>
+
     {
       hasProjects ? (
         <div class="flex flex-col gap-y-8">

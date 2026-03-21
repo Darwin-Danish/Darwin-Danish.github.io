@@ -1,7 +1,7 @@
 ---
 import { ScrollArea } from '@/components/ui/scroll-area'
 import type { TOCSection } from '@/lib/data-utils'
-import { getParentId, isSubpost } from '@/lib/data-utils'
+import { getParentId, getPostById, isSubpostEntry } from '@/lib/data-utils'
 import { cn, getHeadingMargin } from '@/lib/utils'
 
 type Props = {
@@ -10,8 +10,9 @@ type Props = {
 }
 
 const { sections, currentPostId } = Astro.props
-const isCurrentSubpost = isSubpost(currentPostId)
-const parentId = isCurrentSubpost ? getParentId(currentPostId) : currentPostId
+const currentPost = await getPostById(currentPostId)
+const isCurrentSubpost = currentPost ? isSubpostEntry(currentPost) : false
+const parentId = isCurrentSubpost && currentPost?.data.parent_slug ? currentPost.data.parent_slug : currentPostId
 ---
 
 {

@@ -103,7 +103,10 @@ export const GET: APIRoute = async ({ site }) => {
 
   // 4. Projects
   const projectUrls = projects.map(project => {
-    const loc = new URL(`/work#${project.id}`, site).href
+    const hasNotes = project.body && project.body.trim().length > 0;
+    const loc = hasNotes 
+      ? new URL(`/projects/${project.id}/`, site).href 
+      : new URL(`/work#${project.id}`, site).href;
     let imageTags = ''
     
     if (project.data.image) {

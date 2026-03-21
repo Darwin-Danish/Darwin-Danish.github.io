@@ -19,19 +19,29 @@ collections:
   - name: "blog"
     label: "Main Posts"
     folder: "src/content/blog"
-    filter: { field: "parent_slug", value: "" }
+    filter: { field: "is_subpost", value: false }
     create: true
     extension: "mdx"
     format: "frontmatter"
-    slug: "{{slug}}"
+    slug: "{{title}}"
     preview_path: "blog/posts/{{slug}}"
     fields:
       - { name: "parent_slug", label: "Parent Slug", widget: "hidden", default: "" }
+      - { name: "is_subpost", label: "Is Subpost", widget: "hidden", default: false }
       - { name: "title", label: "Title", widget: "string" }
       - { name: "description", label: "Description", widget: "text" }
       - { name: "date", label: "Date", widget: "datetime" }
       - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
-      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true, hint: "Auto-colored tags: travel, f1, ai, iot, game, python, etc." }
+      - name: "tags"
+        label: "Tags"
+        widget: "relation"
+        collection: "tags"
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+        multiple: true
+        required: false
+        hint: "Search for existing tags. Note: You must create new tags in the 'Tag Colors & Icons' collection first."
       - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true, hint: "Use 'darwindanish'" }
       - { name: "image", label: "Image", widget: "image", required: false }
       - { name: "body", label: "Body", widget: "markdown", hint: "## (H2) and ### (H3) create SECTIONS in the sidebar. Use the + to add Callouts/Math/Challenges." }
@@ -39,16 +49,13 @@ collections:
   - name: "subposts"
     label: "Subposts (Series)"
     folder: "src/content/blog"
-    filter: { field: "parent_slug", pattern: ".+" }
-    nested:
-      depth: 5
-      summary: "{{title}}"
+    filter: { field: "is_subpost", value: true }
     create: true
     extension: "mdx"
     format: "frontmatter"
-    slug: "{{slug}}"
-    path: "{{parent_slug}}/{{slug}}"
+    slug: "{{title}}"
     fields:
+      - { name: "is_subpost", label: "Is Subpost", widget: "hidden", default: true }
       - name: "parent_slug"
         label: "Parent Post"
         widget: "relation"
@@ -56,13 +63,22 @@ collections:
         search_fields: ["title"]
         value_field: "{{slug}}"
         display_fields: ["title"]
-        hint: "Select the Main Post that this belongs to. (Must have parent_slug: \"\" in its frontmatter)"
+        hint: "Select the Main Post this subpost belongs to."
       - { name: "title", label: "Title", widget: "string" }
       - { name: "description", label: "Description", widget: "text" }
       - { name: "date", label: "Date", widget: "datetime" }
       - { name: "order", label: "Order in Series", widget: "number", default: 1, value_type: "int", min: 1 }
       - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
-      - { name: "tags", label: "Tags", widget: "list", required: false, allow_add: true }
+      - name: "tags"
+        label: "Tags"
+        widget: "relation"
+        collection: "tags"
+        search_fields: ["name"]
+        value_field: "name"
+        display_fields: ["name"]
+        multiple: true
+        required: false
+        hint: "Search for existing tags. Note: You must create new tags in the 'Tag Colors & Icons' collection first."
       - { name: "authors", label: "Authors (ids)", widget: "list", required: false, allow_add: true }
       - { name: "image", label: "Image", widget: "image", required: false }
       - { name: "body", label: "Body", widget: "markdown", hint: "## (H2) and ### (H3) create SECTIONS in the sidebar." }
@@ -73,13 +89,13 @@ collections:
     create: true
     extension: "mdx"
     format: "frontmatter"
-    slug: "{{slug}}"
+    slug: "{{name}}"
     fields:
       - { name: "name", label: "Name", widget: "string" }
       - { name: "description", label: "Description", widget: "text" }
-      - { name: "tags", label: "Tags", widget: "list", allow_add: true }
+      - { name: "tags", label: "Tags", widget: "relation", collection: "tags", search_fields: ["name"], value_field: "name", display_fields: ["name"], multiple: true, required: false }
       - { name: "image", label: "Image", widget: "image" }
-      - { name: "link", label: "Link", widget: "string" }
+      - { name: "link", label: "Link", widget: "string", required: false }
       - { name: "startDate", label: "Start date", widget: "datetime", required: false }
       - { name: "endDate", label: "End date", widget: "datetime", required: false }
       - { name: "order", label: "Order", widget: "number", required: false, value_type: "int", min: 0 }
@@ -142,6 +158,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { name: "name", label: "Tag Name", widget: "string", hint: "Exactly matches the tag text (e.g. 'F1')" }
-      - { name: "color", label: "Tailwind Colors", widget: "string", hint: "e.g. 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-200'" }
-      - { name: "icon", label: "Icon Name", widget: "string", hint: "e.g. 'lucide:flag' (Find icons at icon-sets.iconify.design)" }
+      - { name: "type", label: "Tag Type", widget: "select", options: ["Special", "Common"], default: "Common", hint: "Special tags use custom colors/icons. Common tags use the theme default." }
+      - { name: "color", label: "Tailwind Colors", widget: "string", required: false, hint: "For Special tags, e.g. 'bg-red-50 text-red-700...'" }
+      - { name: "icon", label: "Icon Name", widget: "string", required: false, hint: "For Special tags, e.g. 'lucide:flag' (Find icons at icon-sets.iconify.design)" }
 

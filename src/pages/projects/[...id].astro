@@ -1,0 +1,127 @@
+---
+export const prerender = true
+import Badge from '@/components/Badge.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { getAllProjects, parseAuthors } from '@/lib/data-utils'
+import { formatMonthYear, extractDomain, formatDate, readingTime, calculateWordCountFromHtml } from '@/lib/utils'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+import { render } from 'astro:content'
+
+export async function getStaticPaths() {
+  const projects = await getAllProjects()
+  return projects
+    .filter((p) => p.body && p.body.trim().length > 0)
+    .map((project) => ({
+      params: { id: project.id },
+      props: { project },
+    }))
+}
+
+const { project } = Astro.props
+const { Content } = await render(project)
+
+const authors = await parseAuthors(['darwindanish'])
+const author = authors[0]
+const postReadingTime = readingTime(calculateWordCountFromHtml(project.body))
+---
+
+<Layout>
+  <PageHead slot="head" title={`${project.data.name} - Project`} description={project.data.description} />
+  
+  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)] mb-8">
+    <Breadcrumbs
+      items={[
+        { href: '/work/', label: 'Work', icon: 'lucide:briefcase' },
+        { label: project.data.name, icon: 'lucide:folder' },
+      ]}
+    />
+  </div>
+
+  <article class="mx-auto flex max-w-[calc(var(--container-3xl)-2rem)] flex-col gap-y-6">
+    <header class="flex flex-col gap-y-4 text-center sm:text-left">
+      <h1 class="text-3xl font-medium sm:text-4xl">{project.data.name}</h1>
+      <p class="text-muted-foreground text-lg">{project.data.description}</p>
+      
+      <div class="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between text-muted-foreground text-sm border-y py-3">
+        <div class="flex flex-col items-center justify-center divide-y divide-border sm:flex-row sm:divide-x sm:divide-y-0 text-xs sm:text-sm">
+          {author && (
+            <div class="flex items-center justify-center gap-x-1.5 py-2 sm:py-0 sm:pr-4">
+              <div class="size-5 shrink-0 overflow-hidden rounded-full">
+                <img
+                  src={author.avatar}
+                  alt={author.name}
+                  width="20"
+                  height="20"
+                  class="size-full object-cover object-[50%_0%] scale-[1.5]"
+                />
+              </div>
+              <Link href={`/authors/${author.id}`} class="text-foreground font-medium hover:underline">
+                <span>{author.name}</span>
+              </Link>
+            </div>
+          )}
+          
+          {project.data.startDate && (
+            <div class="flex items-center justify-center py-2 sm:py-0 sm:px-4">
+              <span>{formatDate(project.data.startDate)}</span>
+            </div>
+          )}
+
+          <div class="flex items-center justify-center py-2 sm:py-0 sm:pl-4">
+            <span>{postReadingTime}</span>
+          </div>
+        </div>
+
+        {project.data.link && (
+          <div class="flex justify-center pt-2 sm:pt-0">
+            <Link 
+              href={project.data.link} 
+              external 
+              class="flex items-center gap-x-1 hover:text-foreground hover:underline transition-colors"
+            >
+              <Icon name="lucide:external-link" class="size-4" />
+              <span>{extractDomain(project.data.link) || 'Visit Project'}</span>
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {project.data.tags && (
+        <div class="flex flex-wrap justify-center sm:justify-start gap-2 mt-2">
+          {project.data.tags.map((tag: string) => (
+            <Badge text={tag} />
+          ))}
+        </div>
+      )}
+    </header>
+
+    {project.data.image && (
+       typeof project.data.image === 'object' && 'src' in project.data.image ? (
+        <Image
+          src={project.data.image}
+          alt={project.data.name}
+          width={1200}
+          height={630}
+          class="w-full max-w-5xl mx-auto rounded-lg border object-cover mt-4"
+        />
+      ) : typeof project.data.image === 'string' ? (
+        <img
+          src={project.data.image}
+          alt={project.data.name}
+          width="1200"
+          height="630"
+          loading="lazy"
+          class="w-full max-w-5xl mx-auto rounded-lg border object-cover mt-4"
+        />
+      ) : null
+    )}
+
+    <div class="prose max-w-none mt-4 mx-auto w-full">
+      <Content />
+    </div>
+  </article>
+</Layout>

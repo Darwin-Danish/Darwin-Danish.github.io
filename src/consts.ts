@@ -26,7 +26,7 @@ export const NAV_LINKS: SocialLink[] = [
     label: 'Home',
   },
   {
-    href: '/blog',
+    href: '/blog/',
     label: 'Blog',
   },
   {
@@ -72,6 +72,7 @@ export const ICON_MAP: IconMap = {
   Gravatar: 'simple-icons:gravatar',
   LinkedIn: 'simple-icons:linkedin',
   GitHub: 'simple-icons:github',
+  Discord: 'simple-icons:discord',
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
 }

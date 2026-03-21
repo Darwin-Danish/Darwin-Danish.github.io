@@ -12,78 +12,86 @@ interface Props {
 }
 
 const { project } = Astro.props
+
+const hasNotes = project.body && project.body.trim().length > 0
+const href = hasNotes ? `/projects/${project.id}` : (project.data.link || '#')
+const isExternal = !hasNotes && !!project.data.link
 ---
 
 <div
-  class="hover:bg-secondary/50 border p-4 transition-colors duration-300 ease-in-out"
+  class="group relative flex flex-col sm:flex-row gap-4 hover:bg-secondary/50 border p-4 transition-colors duration-300 ease-in-out"
 >
-  <Link
-    href={project.data.link}
-    class="flex flex-col gap-4 sm:flex-row"
-    external
-  >
-    {
-      project.data.image &&
-        (typeof project.data.image === 'object' &&
-        'src' in project.data.image ? (
-          <div class="max-w-3xs sm:shrink-0">
-            <Image
-              src={project.data.image}
-              alt={project.data.name}
-              width={1200}
-              height={630}
-              class="object-cover"
-            />
-          </div>
-        ) : typeof project.data.image === 'string' ? (
-          <div class="max-w-3xs sm:shrink-0">
-            <img
-              src={project.data.image}
-              alt={project.data.name}
-              width="1200"
-              height="630"
-              loading="lazy"
-              class="object-cover"
-            />
-          </div>
-        ) : null)
-    }
-    <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">
+  {
+    project.data.image &&
+      (typeof project.data.image === 'object' &&
+      'src' in project.data.image ? (
+        <div class="max-w-3xs sm:shrink-0 relative z-10 pointer-events-none">
+          <Image
+            src={project.data.image}
+            alt={project.data.name}
+            width={1200}
+            height={630}
+            class="object-cover"
+          />
+        </div>
+      ) : typeof project.data.image === 'string' ? (
+        <div class="max-w-3xs sm:shrink-0 relative z-10 pointer-events-none">
+          <img
+            src={project.data.image}
+            alt={project.data.name}
+            width="1200"
+            height="630"
+            loading="lazy"
+            class="object-cover"
+          />
+        </div>
+      ) : null)
+  }
+  <div class="grow flex flex-col justify-center">
+    <h3 class="mb-1 text-lg font-medium">
+      <Link
+        href={href}
+        class="before:absolute before:inset-0"
+        external={isExternal}
+      >
         {project.data.name}
-      </h3>
-      <p class="text-muted-foreground mb-2 text-sm">
-        {project.data.description}
-      </p>
-      {
-        project.data.startDate && (
-          <div class="text-muted-foreground/70 mb-2 flex flex-wrap items-center gap-x-2 text-xs">
-            <span class="flex items-center gap-x-1.5">
-              <Icon name="lucide:calendar" class="size-3" />
-              <span>
-                {formatMonthYear(project.data.startDate)}
-                {project.data.endDate
-                  ? ` → ${formatMonthYear(project.data.endDate)}`
-                  : ' → Present'}
-              </span>
+      </Link>
+    </h3>
+    <p class="text-muted-foreground mb-2 text-sm relative z-10 pointer-events-none">
+      {project.data.description}
+    </p>
+    {
+      project.data.startDate && (
+        <div class="text-muted-foreground/70 mb-2 flex flex-wrap items-center gap-x-2 text-xs relative z-10">
+          <span class="flex items-center gap-x-1.5 pointer-events-none">
+            <Icon name="lucide:calendar" class="size-3" />
+            <span>
+              {formatMonthYear(project.data.startDate)}
+              {project.data.endDate
+                ? ` → ${formatMonthYear(project.data.endDate)}`
+                : ' → Present'}
             </span>
-            <Separator orientation="vertical" className="h-4!" />
-            <span class="flex items-center gap-x-1">
-              <Icon name="lucide:external-link" class="size-3" />
-              <span>{extractDomain(project.data.link)}</span>
-            </span>
-          </div>
-        )
-      }
-      {
-        project.data.tags && (
-          <div class="flex flex-wrap gap-2">
-            {project.data.tags.map((tag: string) => (
-              <Badge text={tag} />
-            ))}
-          </div>
-        )
-      }
-    </div>
-  </Link>
+          </span>
+          {project.data.link && (
+            <>
+              <Separator orientation="vertical" className="h-4! pointer-events-none" />
+              <Link href={project.data.link} external class="flex items-center gap-x-1 hover:text-foreground hover:underline relative z-20">
+                <Icon name="lucide:external-link" class="size-3" />
+                <span>{extractDomain(project.data.link)}</span>
+              </Link>
+            </>
+          )}
+        </div>
+      )
+    }
+    {
+      project.data.tags && (
+        <div class="flex flex-wrap gap-2 relative z-10 pointer-events-none">
+          {project.data.tags.map((tag: string) => (
+            <Badge text={tag} />
+          ))}
+        </div>
+      )
+    }
+  </div>
 </div>

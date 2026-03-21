@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
   getSubpostCount,
-  isSubpost,
+  isSubpostEntry,
   parseAuthors,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
@@ -22,7 +22,7 @@ const { entry } = Astro.props
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
 const authors = await parseAuthors(entry.data.authors ?? [])
-const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
+const subpostCount = !isSubpostEntry(entry) ? await getSubpostCount(entry.id) : 0
 ---
 
 <div

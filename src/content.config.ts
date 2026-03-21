@@ -5,6 +5,8 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: 'src/content/blog' }),
   schema: ({ image }) =>
     z.object({
+      parent_slug: z.string().optional(),
+      is_subpost: z.boolean().optional(),
       title: z.string(),
       description: z.string(),
       date: z.coerce.date(),
@@ -57,10 +59,10 @@ const projects = defineCollection({
       description: z.string(),
       tags: z.array(z.string()),
       image: z.string().url().or(z.string().startsWith('/')).or(image()),
-      link: z.string().url(),
+      link: z.string().optional(),
       startDate: z.coerce.date().optional(),
       endDate: z.coerce.date().optional(),
-      order: z.number().optional(),
+      order: z.coerce.number().optional().catch(0),
     }),
 })
 
@@ -68,6 +70,7 @@ const tags = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: 'src/content/tags' }),
   schema: z.object({
     name: z.string(),
+    type: z.enum(['Special', 'Common']).optional().default('Special'),
     color: z.string().optional(),
     icon: z.string().optional(),
   }),

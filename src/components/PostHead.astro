@@ -1,6 +1,6 @@
 ---
 import { SITE } from '@/consts'
-import { isSubpost } from '@/lib/data-utils'
+import { isSubpostEntry } from '@/lib/data-utils'
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
@@ -33,7 +33,7 @@ const keywords = [...SITE.keywords, ...(post.data.tags || [])]
 <meta name="keywords" content={keywords.join(', ')} />
 <link rel="canonical" href={Astro.url} />
 
-{isSubpost(post.id) && <meta name="robots" content="noindex" />}
+{isSubpostEntry(post) && <meta name="robots" content="noindex" />}
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />

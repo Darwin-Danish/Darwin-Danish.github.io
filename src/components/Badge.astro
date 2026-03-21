@@ -317,8 +317,13 @@ const lowerContent = content.toLowerCase()
 
 const findTagConfig = () => {
   // First, check for an exact match in the tags collection
-  const exactMatch = allTags.find((t) => t.id.toLowerCase() === lowerContent)
-  if (exactMatch) return exactMatch.data
+  const exactMatch = allTags.find((t) => t.id.toLowerCase() === lowerContent || t.data.name.toLowerCase() === lowerContent)
+  if (exactMatch) {
+    if (exactMatch.data.type === 'Common') {
+      return { color: undefined, icon: 'lucide:hash' }
+    }
+    return exactMatch.data
+  }
 
   // Second, check for a keyword match in the hardcoded category mappings
   return categoryMappings.find((category) =>

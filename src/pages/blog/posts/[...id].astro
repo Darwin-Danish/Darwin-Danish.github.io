@@ -21,7 +21,7 @@ import {
   getSubpostCount,
   getTOCSections,
   hasSubposts,
-  isSubpost,
+  isSubpostEntry,
   parseAuthors,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
@@ -51,7 +51,7 @@ if (!post || !post.data) {
 const { Content, headings } = await render(post)
 const authors = await parseAuthors(post.data.authors ?? [])
 
-const isCurrentSubpost = isSubpost(currentPostId)
+const isCurrentSubpost = isSubpostEntry(post)
 const navigation = await getAdjacentPosts(currentPostId)
 const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
 
@@ -93,7 +93,7 @@ const tocSections = await getTOCSections(currentPostId)
     <div class="col-start-2">
       <Breadcrumbs
         items={[
-          { href: '/blog', label: 'Blog', icon: 'lucide:library-big' },
+          { href: '/blog/', label: 'Blog', icon: 'lucide:library-big' },
           ...(isCurrentSubpost && parentPost
             ? [
                 {
@@ -157,14 +157,16 @@ const tocSections = await getTOCSections(currentPostId)
               <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 {authors.map((author) => (
                   <div class="flex items-center gap-x-1.5">
-                    <img
-                      src={author.avatar}
-                      alt={author.name}
-                      width="20"
-                      height="20"
-                      loading="lazy"
-                      class="rounded-full object-cover"
-                    />
+                    <div class="size-5 shrink-0 overflow-hidden rounded-full">
+                      <img
+                        src={author.avatar}
+                        alt={author.name}
+                        width="20"
+                        height="20"
+                        loading="lazy"
+                        class="size-full object-cover object-[50%_0%] scale-[1.5]"
+                      />
+                    </div>
                     {author.isRegistered ? (
                       <Link
                         href={`/authors/${author.id}`}
