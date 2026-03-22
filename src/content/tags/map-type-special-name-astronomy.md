@@ -1,0 +1,4 @@
+---
+name: Astronomy
+type: Special
+---
