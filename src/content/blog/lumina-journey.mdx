@@ -1,0 +1,125 @@
+---
+title: "Project Lumina: The Journey of an AI-Powered, Eco-Friendly Interactive Bin"
+description: "How we turned recycled tires into an intelligent, AI-powered interactive rubbish bin that won 1st place at the Mini Inno Waste 2.0 competition."
+date: "2024-11-10"
+image: "/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d.jpg"
+tags: ["IoT", "ML"]
+authors: ["darwindanish"]
+draft: false
+---
+
+import Callout from '@/components/mdx/Callout.astro';
+
+How do you make recycling fun, engaging, and smart? For our team, the answer lay in old tires, a Raspberry Pi, and some artificial intelligence. 
+
+This is the story of **Lumina**, our interactive, bunny-themed smart dustbin. What started as a humble project to address waste and promote recycling ended up securing **1st Place** at the *Pertandingan Reka Cipta Mini Inno Waste 2.0* competition. 
+
+Here is our journey, day by day, from raw tires to a champion prototype.
+
+---
+
+## Chapter 1: Shaping the Vessel (25 October 2024)
+
+Our goal was twofold: to create a useful IoT device and to reduce waste by repurposing old tires. We decided on a cheerful, bunny-themed design to make it approachable and engaging for kids and adults alike. 
+
+Before we could write a single line of code, we had to build the body. We spent the day cutting wood, sawing plywood, and cleaning and painting tires in vibrant colors (pink, orange, blue, and black).
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+  <div style="text-align: center;">
+    <img src="/uploads/IMG_0906.jpg" alt="Cutting the wooden lid and base with a jigsaw" style="border-radius: 8px; width: 100%; height: 250px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Precision cutting for the base and lid</em>
+  </div>
+  <div style="text-align: center;">
+    <img src="/uploads/IMG_0905.jpg" alt="Painting the recycled tires outdoors" style="border-radius: 8px; width: 100%; height: 250px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Adding vibrant coats of paint to old tires</em>
+  </div>
+</div>
+
+We then constructed a mobile base with sturdy caster wheels and stacked the painted tires on top to form the main body of the bin.
+
+<div style="text-align: center; margin: 1.5rem 0; max-width: 400px; margin-left: auto; margin-right: auto;">
+  <img src="/uploads/IMG_1060.jpg" alt="Stacked tires on the moveable base" style="border-radius: 8px; width: 100%; height: 300px; object-fit: cover;" />
+  <em style="font-size: 0.8rem; color: #666;">The physical structure taking shape with stacked tires and wheels</em>
+</div>
+
+---
+
+## Chapter 2: Giving Lumina a Brain (29 October 2024)
+
+With the physical structure ready, it was time to make Lumina smart. We wanted Lumina to be more than just a passive sensor; we wanted it to converse with users, play music, and notify authorities when it was full.
+
+To achieve this, we integrated:
+- **Processor:** A Raspberry Pi as the central hub.
+- **Audio Output & Input:** A second-hand speaker and microphone set.
+- **Wake Word Recognition:** Custom offline wake words built using **Picovoice** (similar to saying "Hey Siri" or "Okay Google").
+- **AI Conversation Engine:** We used **OpenAI's Whisper** model to transcribe spoken words to text, and then processed it using the **GPT API** to generate responses.
+- **Real-Time App Integration:** A custom mobile app built in **Kodular** communicating via WebSockets for local networks and custom APIs for public internet access. Users can monitor trash levels and even chat with Lumina.
+- **Instant Alerts:** Integration with a WhatsApp JavaScript library (`whatsapp-web.js`) to automatically send emergency alerts to system administrators when the trash tank becomes full.
+
+<div style="text-align: center; margin: 1.5rem 0; max-width: 400px; margin-left: auto; margin-right: auto;">
+  <img src="/uploads/IMG_1098.jpg" alt="Raspberry Pi connected to speakers on a table" style="border-radius: 8px; width: 100%; height: 300px; object-fit: cover;" />
+  <em style="font-size: 0.8rem; color: #666;">Prototyping the Raspberry Pi and audio system</em>
+</div>
+
+<Callout variant="tip" title="Technical Highlight: Dual Network Stack">
+  By combining WebSockets for instant local updates and REST APIs for WAN sync, we ensured that the companion app remains highly responsive even when internet connectivity is spotty.
+</Callout>
+
+---
+
+## Chapter 3: The All-Nighter (8 November 2024)
+
+With the competition only hours away, we faced a mountain of unfinished details. We pulled a full all-nighter, finalizing the code, squashing bugs, and 3D printing custom parts—like the iconic bunny ears that would serve as the bin's main design highlight.
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+  <div style="text-align: center;">
+    <img src="/uploads/9A48AD9C-F810-44E2-8B97-6B78CD345171.jpg" alt="3D printing bunny ears" style="border-radius: 8px; width: 100%; height: 250px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">3D printing the decorative bunny ears</em>
+  </div>
+  <div style="text-align: center;">
+    <img src="/uploads/IMG_1407.jpg" alt="Coding setup in the hall" style="border-radius: 8px; width: 100%; height: 250px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Debugging the Raspberry Pi on-site</em>
+  </div>
+</div>
+
+We mounted the electronics pink enclosure and the speakers directly to the underside of the purple lid, ensuring all wiring stayed secure and hidden inside the bin.
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+  <div style="text-align: center;">
+    <img src="/uploads/IMG_1436.jpg" alt="Assembling the lid electronics" style="border-radius: 8px; width: 100%; height: 250px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Mounting the electronics box to the lid</em>
+  </div>
+  <div style="text-align: center;">
+    <img src="/uploads/IMG_1440.jpg" alt="Team members smile during all-nighter" style="border-radius: 8px; width: 100%; height: 250px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Exhausted but excited: final check before morning</em>
+  </div>
+</div>
+
+---
+
+## Chapter 4: Victory & Reflections (9 November 2024)
+
+The competition day arrived. With very little sleep and a lot of nervous energy, we set up our booth for the judges. 
+
+Our presentation went perfectly. The judges were thoroughly impressed by the creative reuse of tires, the full-tank WhatsApp notifications, and how naturally they could talk to the bin.
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0;">
+  <div style="text-align: center;">
+    <img src="/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d.jpg" alt="Team holding the winning check" style="border-radius: 8px; width: 100%; height: 350px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Securing 1st place!</em>
+  </div>
+  <div style="text-align: center;">
+    <img src="/uploads/df6e92ef-8212-4847-9aac-cf5bdbdfe473.jpg" alt="Team with Lumina and Mdm Victoria" style="border-radius: 8px; width: 100%; height: 350px; object-fit: cover;" />
+    <em style="font-size: 0.8rem; color: #666;">Lumina standing proud with the trophy</em>
+  </div>
+</div>
+
+We secured **1st Place (Juara)** and a cash prize of **RM 1000**!
+
+<Callout variant="important" title="Grateful for the Support">
+  A huge shoutout to my amazing teammates **Nigel Sibat** and **Dexter Sangin**, and our mentor **Mdm Victoria**, whose guidance directly and indirectly made this win possible.
+</Callout>
+
+This project was a turning point for me. Winning this competition helped me realize my deep interest in building smart things, combining hardware, software, and design to solve real-world problems. It was the spark that confirmed my passion for **Computer Engineering**. 
+
+Lumina showed us that with some imagination, teamwork, and late-night coding, even a stack of old tires can become something award-winning.

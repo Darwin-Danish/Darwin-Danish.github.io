@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn, getElapsedTime } from '@/lib/utils'
 import AvatarComponent from '@/components/ui/avatar'
 
-const DISCORD_USER_ID = 'YOUR_DISCORD_USER_ID' // Replace with your actual Discord User ID (enable Developer Mode in Discord, right-click your username, copy User ID)
+const DISCORD_USER_ID = '908599730328703017'
 
 interface Activity {
   type: number
@@ -242,8 +242,8 @@ const LoadingSkeleton = memo(() => (
 ))
 
 const DiscordPresence = () => {
-  // If no valid Discord User ID is provided, show a fallback
-  if (DISCORD_USER_ID === 'YOUR_DISCORD_USER_ID') {
+  // If no valid Discord User ID is configured, show default presence
+  if (!DISCORD_USER_ID) {
     return (
       <DiscordLayout
         statusIndicator={<StatusIndicator status="offline" />}

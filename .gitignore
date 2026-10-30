@@ -5,14 +5,24 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-.env
-.env.production
+*.log
+
+# Environment and secret files
+.env*
+
 .DS_Store
 .idea/
 teaser.pptx
 ~$teaser.pptx
 .vercel
-.env*.local
-
-# Local Netlify folder
 .netlify
+
+# Agent and AI Tool Workspaces
+.agents/
+.qodo/
+
+# Editor and IDE configurations
+.cursor/
+.windsurf/
+.gemini/
+.vscode/

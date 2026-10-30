@@ -50,7 +50,7 @@ const GithubCalendar: FunctionComponent<Props> = ({ username, ...props }) => {
     return (
       <div className="flex flex-col items-center justify-center gap-4">
         <img
-          src="/static/images/bento/bento-discord-futon.svg"
+          src="/static/bento/bento-discord-futon.svg"
           alt="Error"
           width={0}
           height={0}

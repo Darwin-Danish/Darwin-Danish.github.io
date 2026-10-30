@@ -11,7 +11,7 @@ const blog = defineCollection({
       description: z.string(),
       date: z.coerce.date(),
       order: z.number().optional(),
-      // CMS uploads live in /public/uploads and should be treated as plain paths,
+      // Uploaded assets live in /public/uploads and should be treated as plain paths,
       // not Astro-processed assets, to avoid dev-time ImageNotFound races.
       image: z
         .string()
@@ -29,6 +29,7 @@ const authors = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: 'src/content/authors' }),
   schema: z.object({
     name: z.string(),
+    fullName: z.string().optional(),
     pronouns: z.string().optional(),
     avatar: z.string().url().or(z.string().startsWith('/')),
     bio: z.string().optional(),

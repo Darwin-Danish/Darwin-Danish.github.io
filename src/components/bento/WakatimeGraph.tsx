@@ -33,9 +33,7 @@ const CHART_COLORS = [
 ] as const
 
 const PRIMARY_WAKATIME_API_URL =
-  'https://wakatime.com/share/@d0f744b2-fafc-4652-8a16-4bdc7e18ab67/1ef189ba-f2db-4739-9e9d-0996e1c7a461.json'
-const DEFAULT_WAKATIME_API_URL =
-  'https://wakatime.com/share/@jktrn/ef6e633b-589d-44f2-9ae6-0eb93445cf2a.json'
+  'https://wakatime.com/share/@d0f744b2-fafc-4652-8a16-4bdc7e18ab67/dbcbcb0f-bdcb-4efa-9e44-560db58a9044.json'
 const MAX_LANGUAGES = 7
 const ICON_SIZE = 20
 const CIRCLE_RADIUS = 16
@@ -124,25 +122,14 @@ const useWakatimeData = (omitLanguages: string[]) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let data
       try {
-        // Try primary URL first
-        let response = await fetch(PRIMARY_WAKATIME_API_URL)
+        const response = await fetch(PRIMARY_WAKATIME_API_URL)
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`)
         }
-        data = await response.json()
-        // If blank data, fallback to default URL
-        if (!data?.data || data.data.length === 0) {
-          response = await fetch(DEFAULT_WAKATIME_API_URL)
-          if (!response.ok) {
-            throw new Error(
-              `Failed to fetch default data: ${response.statusText}`,
-            )
-          }
-          data = await response.json()
-        }
-        const filteredData = data.data
+        const data = await response.json()
+        const rawLanguages = Array.isArray(data?.data) ? data.data : []
+        const filteredData = rawLanguages
           .filter(
             (lang: { name: string }) => !omitLanguages.includes(lang.name),
           )
@@ -197,6 +184,15 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
         <div className="text-center">
           <p className="text-destructive">Error loading data</p>
           <p className="text-muted-foreground text-sm">Please email me!</p>
+        </div>
+      </div>
+    )
+  }
+  if (languages.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center rounded-3xl p-4">
+        <div className="text-center">
+          <p className="text-muted-foreground text-sm">No activity recorded yet</p>
         </div>
       </div>
     )

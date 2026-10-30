@@ -1,74 +1,63 @@
-![Showcase Card](/public/static/showcase-card.png)
-
 <div align="center">
 
-## enscribe.dev
+# Darwin Danish — Portfolio & Blog
 
-[![CodeFactor]](https://www.codefactor.io/repository/github/jktrn/enscribe.dev)
-![Stargazers]
-[![Code License]](LICENSE.md)
-[![Content License]](LICENSE.content.md)
+[![Site](https://img.shields.io/badge/Site-darwindanish.github.io-blue?style=for-the-badge)](https://darwindanish.github.io)
+[![Code License](https://img.shields.io/badge/Code%20License-MIT-green?style=for-the-badge)](LICENSE.md)
+[![Content License](https://img.shields.io/badge/Content%20License-CC%20BY--NC--ND%204.0-lightgrey?style=for-the-badge)](LICENSE.content.md)
 
-[**enscribe.dev**](https://enscribe.dev) is my personal blog and portfolio, built with [**Astro**](https://astro.build/) and [**Tailwind**](https://tailwindcss.com/). Based on my personal blogging template, [**astro-erudite**](https://github.com/jktrn/astro-erudite).
+Personal portfolio and technical blog of **Darwin Danish**, computer engineering student and tech enthusiast passionate about IoT, AI, software development, and Formula 1.
 
 </div>
 
 ---
 
-### Licensing
+## Overview
 
-> [!IMPORTANT]
-> TL;DR: **This is a personal site. Do not clone the theming and claim it is yours!** The complete blogging structure with dozens of useful features is available at [**jktrn/astro-erudite**](https://github.com/jktrn/astro-erudite), which is MIT-licensed and free-to-use. If you wish to use any component within this site itself, contact me for permission.
+This website serves as the personal portfolio, project showcase, and technical blog for Darwin Danish, hosted statically on [GitHub Pages](https://darwindanish.github.io).
 
- - The original template is based on [**jktrn/astro-erudite**](https://github.com/jktrn/astro-erudite) and [**trevortylerlee/astro-micro**](https://github.com/trevortylerlee/astro-micro) projects that remain under their original MIT license for base components.
- - All custom code modifications in [**jktrn/enscribe.dev**](https://github.com/jktrn/enscribe.dev) are proprietary and require explicit permission for usage.
- - Website blog content (including text, images, and other materials) uses the [**CC BY-NC-ND 4.0**](https://creativecommons.org/licenses/by-nc-nd/4.0/) license, which allows sharing, requires attribution, and prohibits commercial use and derivative works.
+## Tech Stack
 
+| Category | Technology |
+| --- | --- |
+| Framework | [**Astro 5**](https://astro.build/) (Static Site Generation) |
+| Styling | [**Tailwind CSS**](https://tailwindcss.com/) with Typography |
+| Components | [**shadcn/ui**](https://ui.shadcn.com/) & React 19 |
+| Content Collections | [**MDX**](https://mdxjs.com/) with native Astro content collections |
+| Syntax Highlighting | [**Expressive Code**](https://expressive-code.com/) & Shiki |
+| Deployment | [**GitHub Pages**](https://pages.github.com/) |
 
-For full details, please refer to the [**LICENSE.md**](LICENSE.md) and [**LICENSE.content.md**](LICENSE.content.md) file in this repository or contact [**jason@enscribe.dev**](mailto:jason@enscribe.dev).
+## Project Structure
 
-### Stack
+```
+/
+├── public/                 # Static assets, fonts, icons, robots.txt
+├── src/
+│   ├── components/         # UI components & bento grid widgets
+│   ├── content/            # MDX content collections (blog, projects, authors)
+│   ├── layouts/            # Page and blog post layouts
+│   ├── pages/              # Astro static routes
+│   └── consts.ts           # Site constants and navigation configuration
+└── astro.config.ts         # Astro static build configuration
+```
 
-This is a list of the various technologies used to build this website:
+## Local Development
 
-| Category   | Technology Name                                                                                |
-| ---------- | ---------------------------------------------------------------------------------------------- |
-| Framework  | [**Astro**](https://astro.build/)                                                              |
-| Styling    | [**Tailwind**](https://tailwindcss.com)                                                        |
-| Components | [**shadcn/ui**](https://ui.shadcn.com/)                                                        |
-| Content    | [**MDX**](https://mdxjs.com/), **Decap CMS** (Git-based editor at `/admin`)                    |
-| Codeblocks | [**Expressive Code**](https://expressive-code.com/), [Shiki](https://github.com/shikijs/shiki) |
-| Graphics   | [**Figma**](https://www.figma.com/)                                                            |
-| Deployment | [**Vercel**](https://vercel.com)                                                               |
+```bash
+# Install dependencies
+npm install
 
-CMS notes: see `CMS_SETUP.md`.
+# Start development server
+npm run dev
 
-> [!NOTE]
-> This site was previously built using [**Next.js**](https://nextjs.org) via the [**timlrx/tailwind-nextjs-starter-blog**](https://github.com/timlrx/tailwind-nextjs-starter-blog). If you wish to reference the codebase or utilize its components at that point (previously licensed via [**Apache 2.0**](https://github.com/jktrn/enscribe.dev/blob/ddda783b21d5d49783f4d98e9b06676af8f95031/LICENSE)), utilize the [**v2.3.0**](https://github.com/jktrn/enscribe.dev/releases/tag/v2.3.0) release or browse the tree at [**`ddda783`**](https://github.com/jktrn/enscribe.dev/tree/ddda783b21d5d49783f4d98e9b06676af8f95031).
+# Run TypeScript and Astro checks
+npx astro check
 
-### Star History
+# Build static output for production
+npm run build
+```
 
-<a href="https://star-history.com/#jktrn/enscribe.dev&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=jktrn/enscribe.dev&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=jktrn/enscribe.dev&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=jktrn/enscribe.dev&type=Date" />
- </picture>
-</a>
+## Attribution & Licensing
 
-
----
-
-<div align="center">
-
-Made with ♥ by [enscribe](https://enscribe.dev)!
-
-</div>
-
-[cc-by-nc-nd]: http://creativecommons.org/licenses/by-nc-nd/4.0/
-[cc-by-nc-nd-shield]: https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg
-
-[CodeFactor]: https://img.shields.io/codefactor/grade/github/jktrn/enscribe.dev?color=2f2a24&logo=codefactor&logoColor=fff&style=for-the-badge
-[Stargazers]: https://img.shields.io/github/stars/jktrn/enscribe.dev?color=463f37&logo=github&logoColor=fff&style=for-the-badge
-[Code License]: https://img.shields.io/badge/code%20license-proprietary-5d5449?style=for-the-badge&logo=github&logoColor=fff
-[Content License]: https://img.shields.io/badge/content%20license-CC%20BY--NC--ND%204.0-756a5b?style=for-the-badge&logo=creativecommons&logoColor=fff
+- **Code License**: Licensed under the [MIT License](LICENSE.md). Based on open-source templates [astro-erudite](https://github.com/jktrn/astro-erudite) and [astro-micro](https://github.com/trevortylerlee/astro-micro).
+- **Content License**: All original blog posts, project writings, and personal media are licensed under [CC BY-NC-ND 4.0](LICENSE.content.md).
