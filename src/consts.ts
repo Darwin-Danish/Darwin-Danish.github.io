@@ -20,7 +20,7 @@ export const SITE: Site = {
     'Software Development',
     'Formula 1',
     'Kapit Sarawak',
-    'Portfolio'
+    'Portfolio',
   ],
 }
 
@@ -36,6 +36,10 @@ export const NAV_LINKS: SocialLink[] = [
   {
     href: '/work/',
     label: 'Work',
+  },
+  {
+    href: '/achievements/',
+    label: 'Achievements',
   },
   {
     href: '/about/',
