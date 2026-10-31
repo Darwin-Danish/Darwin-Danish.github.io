@@ -7,7 +7,7 @@ import { Icon } from 'astro-icon/components'
   type="button"
   aria-label="Scroll back to top"
   title="Scroll to top"
-  class="border-border/80 bg-background/90 text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:ring-ring group fixed right-5 bottom-5 z-40 flex size-11 cursor-pointer items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-all duration-300 opacity-0 pointer-events-none scale-90 translate-y-3 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95 sm:right-8 sm:bottom-8 sm:size-12"
+  class="border-border/80 bg-background/90 text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:ring-ring group pointer-events-none fixed right-5 bottom-5 z-40 flex size-11 translate-y-3 scale-90 cursor-pointer items-center justify-center rounded-full border opacity-0 shadow-md backdrop-blur-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95 sm:right-8 sm:bottom-8 sm:size-12"
 >
   {/* Circular scroll progress indicator ring */}
   <svg
@@ -22,8 +22,7 @@ import { Icon } from 'astro-icon/components'
       r="20"
       fill="none"
       stroke="currentColor"
-      stroke-width="2.5"
-    />
+      stroke-width="2.5"></circle>
     <circle
       id="global-back-to-top-progress"
       class="text-foreground transition-[stroke-dashoffset] duration-150"
@@ -35,8 +34,7 @@ import { Icon } from 'astro-icon/components'
       stroke-width="2.5"
       stroke-linecap="round"
       stroke-dasharray="125.66"
-      stroke-dashoffset="125.66"
-    />
+      stroke-dashoffset="125.66"></circle>
   </svg>
 
   <Icon
@@ -68,8 +66,10 @@ import { Icon } from 'astro-icon/components'
       }
 
       if (this.progressCircle) {
-        this.progressCircle.style.strokeDasharray = CIRCLE_CIRCUMFERENCE.toString()
-        this.progressCircle.style.strokeDashoffset = CIRCLE_CIRCUMFERENCE.toString()
+        this.progressCircle.style.strokeDasharray =
+          CIRCLE_CIRCUMFERENCE.toString()
+        this.progressCircle.style.strokeDashoffset =
+          CIRCLE_CIRCUMFERENCE.toString()
       }
 
       this.button.addEventListener('click', this.scrollToTop)

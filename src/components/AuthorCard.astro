@@ -42,7 +42,7 @@ const nameLink = `/authors/${author.id}/`
         alt={`Avatar of ${name}`}
         fallback={name[0]}
         className={cn(
-          'size-32 rounded-full [&>[data-slot="avatar-fallback"]]:rounded-full [&_img]:object-top',
+          'size-32 rounded-full [&_img]:object-top [&>[data-slot="avatar-fallback"]]:rounded-full',
           !isAuthorPage &&
             'hover:ring-primary transition-shadow duration-300 hover:cursor-pointer hover:ring-2',
         )}

@@ -6,7 +6,12 @@ import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { getAllProjects, parseAuthors } from '@/lib/data-utils'
-import { formatMonthYear, extractDomain, formatDate, readingTime, calculateWordCountFromHtml } from '@/lib/utils'
+import {
+  calculateWordCountFromHtml,
+  extractDomain,
+  formatDate,
+  readingTime,
+} from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import { render } from 'astro:content'
@@ -31,35 +36,44 @@ const postReadingTime = readingTime(calculateWordCountFromHtml(project.body))
 import { SITE } from '@/consts'
 
 const resolvedProjectImage =
-  typeof project.data.image === 'object' && project.data.image && 'src' in project.data.image
+  typeof project.data.image === 'object' &&
+  project.data.image &&
+  'src' in project.data.image
     ? `${SITE.href}${project.data.image.src}`
     : typeof project.data.image === 'string'
       ? `${SITE.href}${project.data.image.startsWith('/') ? project.data.image : '/' + project.data.image}`
       : `${SITE.href}/static/twitter-card.png`
 
 const projectSchema = {
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "name": project.data.name,
-  "description": project.data.description,
-  "image": resolvedProjectImage,
-  "url": Astro.url.href,
-  "author": {
-    "@type": "Person",
-    "name": "Darwin Danish",
-    "legalName": "Darwin Danish Anak Geramong",
-    "url": SITE.href
-  }
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.data.name,
+  description: project.data.description,
+  image: resolvedProjectImage,
+  url: Astro.url.href,
+  author: {
+    '@type': 'Person',
+    name: 'Darwin Danish',
+    legalName: 'Darwin Danish Anak Geramong',
+    url: SITE.href,
+  },
 }
 ---
 
 <Layout>
   <Fragment slot="head">
-    <PageHead title={`${project.data.name} - Project`} description={project.data.description} />
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(projectSchema)} />
+    <PageHead
+      title={`${project.data.name} - Project`}
+      description={project.data.description}
+    />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(projectSchema)}
+    />
   </Fragment>
-  
-  <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)] mb-8">
+
+  <div class="mx-auto mb-8 w-full max-w-[calc(var(--container-3xl)-2rem)]">
     <Breadcrumbs
       items={[
         { href: '/work/', label: 'Work', icon: 'lucide:briefcase' },
@@ -68,86 +82,107 @@ const projectSchema = {
     />
   </div>
 
-  <article class="mx-auto flex max-w-[calc(var(--container-3xl)-2rem)] flex-col gap-y-6">
+  <article
+    class="mx-auto flex max-w-[calc(var(--container-3xl)-2rem)] flex-col gap-y-6"
+  >
     <header class="flex flex-col gap-y-4 text-center sm:text-left">
       <h1 class="text-3xl font-medium sm:text-4xl">{project.data.name}</h1>
       <p class="text-muted-foreground text-lg">{project.data.description}</p>
-      
-      <div class="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between text-muted-foreground text-sm border-y py-3">
-        <div class="flex flex-col items-center justify-center divide-y divide-border sm:flex-row sm:divide-x sm:divide-y-0 text-xs sm:text-sm">
-          {author && (
-            <div class="flex items-center justify-center gap-x-1.5 py-2 sm:py-0 sm:pr-4">
-              <div class="size-5 shrink-0 overflow-hidden rounded-full">
-                <img
-                  src={author.avatar}
-                  alt={author.name}
-                  width="20"
-                  height="20"
-                  class="size-full object-cover object-[50%_0%] scale-[1.5]"
-                />
+
+      <div
+        class="text-muted-foreground mt-2 flex flex-col border-y py-3 text-sm sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div
+          class="divide-border flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:divide-x sm:divide-y-0 sm:text-sm"
+        >
+          {
+            author && (
+              <div class="flex items-center justify-center gap-x-1.5 py-2 sm:py-0 sm:pr-4">
+                <div class="size-5 shrink-0 overflow-hidden rounded-full">
+                  <img
+                    src={author.avatar}
+                    alt={author.name}
+                    width="20"
+                    height="20"
+                    class="size-full scale-[1.5] object-cover object-[50%_0%]"
+                  />
+                </div>
+                <Link
+                  href={`/authors/${author.id}/`}
+                  class="text-foreground font-medium hover:underline"
+                >
+                  <span>{author.name}</span>
+                </Link>
               </div>
-              <Link href={`/authors/${author.id}/`} class="text-foreground font-medium hover:underline">
-                <span>{author.name}</span>
-              </Link>
-            </div>
-          )}
-          
-          {project.data.startDate && (
-            <div class="flex items-center justify-center py-2 sm:py-0 sm:px-4">
-              <span>{formatDate(project.data.startDate)}</span>
-            </div>
-          )}
+            )
+          }
+
+          {
+            project.data.startDate && (
+              <div class="flex items-center justify-center py-2 sm:px-4 sm:py-0">
+                <span>{formatDate(project.data.startDate)}</span>
+              </div>
+            )
+          }
 
           <div class="flex items-center justify-center py-2 sm:py-0 sm:pl-4">
             <span>{postReadingTime}</span>
           </div>
         </div>
 
-        {project.data.link && (
-          <div class="flex justify-center pt-2 sm:pt-0">
-            <Link 
-              href={project.data.link} 
-              external 
-              class="flex items-center gap-x-1 hover:text-foreground hover:underline transition-colors"
-            >
-              <Icon name="lucide:external-link" class="size-4" />
-              <span>{extractDomain(project.data.link) || 'Visit Project'}</span>
-            </Link>
-          </div>
-        )}
+        {
+          project.data.link && (
+            <div class="flex justify-center pt-2 sm:pt-0">
+              <Link
+                href={project.data.link}
+                external
+                class="hover:text-foreground flex items-center gap-x-1 transition-colors hover:underline"
+              >
+                <Icon name="lucide:external-link" class="size-4" />
+                <span>
+                  {extractDomain(project.data.link) || 'Visit Project'}
+                </span>
+              </Link>
+            </div>
+          )
+        }
       </div>
 
-      {project.data.tags && (
-        <div class="flex flex-wrap justify-center sm:justify-start gap-2 mt-2">
-          {project.data.tags.map((tag: string) => (
-            <Badge text={tag} />
-          ))}
-        </div>
-      )}
+      {
+        project.data.tags && (
+          <div class="mt-2 flex flex-wrap justify-center gap-2 sm:justify-start">
+            {project.data.tags.map((tag: string) => (
+              <Badge text={tag} />
+            ))}
+          </div>
+        )
+      }
     </header>
 
-    {project.data.image && (
-       typeof project.data.image === 'object' && 'src' in project.data.image ? (
-        <Image
-          src={project.data.image}
-          alt={project.data.name}
-          width={1200}
-          height={630}
-          class="w-full max-w-5xl mx-auto rounded-lg border object-cover mt-4"
-        />
-      ) : typeof project.data.image === 'string' ? (
-        <img
-          src={project.data.image}
-          alt={project.data.name}
-          width="1200"
-          height="630"
-          loading="lazy"
-          class="w-full max-w-5xl mx-auto rounded-lg border object-cover mt-4"
-        />
-      ) : null
-    )}
+    {
+      project.data.image &&
+        (typeof project.data.image === 'object' &&
+        'src' in project.data.image ? (
+          <Image
+            src={project.data.image}
+            alt={project.data.name}
+            width={1200}
+            height={630}
+            class="mx-auto mt-4 w-full max-w-5xl rounded-lg border object-cover"
+          />
+        ) : typeof project.data.image === 'string' ? (
+          <img
+            src={project.data.image}
+            alt={project.data.name}
+            width="1200"
+            height="630"
+            loading="lazy"
+            class="mx-auto mt-4 w-full max-w-5xl rounded-lg border object-cover"
+          />
+        ) : null)
+    }
 
-    <div class="prose max-w-none mt-4 mx-auto w-full">
+    <div class="prose mx-auto mt-4 w-full max-w-none">
       <Content />
     </div>
   </article>

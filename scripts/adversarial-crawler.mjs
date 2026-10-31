@@ -166,6 +166,7 @@ const findings = {
   zeroByteFiles: [],
   redirects: [],
   circularRedirects: [],
+  nonTrailingSlashLinks: [],
   pagesCrawled: allHtmlFiles.length,
   totalLinksChecked: 0,
   totalAssetsChecked: 0,
@@ -198,6 +199,18 @@ for (const htmlFile of allHtmlFiles) {
     findings.totalLinksChecked++
     const href = m[1]
     const res = resolveDiskPath(href, htmlFile)
+
+    // Check for trailing slash consistency on internal directory routes (preventing 301 redirect hops in GSC)
+    if (href.startsWith('/') && !href.startsWith('//')) {
+      const cleanHref = href.split('?')[0].split('#')[0]
+      if (cleanHref !== '/' && !cleanHref.endsWith('/') && !path.extname(cleanHref)) {
+        findings.nonTrailingSlashLinks.push({
+          from: relHtml,
+          href,
+          expected: cleanHref + '/',
+        })
+      }
+    }
 
     if (res.status === 'MISSING') {
       findings.brokenLinks.push({
@@ -366,6 +379,7 @@ console.log(`Total Assets Verified    : ${findings.totalAssetsChecked}`)
 console.log(`Redirect Stubs Found     : ${findings.redirects.length}`)
 console.log(`Circular Redirects       : ${findings.circularRedirects.length}`)
 console.log(`Broken Redirect Targets  : ${brokenRedirectDestinations.length}`)
+console.log(`Non-Trailing-Slash Links : ${findings.nonTrailingSlashLinks.length}`)
 console.log(`Broken Main Page Links   : ${brokenMainPageLinks.length}`)
 console.log(`Broken Asset References  : ${findings.brokenAssets.length}`)
 console.log(`Casing Mismatches        : ${findings.casingMismatches.length}`)
@@ -378,6 +392,13 @@ console.log(`Contains noindex tag     : ${fallback404.hasNoindex}`)
 console.log(`Contains home page link  : ${fallback404.hasHomeLink}`)
 console.log(`Contains 404 title       : ${fallback404.hasValidTitle}`)
 console.log(`Loads valid stylesheet   : ${fallback404.hasValidStyles}`)
+
+if (findings.nonTrailingSlashLinks.length > 0) {
+  console.log('\n--- Non-Trailing-Slash Internal Links (Causes 301 Redirects in GSC) ---')
+  for (const item of findings.nonTrailingSlashLinks) {
+    console.log(`  [${item.from}] ${item.href} -> expected: ${item.expected}`)
+  }
+}
 
 if (brokenRedirectDestinations.length > 0) {
   console.log('\n--- Sample Broken Redirect Destinations ---')
@@ -401,9 +422,13 @@ const jsonReportPath = path.join(DIST_DIR, 'adversarial-crawl-report.json')
 fs.writeFileSync(jsonReportPath, JSON.stringify({ findings, fallback404 }, null, 2))
 console.log(`Saved detailed JSON report to: ${jsonReportPath}`)
 
-// Exit with code based on broken main page links or circular redirects
-if (findings.circularRedirects.length > 0 || brokenMainPageLinks.length > 0) {
-  console.log('CRITICAL: Found circular redirects or broken main page links!')
+// Exit with code based on broken main page links, non-trailing-slash links, or circular redirects
+if (
+  findings.circularRedirects.length > 0 ||
+  brokenMainPageLinks.length > 0 ||
+  findings.nonTrailingSlashLinks.length > 0
+) {
+  console.log('CRITICAL: Found circular redirects, broken main page links, or non-trailing slash links!')
   process.exit(1)
 } else if (brokenRedirectDestinations.length > 0) {
   console.log('WARNING: Found broken redirect destinations in legacy redirect stubs!')

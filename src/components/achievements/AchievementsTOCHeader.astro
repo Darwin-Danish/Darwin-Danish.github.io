@@ -33,8 +33,7 @@ const sections: TOCItem[] = [
               r="10"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-            />
+              stroke-width="2"></circle>
             <circle
               id="achievements-mobile-progress-circle"
               class="text-foreground"
@@ -46,8 +45,7 @@ const sections: TOCItem[] = [
               stroke-width="2"
               stroke-dasharray="62.83"
               stroke-dashoffset="62.83"
-              transform="rotate(-90 12 12)"
-            />
+              transform="rotate(-90 12 12)"></circle>
           </svg>
         </div>
         <span
@@ -66,7 +64,11 @@ const sections: TOCItem[] = [
     <div
       class="border-border/60 bg-background/95 fixed inset-x-0 z-40 border-b backdrop-blur-md"
     >
-      <ScrollArea client:load className="max-h-[60vh] overflow-y-auto" type="auto">
+      <ScrollArea
+        client:load
+        className="max-h-[60vh] overflow-y-auto"
+        type="auto"
+      >
         <div class="mx-auto max-w-3xl px-4 py-3 font-mono">
           <div
             class="text-muted-foreground mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase"
@@ -119,11 +121,13 @@ const sections: TOCItem[] = [
       this.progressCircle = document.getElementById(
         'achievements-mobile-progress-circle',
       ) as unknown as SVGCircleElement
-      this.links = document.querySelectorAll(
-        '.achievements-mobile-toc-link',
-      )
+      this.links = document.querySelectorAll('.achievements-mobile-toc-link')
 
-      if (!this.detailsElement || !this.currentSectionSpan || !this.progressCircle) {
+      if (
+        !this.detailsElement ||
+        !this.currentSectionSpan ||
+        !this.progressCircle
+      ) {
         return
       }
 
@@ -202,7 +206,8 @@ const sections: TOCItem[] = [
       } else {
         for (let i = this.sections.length - 1; i >= 0; i--) {
           const sectionTop =
-            this.sections[i].element.getBoundingClientRect().top + window.scrollY
+            this.sections[i].element.getBoundingClientRect().top +
+            window.scrollY
           if (scrollPos >= sectionTop) {
             currentSec = this.sections[i]
             break
@@ -215,7 +220,10 @@ const sections: TOCItem[] = [
       this.links?.forEach((link) => {
         const targetId = link.getAttribute('data-toc-target')
         if (targetId === currentSec.id) {
-          link.classList.remove('text-muted-foreground', 'text-muted-foreground/75')
+          link.classList.remove(
+            'text-muted-foreground',
+            'text-muted-foreground/75',
+          )
           link.classList.add('text-foreground', 'font-semibold')
         } else {
           link.classList.remove('text-foreground', 'font-semibold')

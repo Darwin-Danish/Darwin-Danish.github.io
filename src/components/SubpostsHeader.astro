@@ -13,8 +13,13 @@ import { Icon } from 'astro-icon/components'
 const { parentId } = Astro.props
 const currentPostId = Astro.params.id as string
 const currentPostEntry = await getPostById(currentPostId)
-const isCurrentSubpost = currentPostEntry ? isSubpostEntry(currentPostEntry) : false
-const rootParentId = isCurrentSubpost && currentPostEntry?.data.parent_slug ? currentPostEntry.data.parent_slug : parentId
+const isCurrentSubpost = currentPostEntry
+  ? isSubpostEntry(currentPostEntry)
+  : false
+const rootParentId =
+  isCurrentSubpost && currentPostEntry?.data.parent_slug
+    ? currentPostEntry.data.parent_slug
+    : parentId
 
 const currentPost = !isCurrentSubpost ? currentPostEntry : null
 const subposts = await getSubpostsForParent(rootParentId)
@@ -114,7 +119,7 @@ const currentSubpostDetails = isCurrentSubpost
                     </div>
                   ) : (
                     <a
-                      href={`/blog/posts/${activePost.id}`}
+                      href={`/blog/posts/${activePost.id}/`}
                       class="mobile-subposts-link hover:text-foreground text-muted-foreground hover:bg-muted/50 flex items-center gap-2 px-2 py-1.5 text-sm transition-colors"
                     >
                       <Icon
@@ -164,7 +169,7 @@ const currentSubpostDetails = isCurrentSubpost
                       </div>
                     ) : (
                       <a
-                        href={`/blog/posts/${subpost.id}`}
+                        href={`/blog/posts/${subpost.id}/`}
                         class="mobile-subposts-link hover:text-foreground text-muted-foreground hover:bg-muted/50 flex items-center gap-2 px-2 py-1.5 text-sm transition-colors"
                       >
                         <Icon

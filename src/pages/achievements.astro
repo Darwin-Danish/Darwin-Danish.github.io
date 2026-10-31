@@ -50,8 +50,9 @@ const achievementsSchema = {
       '@type': 'ListItem',
       position: idx + 1,
       item: {
-        '@type': 'Award',
-        name: `${comp.award} - ${comp.title}`,
+        '@type': 'CreativeWork',
+        name: `${comp.title}${comp.projectName ? ` (${comp.projectName})` : ''}`,
+        alternateName: comp.projectName,
         description: comp.description,
         award: comp.prize ? `${comp.award} & ${comp.prize}` : comp.award,
         startDate: comp.isoEventDate,
@@ -71,6 +72,12 @@ const achievementsSchema = {
           '@id': `${SITE.href}#person`,
           name: 'Darwin Danish',
         },
+        contributor: comp.team?.map((member) => ({
+          '@type': 'Person',
+          name: member.name,
+          jobTitle: member.role,
+        })),
+        keywords: comp.technologies,
         locationCreated: comp.location
           ? {
               '@type': 'Place',
@@ -243,8 +250,10 @@ const featuredImages = [
       <!-- 2. Press & Media Coverage -->
       <section id="press-room" class="flex scroll-mt-24 flex-col gap-6">
         <div class="flex flex-col gap-1">
-          <div class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase">
-            <Icon name="lucide:newspaper" class="size-4 text-foreground" />
+          <div
+            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:newspaper" class="text-foreground size-4" />
             <span>In The News</span>
           </div>
           <h2 class="text-foreground text-xl font-bold tracking-tight">
@@ -294,11 +303,17 @@ const featuredImages = [
               ))}
             </div>
           ) : (
-            <div class="border-border/80 border-dashed bg-muted/10 text-muted-foreground rounded-lg border p-8 text-center font-mono text-xs">
-              <Icon name="lucide:newspaper" class="mx-auto mb-2.5 size-5 text-muted-foreground/60" />
-              <p class="text-foreground text-sm font-semibold">Nothing here yet</p>
+            <div class="border-border/80 bg-muted/10 text-muted-foreground rounded-lg border border-dashed p-8 text-center font-mono text-xs">
+              <Icon
+                name="lucide:newspaper"
+                class="text-muted-foreground/60 mx-auto mb-2.5 size-5"
+              />
+              <p class="text-foreground text-sm font-semibold">
+                Nothing here yet
+              </p>
               <p class="text-muted-foreground mt-1 text-[11px]">
-                Media coverage and journalistic records are currently being compiled and will be updated soon.
+                Media coverage and journalistic records are currently being
+                compiled and will be updated soon.
               </p>
             </div>
           )
@@ -311,7 +326,7 @@ const featuredImages = [
           <section id="competitions" class="flex scroll-mt-24 flex-col gap-6">
             <div class="flex flex-col gap-1">
               <div class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase">
-                <Icon name="lucide:trophy" class="size-4 text-foreground" />
+                <Icon name="lucide:trophy" class="text-foreground size-4" />
                 <span>Competitions & Honors</span>
               </div>
               <h2 class="text-foreground text-xl font-bold tracking-tight">
@@ -328,7 +343,7 @@ const featuredImages = [
                 <div class="border-border bg-muted/40 text-foreground inline-flex items-center gap-2 rounded border px-3 py-1 font-mono text-xs font-semibold">
                   <Icon
                     name="lucide:award"
-                    class="size-4 shrink-0 text-foreground"
+                    class="text-foreground size-4 shrink-0"
                   />
                   <span>
                     {featuredCompetition.award} • {featuredCompetition.prize}
@@ -376,7 +391,7 @@ const featuredImages = [
                 {featuredImages.length > 0 && (
                   <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
                     {featuredImages.map((img, idx) => (
-                      <figure class="group/photo border-border bg-muted/20 relative m-0 block overflow-hidden rounded-lg border transition-colors hover:border-foreground/40">
+                      <figure class="group/photo border-border bg-muted/20 hover:border-foreground/40 relative m-0 block overflow-hidden rounded-lg border transition-colors">
                         <a
                           href={img.src}
                           target="_blank"
@@ -458,11 +473,15 @@ const featuredImages = [
                   </div>
                 ))
               ) : (
-                <div class="border-border/80 border-dashed bg-muted/10 text-muted-foreground rounded-lg border p-6 text-center font-mono text-xs">
-                  <Icon name="lucide:inbox" class="mx-auto mb-2 size-5 text-muted-foreground/60" />
+                <div class="border-border/80 bg-muted/10 text-muted-foreground rounded-lg border border-dashed p-6 text-center font-mono text-xs">
+                  <Icon
+                    name="lucide:inbox"
+                    class="text-muted-foreground/60 mx-auto mb-2 size-5"
+                  />
                   <p class="text-foreground font-semibold">Nothing here yet</p>
                   <p class="text-muted-foreground mt-1 text-[11px]">
-                    Past competition entries are currently being archived and will be added soon.
+                    Past competition entries are currently being archived and
+                    will be added soon.
                   </p>
                 </div>
               )}
@@ -474,11 +493,10 @@ const featuredImages = [
       {/* 4. Certifications Section */}
       <section id="credentials" class="flex scroll-mt-24 flex-col gap-6">
         <div class="flex flex-col gap-1">
-          <div class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase">
-            <Icon
-              name="lucide:shield-check"
-              class="size-4 text-foreground"
-            />
+          <div
+            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:shield-check" class="text-foreground size-4" />
             <span>Certifications</span>
           </div>
           <h2 class="text-foreground text-xl font-bold tracking-tight">
@@ -497,11 +515,17 @@ const featuredImages = [
               ))}
             </div>
           ) : (
-            <div class="border-border/80 border-dashed bg-muted/10 text-muted-foreground rounded-lg border p-8 text-center font-mono text-xs">
-              <Icon name="lucide:award" class="mx-auto mb-2.5 size-5 text-muted-foreground/60" />
-              <p class="text-foreground text-sm font-semibold">Nothing here yet</p>
+            <div class="border-border/80 bg-muted/10 text-muted-foreground rounded-lg border border-dashed p-8 text-center font-mono text-xs">
+              <Icon
+                name="lucide:award"
+                class="text-muted-foreground/60 mx-auto mb-2.5 size-5"
+              />
+              <p class="text-foreground text-sm font-semibold">
+                Nothing here yet
+              </p>
               <p class="text-muted-foreground mt-1 text-[11px]">
-                Technical certifications and credentials will be uploaded here soon.
+                Technical certifications and credentials will be uploaded here
+                soon.
               </p>
             </div>
           )
@@ -514,15 +538,15 @@ const featuredImages = [
           <div
             class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
           >
-            <Icon name="lucide:graduation-cap" class="size-4 text-foreground" />
+            <Icon name="lucide:graduation-cap" class="text-foreground size-4" />
             <span>Academic Foundations</span>
           </div>
           <h2 class="text-foreground text-xl font-bold tracking-tight">
             Academic Background & STEM Focus
           </h2>
           <p class="text-muted-foreground text-xs sm:text-sm">
-            Current secondary education at SMK Kapit (Kapit National Secondary School)
-            and core scientific disciplines.
+            Current secondary education at SMK Kapit (Kapit National Secondary
+            School) and core scientific disciplines.
           </p>
         </div>
 

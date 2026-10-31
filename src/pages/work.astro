@@ -13,39 +13,46 @@ const years = Object.keys(projectsByYear).sort(
 const hasProjects = projects.length > 0
 
 // Calculate last updated date from the most recent project
-const lastUpdatedDate = projects.length > 0
-  ? new Date(Math.max(...projects.map(p => (p.data.endDate || p.data.startDate || new Date(0)).getTime())))
-  : new Date();
+const lastUpdatedDate =
+  projects.length > 0
+    ? new Date(
+        Math.max(
+          ...projects.map((p) =>
+            (p.data.endDate || p.data.startDate || new Date(0)).getTime(),
+          ),
+        ),
+      )
+    : new Date()
 
-import { formatDate } from '@/lib/utils'
 import { SITE } from '@/consts'
+import { formatDate } from '@/lib/utils'
 
 const workSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Projects by Darwin Danish",
-  "description": "Showcase of projects and engineering work by Darwin Danish.",
-  "itemListElement": projects.map((project, idx) => ({
-    "@type": "ListItem",
-    "position": idx + 1,
-    "item": {
-      "@type": "CreativeWork",
-      "name": project.data.name,
-      "description": project.data.description,
-      "url": project.data.link || `${SITE.href}/work/`,
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Projects by Darwin Danish',
+  description: 'Showcase of projects and engineering work by Darwin Danish.',
+  itemListElement: projects.map((project, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'CreativeWork',
+      name: project.data.name,
+      description: project.data.description,
+      url: project.data.link || `${SITE.href}/work/`,
       ...(project.data.image
         ? {
-            "image":
+            image:
               typeof project.data.image === 'string'
                 ? `${SITE.href}${project.data.image.startsWith('/') ? project.data.image : '/' + project.data.image}`
                 : `${SITE.href}/static/twitter-card.png`,
           }
         : {}),
-      "author": {
-        "@type": "Person",
-        "name": "Darwin Danish",
-        "legalName": "Darwin Danish Anak Geramong",
-        "url": SITE.href,
+      author: {
+        '@type': 'Person',
+        name: 'Darwin Danish',
+        legalName: 'Darwin Danish Anak Geramong',
+        url: SITE.href,
       },
     },
   })),
@@ -55,7 +62,11 @@ const workSchema = {
 <Layout>
   <Fragment slot="head">
     <PageHead title="Work" />
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(workSchema)} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(workSchema)}
+    />
   </Fragment>
   <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
     <Breadcrumbs items={[{ label: 'Work', icon: 'lucide:briefcase' }]} />
@@ -64,9 +75,11 @@ const workSchema = {
   <section
     class="mx-auto flex w-full max-w-[calc(var(--container-3xl)-2rem)] flex-col gap-4 text-left"
   >
-    <div class="flex flex-col mb-4">
-      <h3 class="text-lg font-medium mb-1">
-        Some work I&rsquo;ve done <span class="text-muted-foreground">ヽ(o^ ^o)ﾉ</span>
+    <div class="mb-4 flex flex-col">
+      <h3 class="mb-1 text-lg font-medium">
+        Some work I&rsquo;ve done <span class="text-muted-foreground"
+          >ヽ(o^ ^o)ﾉ</span
+        >
       </h3>
       <span class="text-muted-foreground text-xs">
         Last updated: {formatDate(lastUpdatedDate)}

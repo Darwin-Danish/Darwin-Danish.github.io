@@ -35,16 +35,16 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 const hasPosts = paginatedPosts.length > 0
 
 const blogIndexSchema = {
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": `Blog - ${SITE.title}`,
-  "description": SITE.description,
-  "url": `${SITE.href}/blog/`,
-  "author": {
-    "@type": "Person",
-    "name": "Darwin Danish",
-    "legalName": "Darwin Danish Anak Geramong",
-    "url": SITE.href,
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: `Blog - ${SITE.title}`,
+  description: SITE.description,
+  url: `${SITE.href}/blog/`,
+  author: {
+    '@type': 'Person',
+    name: 'Darwin Danish',
+    legalName: 'Darwin Danish Anak Geramong',
+    url: SITE.href,
   },
 }
 ---
@@ -52,7 +52,11 @@ const blogIndexSchema = {
 <Layout class="max-w-3xl">
   <Fragment slot="head">
     <PageHead title="Blog" />
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(blogIndexSchema)} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(blogIndexSchema)}
+    />
   </Fragment>
   <Breadcrumbs
     items={[

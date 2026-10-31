@@ -63,9 +63,7 @@ const tocItems: TOCItem[] = [
     sections: { id: string; top: number }[] = []
 
     init() {
-      this.links = document.querySelectorAll(
-        '.achievements-desktop-toc-link',
-      )
+      this.links = document.querySelectorAll('.achievements-desktop-toc-link')
       if (!this.links || this.links.length === 0) return
 
       this.cacheSectionPositions()
@@ -121,7 +119,10 @@ const tocItems: TOCItem[] = [
         const isActive = targetId === activeId
 
         if (isActive) {
-          link.classList.remove('text-muted-foreground', 'text-muted-foreground/75')
+          link.classList.remove(
+            'text-muted-foreground',
+            'text-muted-foreground/75',
+          )
           link.classList.add('text-foreground', 'font-semibold')
           if (link.classList.contains('border-l')) {
             link.classList.remove('border-border/50')

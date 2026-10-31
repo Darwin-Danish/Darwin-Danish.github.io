@@ -34,7 +34,7 @@ const MobileMenu = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="hover:bg-muted/40 relative size-9 rounded-md border border-border/40 text-foreground transition-colors focus-visible:ring-1 focus-visible:ring-foreground"
+            className="hover:bg-muted/40 border-border/40 text-foreground focus-visible:ring-foreground relative size-9 rounded-md border transition-colors focus-visible:ring-1"
             aria-label="Toggle navigation menu"
           >
             {isOpen ? <X className="size-4" /> : <Menu className="size-4" />}

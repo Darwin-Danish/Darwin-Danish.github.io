@@ -78,32 +78,36 @@ const resolvedPostImage =
       : `${SITE.href}/static/twitter-card.png`
 
 const blogSchema = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.data.title,
-  "description": post.data.description,
-  "url": Astro.url.href,
-  "datePublished": post.data.date ? post.data.date.toISOString() : undefined,
-  "image": resolvedPostImage,
-  "author": {
-    "@type": "Person",
-    "name": "Darwin Danish",
-    "legalName": "Darwin Danish Anak Geramong",
-    "url": SITE.href
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  url: Astro.url.href,
+  datePublished: post.data.date ? post.data.date.toISOString() : undefined,
+  image: resolvedPostImage,
+  author: {
+    '@type': 'Person',
+    name: 'Darwin Danish',
+    legalName: 'Darwin Danish Anak Geramong',
+    url: SITE.href,
   },
-  "publisher": {
-    "@type": "Person",
-    "name": "Darwin Danish",
-    "legalName": "Darwin Danish Anak Geramong",
-    "url": SITE.href
-  }
+  publisher: {
+    '@type': 'Person',
+    name: 'Darwin Danish',
+    legalName: 'Darwin Danish Anak Geramong',
+    url: SITE.href,
+  },
 }
 ---
 
 <Layout>
   <Fragment slot="head">
     <PostHead post={post} />
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(blogSchema)} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(blogSchema)}
+    />
   </Fragment>
   {
     (hasChildPosts || isCurrentSubpost) && (
@@ -132,19 +136,19 @@ const blogSchema = {
           ...(isCurrentSubpost && parentPost
             ? [
                 {
-                  href: `/blog/posts/${parentPost.id}`,
+                  href: `/blog/posts/${parentPost.id}/`,
                   label: parentPost.data.title,
                   icon: 'lucide:book-open',
                 },
                 {
-                  href: `/blog/posts/${currentPostId}`,
+                  href: `/blog/posts/${currentPostId}/`,
                   label: post.data.title,
                   icon: 'lucide:file-text',
                 },
               ]
             : [
                 {
-                  href: `/blog/posts/${currentPostId}`,
+                  href: `/blog/posts/${currentPostId}/`,
                   label: post.data.title,
                   icon: 'lucide:book-open-text',
                 },
@@ -199,7 +203,7 @@ const blogSchema = {
                         width="20"
                         height="20"
                         loading="lazy"
-                        class="size-full object-cover object-[50%_0%] scale-[1.5]"
+                        class="size-full scale-[1.5] object-cover object-[50%_0%]"
                       />
                     </div>
                     {author.isRegistered ? (

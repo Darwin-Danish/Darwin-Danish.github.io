@@ -19,9 +19,9 @@ const {
 
 const pageTitle = title === SITE.title ? title : `${title} | ${SITE.title}`
 const image = customImage
-  ? (customImage.startsWith('http')
-      ? customImage
-      : new URL(customImage, Astro.site).href)
+  ? customImage.startsWith('http')
+    ? customImage
+    : new URL(customImage, Astro.site).href
   : new URL('/static/twitter-card.png', Astro.site).href
 ---
 

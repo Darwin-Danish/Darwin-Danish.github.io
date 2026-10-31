@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import {
-  GraduationCap,
-  ChevronDown,
-  ChevronUp,
-  BookOpen,
-} from 'lucide-react'
+import { GraduationCap, ChevronDown, ChevronUp, BookOpen } from 'lucide-react'
 
 interface AcademicDetail {
   label: string
@@ -48,7 +43,8 @@ const MILESTONES: Milestone[] = [
       },
       {
         label: 'Applied Interests',
-        value: 'Computer Engineering, IoT Prototyping, Machine Learning, Applied Algorithms',
+        value:
+          'Computer Engineering, IoT Prototyping, Machine Learning, Applied Algorithms',
       },
     ],
     icon: 'school',
@@ -69,17 +65,17 @@ export default function InteractiveTimeline() {
       <div className="relative pl-6 sm:pl-8">
         {/* Continuous Spine Line */}
         <div
-          className="bg-border absolute top-3 bottom-3 left-2.5 sm:left-3 w-px"
+          className="bg-border absolute top-3 bottom-3 left-2.5 w-px sm:left-3"
           aria-hidden="true"
         />
 
         <div className="relative">
           {/* Node Marker centered on spine */}
           <div
-            className="border-foreground bg-background absolute top-4 left-[-18px] sm:left-[-22px] z-10 flex size-5 sm:size-6 items-center justify-center rounded-full border-2 text-foreground shadow-sm"
+            className="border-foreground bg-background text-foreground absolute top-4 left-[-18px] z-10 flex size-5 items-center justify-center rounded-full border-2 shadow-sm sm:left-[-22px] sm:size-6"
             aria-hidden="true"
           >
-            <GraduationCap className="size-3 sm:size-3.5 text-foreground" />
+            <GraduationCap className="text-foreground size-3 sm:size-3.5" />
           </div>
 
           {/* Node Card */}
@@ -88,7 +84,7 @@ export default function InteractiveTimeline() {
               {/* Header Info */}
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                 <span className="border-border bg-muted/40 text-foreground inline-flex items-center gap-1.5 rounded border px-2 py-0.5 font-mono text-[11px] font-semibold">
-                  <BookOpen className="size-3 text-foreground" />
+                  <BookOpen className="text-foreground size-3" />
                   <span>SMK KAPIT</span>
                 </span>
                 <span className="text-muted-foreground font-mono text-xs">

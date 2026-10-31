@@ -141,7 +141,10 @@ const useWakatimeData = (omitLanguages: string[]) => {
         )
 
         const processedLanguages = filteredData.map(
-          (lang: { name: string; hours?: number; percent?: number }, index: number) => {
+          (
+            lang: { name: string; hours?: number; percent?: number },
+            index: number,
+          ) => {
             let percent = 0
             if (lang.percent !== undefined) {
               percent = lang.percent
@@ -192,7 +195,9 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
     return (
       <div className="flex h-full items-center justify-center rounded-3xl p-4">
         <div className="text-center">
-          <p className="text-muted-foreground text-sm">No activity recorded yet</p>
+          <p className="text-muted-foreground text-sm">
+            No activity recorded yet
+          </p>
         </div>
       </div>
     )
