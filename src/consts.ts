@@ -10,13 +10,17 @@ export const SITE: Site = {
   featuredPostCount: 2,
   postsPerPage: 4,
   keywords: [
+    'Darwin Danish',
+    'Darwin Danish Anak Geramong',
+    'Computer Science',
     'Computer Engineering',
     'IoT',
     'Machine Learning',
-    'Software Development',
     'Artificial Intelligence',
-    'Portfolio',
-    'Darwin Danish',
+    'Software Development',
+    'Formula 1',
+    'Kapit Sarawak',
+    'Portfolio'
   ],
 }
 
@@ -53,6 +57,18 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'Instagram',
   },
   {
+    href: 'https://www.threads.net/@darwin.danish29',
+    label: 'Threads',
+  },
+  {
+    href: 'https://huggingface.co/DarwinDanish',
+    label: 'Hugging Face',
+  },
+  {
+    href: 'https://pypi.org/user/DarwinDanish/',
+    label: 'PyPI',
+  },
+  {
     href: 'https://gravatar.com/darwindanish',
     label: 'Gravatar',
   },
@@ -69,10 +85,13 @@ export const SOCIAL_LINKS: SocialLink[] = [
 export const ICON_MAP: IconMap = {
   Website: 'lucide:globe',
   Instagram: 'lucide:instagram',
+  Threads: 'simple-icons:threads',
   Gravatar: 'simple-icons:gravatar',
   LinkedIn: 'simple-icons:linkedin',
   GitHub: 'simple-icons:github',
   Discord: 'simple-icons:discord',
+  'Hugging Face': 'simple-icons:huggingface',
+  PyPI: 'simple-icons:pypi',
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
 }

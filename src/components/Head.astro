@@ -20,6 +20,8 @@ const personSchema = {
   ],
   "givenName": "Darwin Danish",
   "familyName": "Anak Geramong",
+  "gender": "https://schema.org/Male",
+  "birthDate": "2009-02-24",
   "url": SITE.href,
   "jobTitle": "Student & Computer Engineering Enthusiast",
   "description": author?.bio || SITE.description,
@@ -30,24 +32,74 @@ const personSchema = {
           : `${SITE.href}${author.avatar.startsWith('/') ? author.avatar : '/' + author.avatar}`)
       : `${SITE.href}/static/logo.png`,
   ],
+  "homeLocation": {
+    "@type": "Place",
+    "name": "Kapit",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kapit",
+      "addressRegion": "Sarawak",
+      "addressCountry": "MY"
+    }
+  },
+  "nationality": {
+    "@type": "Country",
+    "name": "Malaysia"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Kapit National Secondary School",
+    "alternateName": "SMK Kapit"
+  },
+  "knowsLanguage": [
+    {
+      "@type": "Language",
+      "name": "Malay",
+      "alternateName": "ms"
+    },
+    {
+      "@type": "Language",
+      "name": "English",
+      "alternateName": "en"
+    },
+    {
+      "@type": "Language",
+      "name": "German",
+      "alternateName": "de"
+    },
+    {
+      "@type": "Language",
+      "name": "Spanish",
+      "alternateName": "es"
+    }
+  ],
   "sameAs": [
     author?.website && author.website !== SITE.href ? author.website : null,
-    author?.github,
-    author?.linkedin,
-    author?.twitter,
+    author?.github || "https://github.com/Darwin-Danish",
+    author?.linkedin || "https://linkedin.com/in/darwin-danish",
+    author?.instagram || "https://www.instagram.com/darwin.danish29",
+    author?.threads || "https://www.threads.net/@darwin.danish29",
+    author?.gravatar || "https://gravatar.com/darwindanish",
+    author?.huggingface || "https://huggingface.co/DarwinDanish",
+    author?.pypi || "https://pypi.org/user/DarwinDanish/",
+    author?.stackoverflow || "https://stackoverflow.com/users/22384131/darwin-danish",
+    author?.gitlab || "https://gitlab.com/darwindanish",
+    author?.kofi || "https://ko-fi.com/darwindanish",
+    author?.facebook,
     author?.discord,
-    author?.discordInvite,
-    "https://huggingface.co/DarwinDanish",
-    "https://peerlist.io/darwindanish",
-    "https://stackoverflow.com/users/22384131/darwin-danish",
   ].filter(Boolean),
   "knowsAbout": [
+    "Computer Science",
     "Computer Engineering",
     "IoT",
+    "Internet of Things",
     "Machine Learning",
+    "Artificial Intelligence",
     "Robotics",
-    "Astronomy",
-    "Software Development"
+    "Coding",
+    "Software Development",
+    "Formula 1",
+    "Motorsport Tech & Innovation"
   ]
 }
 ---
