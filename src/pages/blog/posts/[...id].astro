@@ -87,14 +87,14 @@ const blogSchema = {
   image: resolvedPostImage,
   author: {
     '@type': 'Person',
+    '@id': `${SITE.href}#person`,
     name: 'Darwin Danish',
-    legalName: 'Darwin Danish Anak Geramong',
     url: SITE.href,
   },
   publisher: {
     '@type': 'Person',
+    '@id': `${SITE.href}#person`,
     name: 'Darwin Danish',
-    legalName: 'Darwin Danish Anak Geramong',
     url: SITE.href,
   },
 }
