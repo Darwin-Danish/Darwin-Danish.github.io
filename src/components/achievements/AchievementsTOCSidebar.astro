@@ -98,11 +98,19 @@ const tocItems: TOCItem[] = [
       const scrollPos = window.scrollY + HEADER_OFFSET
       let activeId = ''
 
-      for (let i = this.sections.length - 1; i >= 0; i--) {
-        const sec = this.sections[i]
-        if (sec.element.offsetTop <= scrollPos) {
-          activeId = sec.id
-          break
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 60
+      ) {
+        activeId = this.sections[this.sections.length - 1].id
+      } else {
+        for (let i = this.sections.length - 1; i >= 0; i--) {
+          const sec = this.sections[i]
+          const top = sec.element.getBoundingClientRect().top + window.scrollY
+          if (top <= scrollPos) {
+            activeId = sec.id
+            break
+          }
         }
       }
 

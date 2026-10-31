@@ -5,13 +5,16 @@ import { Icon } from 'astro-icon/components'
 interface TOCItem {
   id: string
   label: string
+  sub?: boolean
 }
 
 const sections: TOCItem[] = [
-  { id: 'press-room', label: 'In The News' },
-  { id: 'competitions', label: 'Competitions & Hackathons' },
-  { id: 'credentials', label: 'Certifications & Credentials' },
-  { id: 'timeline', label: 'Engineering Milestones' },
+  { id: 'press-room', label: 'In The News', sub: false },
+  { id: 'competitions', label: 'Competitions & Hackathons', sub: false },
+  { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)', sub: true },
+  { id: 'additional-competitions', label: 'Additional Challenges', sub: true },
+  { id: 'credentials', label: 'Certifications & Credentials', sub: false },
+  { id: 'timeline', label: 'Engineering Milestones', sub: false },
 ]
 ---
 
@@ -77,7 +80,11 @@ const sections: TOCItem[] = [
               <li>
                 <a
                   href={`#${section.id}`}
-                  class="achievements-mobile-toc-item text-muted-foreground hover:text-foreground block py-1 transition-colors"
+                  class={`achievements-mobile-toc-item block py-1 transition-colors ${
+                    section.sub
+                      ? 'border-border/50 text-muted-foreground/75 hover:text-foreground ml-3 border-l pl-3'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
                   data-section-id={section.id}
                 >
                   {section.label}
@@ -119,7 +126,14 @@ const sections: TOCItem[] = [
       this.details = container.querySelector('details')
       this.list = document.getElementById('achievements-mobile-toc-list')
 
-      const sectionIds = ['press-room', 'competitions', 'credentials', 'timeline']
+      const sectionIds = [
+        'press-room',
+        'competitions',
+        'featured-champion',
+        'additional-competitions',
+        'credentials',
+        'timeline',
+      ]
       this.sections = sectionIds
         .map((id) => ({
           id,
@@ -178,16 +192,31 @@ const sections: TOCItem[] = [
       const labelMap: Record<string, string> = {
         'press-room': 'In The News',
         competitions: 'Competitions & Hackathons',
+        'featured-champion': 'Mini Inno Waste 2.0 (Juara)',
+        'additional-competitions': 'Additional Challenges',
         credentials: 'Certifications & Credentials',
         timeline: 'Engineering Milestones',
       }
 
-      for (let i = this.sections.length - 1; i >= 0; i--) {
-        const sec = this.sections[i]
-        if (sec.element.offsetTop <= scrollPos) {
-          currentId = sec.id
-          currentLabel = labelMap[sec.id] || INITIAL_LABEL
-          break
+      if (window.scrollY < 80) {
+        currentId = ''
+        currentLabel = INITIAL_LABEL
+      } else if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 60
+      ) {
+        const last = this.sections[this.sections.length - 1]
+        currentId = last.id
+        currentLabel = labelMap[last.id] || INITIAL_LABEL
+      } else {
+        for (let i = this.sections.length - 1; i >= 0; i--) {
+          const sec = this.sections[i]
+          const top = sec.element.getBoundingClientRect().top + window.scrollY
+          if (top <= scrollPos) {
+            currentId = sec.id
+            currentLabel = labelMap[sec.id] || INITIAL_LABEL
+            break
+          }
         }
       }
 

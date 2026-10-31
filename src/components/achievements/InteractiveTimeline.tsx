@@ -368,7 +368,7 @@ export default function InteractiveTimeline() {
                 <div key={milestone.id} className="group relative">
                   {/* Spine Node Marker */}
                   <div
-                    className={`bg-background absolute top-4 left-[-26px] z-10 flex size-6 items-center justify-center rounded-full border transition-colors sm:left-[-32px] sm:size-7 ${
+                    className={`bg-background absolute top-4 left-[-32px] z-10 flex size-6 items-center justify-center rounded-full border transition-colors sm:left-[-38px] sm:size-7 ${
                       isFeatured
                         ? 'border-foreground/60'
                         : 'border-border group-hover:border-foreground/40'
@@ -378,7 +378,7 @@ export default function InteractiveTimeline() {
                   </div>
 
                   {/* Horizontal Trace Line */}
-                  <div className="border-border/60 absolute top-[27px] left-[-2px] h-[1px] w-2 border-t sm:left-[-4px] sm:w-4" />
+                  <div className="border-border/60 absolute top-[27px] left-[-8px] h-[1px] w-2 border-t sm:left-[-10px] sm:w-2.5" />
 
                   {/* Milestone Card */}
                   <div

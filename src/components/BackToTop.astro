@@ -5,30 +5,71 @@ import { Icon } from 'astro-icon/components'
 <button
   id="global-back-to-top"
   type="button"
-  aria-label="Scroll to top"
+  aria-label="Scroll back to top"
   title="Scroll to top"
-  class="border-border bg-background/85 text-muted-foreground hover:border-foreground/40 hover:bg-muted/80 hover:text-foreground focus-visible:ring-ring fixed right-6 bottom-6 z-40 hidden size-10 items-center justify-center rounded-full border shadow-sm backdrop-blur transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95 group sm:right-8 sm:bottom-8"
+  class="border-border/80 bg-background/90 text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:ring-ring group fixed right-5 bottom-5 z-40 flex size-11 cursor-pointer items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-all duration-300 opacity-0 pointer-events-none scale-90 translate-y-3 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95 sm:right-8 sm:bottom-8 sm:size-12"
 >
+  {/* Circular scroll progress indicator ring */}
+  <svg
+    class="pointer-events-none absolute inset-0 size-full -rotate-90 p-0.5"
+    viewBox="0 0 48 48"
+    aria-hidden="true"
+  >
+    <circle
+      class="text-border/40"
+      cx="24"
+      cy="24"
+      r="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+    />
+    <circle
+      id="global-back-to-top-progress"
+      class="text-foreground transition-[stroke-dashoffset] duration-150"
+      cx="24"
+      cy="24"
+      r="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-dasharray="125.66"
+      stroke-dashoffset="125.66"
+    />
+  </svg>
+
   <Icon
     name="lucide:arrow-up"
-    class="size-4 transition-transform duration-200 group-hover:-translate-y-0.5"
+    class="size-4.5 transition-transform duration-200 group-hover:-translate-y-0.5 sm:size-5"
   />
 </button>
 
 <script>
+  const CIRCLE_RADIUS = 20
+  const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS // ~125.6637
+
   class BackToTopController {
     button: HTMLElement | null = null
-    footer: HTMLElement | null = null
+    progressCircle: SVGCircleElement | null = null
 
     init() {
       this.button = document.getElementById('global-back-to-top')
-      this.footer = document.querySelector('footer')
+      this.progressCircle = document.getElementById(
+        'global-back-to-top-progress',
+      ) as unknown as SVGCircleElement
+
       if (!this.button) return
 
-      // Completely disabled on home route
+      // Strictly hidden on home page (/)
       if (this.isHomePage()) {
         this.hide()
         return
+      }
+
+      if (this.progressCircle) {
+        this.progressCircle.style.strokeDasharray = CIRCLE_CIRCUMFERENCE.toString()
+        this.progressCircle.style.strokeDashoffset = CIRCLE_CIRCUMFERENCE.toString()
       }
 
       this.button.addEventListener('click', this.scrollToTop)
@@ -48,14 +89,19 @@ import { Icon } from 'astro-icon/components'
         return
       }
 
-      const scrolledEnough = window.scrollY > 300
-      let footerVisible = false
-      if (this.footer) {
-        const footerRect = this.footer.getBoundingClientRect()
-        footerVisible = footerRect.top <= window.innerHeight
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight
+      const scrollY = window.scrollY
+
+      // Update circular progress ring
+      if (this.progressCircle && scrollable > 0) {
+        const progress = Math.min(Math.max(scrollY / scrollable, 0), 1)
+        const offset = CIRCLE_CIRCUMFERENCE * (1 - progress)
+        this.progressCircle.style.strokeDashoffset = offset.toString()
       }
 
-      if (scrolledEnough && !footerVisible) {
+      // Show button after 250px of scroll; stays visible even at footer
+      if (scrollY > 250) {
         this.show()
       } else {
         this.hide()
@@ -64,14 +110,36 @@ import { Icon } from 'astro-icon/components'
 
     show() {
       if (!this.button) return
-      this.button.classList.remove('hidden')
-      this.button.classList.add('flex')
+      this.button.classList.remove(
+        'opacity-0',
+        'pointer-events-none',
+        'scale-90',
+        'translate-y-3',
+      )
+      this.button.classList.add(
+        'opacity-100',
+        'pointer-events-auto',
+        'scale-100',
+        'translate-y-0',
+      )
+      this.button.setAttribute('aria-hidden', 'false')
     }
 
     hide() {
       if (!this.button) return
-      this.button.classList.add('hidden')
-      this.button.classList.remove('flex')
+      this.button.classList.add(
+        'opacity-0',
+        'pointer-events-none',
+        'scale-90',
+        'translate-y-3',
+      )
+      this.button.classList.remove(
+        'opacity-100',
+        'pointer-events-auto',
+        'scale-100',
+        'translate-y-0',
+      )
+      this.button.setAttribute('aria-hidden', 'true')
     }
 
     scrollToTop = () => {

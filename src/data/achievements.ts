@@ -50,6 +50,7 @@ export interface Competition {
   technologies?: string[]
   specs?: CompetitionSpec[]
   images?: CompetitionImage[]
+  image?: string // Direct path to certificate or award photo e.g. "/uploads/award.jpg"
   link?: string
   linkLabel?: string
   featured?: boolean

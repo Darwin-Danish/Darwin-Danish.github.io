@@ -26,84 +26,56 @@ const achievementsSchema = {
   datePublished: '2024-11-09',
   dateModified: currentIsoDate,
   itemListElement: [
-    {
+    ...competitions.map((comp, idx) => ({
       '@type': 'ListItem',
-      position: 1,
+      position: idx + 1,
       item: {
         '@type': 'Award',
-        name: '1st Place Champion (Juara Pertama) - Pertandingan Reka Cipta Mini Inno Waste 2.0',
-        description:
-          'Secured 1st Place Grand Prize and RM 1,000 cash award for Project Lumina, an AI-powered conversational recycling bin engineered from repurposed vehicle tires, Raspberry Pi 4, and speech recognition models.',
-        award: '1st Place Champion (Juara Pertama) & RM 1,000 Grand Prize',
-        startDate: '2024-11-09',
-        datePublished: '2024-11-09',
+        name: `${comp.award} - ${comp.title}`,
+        description: comp.description,
+        award: comp.prize ? `${comp.award} & ${comp.prize}` : comp.award,
+        startDate: comp.isoEventDate,
+        datePublished: comp.isoEventDate,
         dateModified: currentIsoDate,
         sponsor: {
           '@type': 'Organization',
-          name: 'Pejabat Pendidikan Daerah (PPD) Kapit & Environmental Education Council',
+          name: comp.organizer,
         },
         recipient: {
           '@type': 'Person',
           '@id': `${SITE.href}#person`,
           name: 'Darwin Danish',
         },
+        ...(comp.link
+          ? {
+              url: comp.link.startsWith('http')
+                ? comp.link
+                : `${SITE.href}${comp.link.startsWith('/') ? comp.link : '/' + comp.link}`,
+            }
+          : {}),
       },
-    },
-    {
+    })),
+    ...certifications.map((cert, idx) => ({
       '@type': 'ListItem',
-      position: 2,
+      position: competitions.length + idx + 1,
       item: {
-        '@type': 'CreativeWork',
-        name: 'Project Lumina: AI-Powered Eco-Friendly Interactive Bin',
-        headline:
-          'AI-Powered Conversational Recycling System with WhatsApp Alerts',
-        description:
-          'Interactive IoT bin combining recycled tire chassis, Raspberry Pi, OpenAI Whisper speech transcription, and automated WhatsApp alert dispatch.',
-        dateCreated: '2024-11-09',
-        dateModified: currentIsoDate,
-        url: `${SITE.href}/blog/posts/lumina-journey/`,
-        author: {
-          '@type': 'Person',
-          '@id': `${SITE.href}#person`,
-          name: 'Darwin Danish',
+        '@type': 'EducationalOccupationalCredential',
+        name: cert.name,
+        credentialCategory: 'certification',
+        recognizedBy: {
+          '@type': 'Organization',
+          name: cert.issuer,
         },
-      },
-    },
-    {
-      '@type': 'ListItem',
-      position: 3,
-      item: {
-        '@type': 'CreativeWork',
-        name: 'Exoplanet Classifier (Stacking Ensembles)',
-        headline:
-          'Machine Learning Pipeline for Astronomical Light Curve Analysis',
-        description:
-          'Stacking ensemble meta-classifier on Kepler space telescope photometry distinguishing exoplanet candidates from astrophysical false alarms.',
-        dateCreated: '2025-11-23',
+        dateCreated: cert.isoDate || cert.issueDate,
         dateModified: currentIsoDate,
-        url: 'https://huggingface.co/DarwinDanish/exoplanet-classifier-stacking',
-        author: {
-          '@type': 'Person',
-          '@id': `${SITE.href}#person`,
-          name: 'Darwin Danish',
-        },
-      },
-    },
-    {
-      '@type': 'ListItem',
-      position: 4,
-      item: {
-        '@type': 'Achievement',
-        name: 'Engineering Milestones: SMK Kapit to Advanced AI Research',
-        description:
-          'Chronological progression from electronics prototyping at Kapit National Secondary School to autonomous robotics, full-stack IoT systems, and machine learning models.',
+        ...(cert.verificationUrl ? { url: cert.verificationUrl } : {}),
         recipient: {
           '@type': 'Person',
           '@id': `${SITE.href}#person`,
           name: 'Darwin Danish',
         },
       },
-    },
+    })),
   ],
 }
 
@@ -112,6 +84,19 @@ const featuredCompetition =
 const otherCompetitions = competitions.filter(
   (c) => c.id !== featuredCompetition.id,
 )
+
+const featuredImages = [
+  ...(featuredCompetition.images || []),
+  ...(featuredCompetition.image
+    ? [
+        {
+          src: featuredCompetition.image,
+          alt: `${featuredCompetition.title} Photo`,
+          caption: `${featuredCompetition.title} Evidence`,
+        },
+      ]
+    : []),
+]
 ---
 
 <Layout>
@@ -315,26 +300,32 @@ const otherCompetitions = competitions.filter(
 
             <!-- Real Photo Evidence Gallery -->
             {
-              featuredCompetition.images &&
-                featuredCompetition.images.length > 0 && (
-                  <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
-                    {featuredCompetition.images.map((img) => (
-                      <div class="border-border bg-muted/20 overflow-hidden rounded-lg border">
-                        <img
-                          src={img.src}
-                          alt={img.alt}
-                          loading="lazy"
-                          class="h-56 w-full object-cover object-top sm:h-64"
+              featuredImages.length > 0 && (
+                <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+                  {featuredImages.map((img) => (
+                    <a
+                      href={img.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="group/photo border-border bg-muted/20 relative block overflow-hidden rounded-lg border transition-colors hover:border-foreground/40"
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        loading="lazy"
+                        class="h-56 w-full object-cover object-top transition-transform duration-200 group-hover/photo:scale-[1.02] sm:h-64"
+                      />
+                      <div class="border-border/60 bg-background/90 text-muted-foreground flex items-center justify-between border-t p-2.5 font-mono text-[11px]">
+                        <span>{img.caption || 'Award Evidence'}</span>
+                        <Icon
+                          name="lucide:external-link"
+                          class="size-3 shrink-0 text-foreground"
                         />
-                        {img.caption && (
-                          <div class="border-border/60 bg-background/90 text-muted-foreground border-t p-2.5 font-mono text-[11px]">
-                            {img.caption}
-                          </div>
-                        )}
                       </div>
-                    ))}
-                  </div>
-                )
+                    </a>
+                  ))}
+                </div>
+              )
             }
 
             <!-- Bottom Action & Tech Tags -->
@@ -427,25 +418,40 @@ const otherCompetitions = competitions.filter(
                     </div>
                   )}
 
-                  {comp.images && comp.images.length > 0 && (
-                    <div class="grid grid-cols-1 gap-2 pt-2 sm:grid-cols-2">
-                      {comp.images.map((img) => (
-                        <div class="border-border overflow-hidden rounded border">
-                          <img
-                            src={img.src}
-                            alt={img.alt}
-                            loading="lazy"
-                            class="h-44 w-full object-cover"
-                          />
-                          {img.caption && (
-                            <div class="bg-background text-muted-foreground p-1.5 text-[10px]">
-                              {img.caption}
+                  {(() => {
+                    const compPhotos = [
+                      ...(comp.images || []),
+                      ...(comp.image
+                        ? [{ src: comp.image, alt: `${comp.title} Photo` }]
+                        : []),
+                    ]
+                    return compPhotos.length > 0 ? (
+                      <div class="grid grid-cols-1 gap-2 pt-2 sm:grid-cols-2">
+                        {compPhotos.map((img) => (
+                          <a
+                            href={img.src}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group/compimg border-border relative block overflow-hidden rounded border transition-colors hover:border-foreground/40"
+                          >
+                            <img
+                              src={img.src}
+                              alt={img.alt}
+                              loading="lazy"
+                              class="h-44 w-full object-cover transition-transform duration-200 group-hover/compimg:scale-[1.02]"
+                            />
+                            <div class="bg-background text-muted-foreground flex items-center justify-between p-1.5 text-[10px]">
+                              <span>{img.caption || 'View Full Image'}</span>
+                              <Icon
+                                name="lucide:external-link"
+                                class="size-2.5 shrink-0 text-foreground"
+                              />
                             </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null
+                  })()}
 
                   {comp.link && (
                     <div class="pt-1">
@@ -526,14 +532,26 @@ const otherCompetitions = competitions.filter(
                 </div>
 
                 {cred.image && (
-                  <div class="border-border overflow-hidden rounded border">
+                  <a
+                    href={cred.image}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group/cert border-border bg-muted/20 relative block overflow-hidden rounded border transition-colors hover:border-foreground/40"
+                  >
                     <img
                       src={cred.image}
                       alt={`${cred.name} Certificate`}
                       loading="lazy"
-                      class="h-32 w-full object-cover"
+                      class="max-h-48 w-full object-contain p-1 transition-transform duration-200 group-hover/cert:scale-[1.02]"
                     />
-                  </div>
+                    <div class="border-border/60 bg-background/90 text-muted-foreground flex items-center justify-between border-t px-2.5 py-1 font-mono text-[10px]">
+                      <span>Certificate Preview</span>
+                      <span class="text-foreground inline-flex items-center gap-1">
+                        <span>View Full</span>
+                        <Icon name="lucide:external-link" class="size-2.5" />
+                      </span>
+                    </div>
+                  </a>
                 )}
 
                 {cred.skills && cred.skills.length > 0 && (
