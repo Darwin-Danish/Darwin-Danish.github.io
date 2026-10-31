@@ -477,6 +477,67 @@ registerTest({
   },
 })
 
+registerTest({
+  id: 'T1.F3.6',
+  tier: 'Tier 1',
+  feature: 'F3 - Assets',
+  title:
+    'Google Search Favicon Specification: 48x48, 96x96, 192x192 PNGs and multi-size favicon.ico exist',
+  run: () => {
+    // 1. Physical 48x48, 96x96, and 192x192 PNGs must exist in dist/
+    const fav48Path = path.join(DIST_DIR, 'favicon-48x48.png')
+    const fav96Path = path.join(DIST_DIR, 'favicon-96x96.png')
+    const fav192Path = path.join(DIST_DIR, 'favicon-192x192.png')
+    const icoPath = path.join(DIST_DIR, 'favicon.ico')
+
+    assertFileExists(fav48Path, 'favicon-48x48.png must exist in dist/')
+    assertFileExists(fav96Path, 'favicon-96x96.png must exist in dist/')
+    assertFileExists(fav192Path, 'favicon-192x192.png must exist in dist/')
+    assertFileExists(icoPath, 'favicon.ico must exist in dist/')
+
+    // 2. Validate dimensions of 48x48 PNG (IHDR chunk: bytes 16-24)
+    const buf48 = fs.readFileSync(fav48Path)
+    const w48 = buf48.readUInt32BE(16)
+    const h48 = buf48.readUInt32BE(20)
+    assert(w48 === 48 && h48 === 48, `favicon-48x48.png must be 48x48, got ${w48}x${h48}`)
+
+    // 3. Validate dimensions of 96x96 PNG
+    const buf96 = fs.readFileSync(fav96Path)
+    const w96 = buf96.readUInt32BE(16)
+    const h96 = buf96.readUInt32BE(20)
+    assert(w96 === 96 && h96 === 96, `favicon-96x96.png must be 96x96, got ${w96}x${h96}`)
+
+    // 4. Validate favicon.ico contains a 48x48 frame
+    const bufIco = fs.readFileSync(icoPath)
+    const iconCount = bufIco.readUInt16LE(4)
+    assert(iconCount >= 2, `favicon.ico must contain multiple frames, got ${iconCount}`)
+    const icoSizes = []
+    for (let i = 0; i < iconCount; i++) {
+      const w = bufIco.readUInt8(6 + i * 16) || 256
+      const h = bufIco.readUInt8(7 + i * 16) || 256
+      icoSizes.push(`${w}x${h}`)
+    }
+    assert(
+      icoSizes.includes('48x48'),
+      `favicon.ico must contain a 48x48 resolution frame (found: ${icoSizes.join(', ')})`,
+    )
+
+    // 5. dist/index.html must link 48x48 and 96x96 with sizes attribute
+    const html = readDist('index.html')
+    assert(html !== null, 'dist/index.html missing')
+    assertMatch(
+      html,
+      /<link[^>]*rel=["']icon["'][^>]*sizes=["']48x48["'][^>]*href=["']\/favicon-48x48\.png["']/i,
+      'dist/index.html must declare link rel="icon" for favicon-48x48.png with sizes="48x48"',
+    )
+    assertMatch(
+      html,
+      /<link[^>]*rel=["']icon["'][^>]*sizes=["']96x96["'][^>]*href=["']\/favicon-96x96\.png["']/i,
+      'dist/index.html must declare link rel="icon" for favicon-96x96.png with sizes="96x96"',
+    )
+  },
+})
+
 // --- Feature 4: Decap CMS Complete Removal ---
 registerTest({
   id: 'T1.F4.1',
@@ -1236,6 +1297,58 @@ registerTest({
       indexHtml,
       'Borneo International Innovation Creativity Competition (BIICC) 2026',
       'Person schema on homepage must include BIICC 2026 Gold Award',
+    )
+  },
+})
+
+registerTest({
+  id: 'T1.F9.10',
+  tier: 'Tier 1',
+  feature: 'F9 - SEO Metadata',
+  title:
+    'Google Search Site Name Specification: dist/index.html defines WebSite JSON-LD and application-name meta',
+  run: () => {
+    const html = readDist('index.html')
+    assert(html !== null, 'dist/index.html missing')
+
+    // 1. Validate WebSite schema is present
+    const ldScripts = html.match(/<script type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)
+    assert(ldScripts && ldScripts.length > 0, 'No JSON-LD script tags found')
+
+    let foundWebSiteSchema = false
+    for (const tag of ldScripts) {
+      const content = tag.replace(/<\/?script[^>]*>/gi, '').trim()
+      try {
+        const parsed = JSON.parse(content)
+        if (parsed['@type'] === 'WebSite') {
+          foundWebSiteSchema = true
+          assertEqual(parsed.name, 'Darwin Danish', 'WebSite schema name must be Darwin Danish')
+          assertEqual(parsed['@id'], 'https://darwindanish.github.io/#website', 'WebSite @id must match canonical website id')
+          assertEqual(parsed.url, 'https://darwindanish.github.io/', 'WebSite url must be root https://darwindanish.github.io/')
+          assert(
+            Array.isArray(parsed.alternateName) &&
+              parsed.alternateName.includes('Darwin Danish') &&
+              parsed.alternateName.includes('Darwin Danish Portfolio') &&
+              parsed.alternateName.includes('Darwin Danish Anak Geramong'),
+            'WebSite alternateName must contain Darwin Danish, Darwin Danish Portfolio, and Darwin Danish Anak Geramong',
+          )
+        }
+      } catch {
+        // ignore other non-json blocks if any
+      }
+    }
+    assert(foundWebSiteSchema, 'dist/index.html must contain @type: WebSite schema for Google Site Name')
+
+    // 2. Validate meta application-name and og:site_name
+    assertMatch(
+      html,
+      /<meta\s+name=["']application-name["']\s+content=["']Darwin Danish["']/i,
+      'dist/index.html must contain <meta name="application-name" content="Darwin Danish">',
+    )
+    assertMatch(
+      html,
+      /<meta\s+property=["']og:site_name["']\s+content=["']Darwin Danish["']/i,
+      'dist/index.html must contain <meta property="og:site_name" content="Darwin Danish">',
     )
   },
 })
@@ -2520,6 +2633,62 @@ registerTest({
       '"@type":"ItemList"',
       'JSON-LD schema must define ItemList',
     )
+  },
+})
+
+registerTest({
+  id: 'T3.P13',
+  tier: 'Tier 3',
+  feature: 'Pairwise: Trailing Slash ↔ Canonicals & Sitemaps',
+  title:
+    'Blog and Work routes strictly enforce canonical trailing slashes in HTML and sitemaps',
+  run: () => {
+    // 1. Check dist/blog/index.html canonical URL
+    const blogHtml = readDist('blog/index.html')
+    assert(blogHtml !== null, 'dist/blog/index.html missing')
+    const blogCanonical = extractCanonical(blogHtml)
+    assertEqual(
+      blogCanonical,
+      'https://darwindanish.github.io/blog/',
+      'dist/blog/index.html canonical must strictly end with trailing slash /blog/',
+    )
+
+    // 2. Check dist/work/index.html canonical URL
+    const workHtml = readDist('work/index.html')
+    assert(workHtml !== null, 'dist/work/index.html missing')
+    const workCanonical = extractCanonical(workHtml)
+    assertEqual(
+      workCanonical,
+      'https://darwindanish.github.io/work/',
+      'dist/work/index.html canonical must strictly end with trailing slash /work/',
+    )
+
+    // 3. Check sitemaps
+    for (const smName of ['sitemap.xml', 'sitemap-0.xml']) {
+      const smContent = readDist(smName)
+      if (smContent) {
+        assertContains(
+          smContent,
+          '<loc>https://darwindanish.github.io/blog/</loc>',
+          `${smName} must list canonical https://darwindanish.github.io/blog/ with trailing slash`,
+        )
+        assertContains(
+          smContent,
+          '<loc>https://darwindanish.github.io/work/</loc>',
+          `${smName} must list canonical https://darwindanish.github.io/work/ with trailing slash`,
+        )
+        assertNotContains(
+          smContent,
+          '<loc>https://darwindanish.github.io/blog</loc>',
+          `${smName} must NOT list non-trailing-slash /blog`,
+        )
+        assertNotContains(
+          smContent,
+          '<loc>https://darwindanish.github.io/work</loc>',
+          `${smName} must NOT list non-trailing-slash /work`,
+        )
+      }
+    }
   },
 })
 

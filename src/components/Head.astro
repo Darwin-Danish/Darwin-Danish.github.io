@@ -7,6 +7,19 @@ import Favicons from './Favicons.astro'
 const authorEntry = await getEntry('authors', 'darwindanish')
 const author = authorEntry?.data
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.href}/#website`,
+  name: 'Darwin Danish',
+  alternateName: [
+    'Darwin Danish',
+    'Darwin Danish Portfolio',
+    'Darwin Danish Anak Geramong',
+  ],
+  url: `${SITE.href}/`,
+}
+
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -153,6 +166,11 @@ const personSchema = {
   <Favicons />
   <ClientRouter />
 
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(websiteSchema)}
+  />
   <script
     type="application/ld+json"
     is:inline

@@ -123,7 +123,7 @@ import FirstSubpost from '@/components/mdx/FirstSubpost.astro';
 
 **Usage:**
 ```mdx
-<FirstSubpost title="My First Subpost" href="/blog/my-first-subpost" />
+<FirstSubpost title="My First Subpost" href="/blog/my-first-subpost/" />
 ```
 
 **Props:**
