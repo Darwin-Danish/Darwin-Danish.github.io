@@ -46,7 +46,6 @@ const filterFeature = args
   ?.toUpperCase()
 const summaryOnly = args.includes('--summary')
 const allowFail = args.includes('--allow-fail')
-const verbose = args.includes('--verbose')
 
 // ----------------------------------------------------------------------------
 // Test Framework Primitives & State
@@ -534,6 +533,14 @@ registerTest({
       html,
       /<link[^>]*rel=["']icon["'][^>]*sizes=["']96x96["'][^>]*href=["']\/favicon-96x96\.png["']/i,
       'dist/index.html must declare link rel="icon" for favicon-96x96.png with sizes="96x96"',
+    )
+
+    // 6. 48x48 PNG must appear before SVG in <head> for Googlebot-Image crawler preference
+    const idx48 = html.indexOf('/favicon-48x48.png')
+    const idxSvg = html.indexOf('/favicon.svg')
+    assert(
+      idx48 !== -1 && idxSvg !== -1 && idx48 < idxSvg,
+      'favicon-48x48.png must precede favicon.svg in HTML head for search bot preference',
     )
   },
 })
@@ -1349,6 +1356,19 @@ registerTest({
       html,
       /<meta\s+property=["']og:site_name["']\s+content=["']Darwin Danish["']/i,
       'dist/index.html must contain <meta property="og:site_name" content="Darwin Danish">',
+    )
+
+    // 3. Validate homepage title is exact site name and contains accessible h1
+    const pageTitle = extractTitle(html) || ''
+    assertEqual(
+      pageTitle,
+      'Darwin Danish',
+      'Homepage title must be Darwin Danish (not generic "Home | Darwin Danish")',
+    )
+    assertMatch(
+      html,
+      /<h1[^>]*>Darwin Danish<\/h1>/i,
+      'dist/index.html must contain an h1 heading with Darwin Danish for Google site name and a11y',
     )
   },
 })
