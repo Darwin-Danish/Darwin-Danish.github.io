@@ -108,7 +108,7 @@ const UserInfo = memo(() => (
   <div className="bg-border/50 flex flex-col gap-y-1 p-3">
     <span className="text-base leading-none">Darwin</span>
     <span className="text-muted-foreground text-xs leading-none">
-      @darwindanish
+      @darwin.danish29
     </span>
   </div>
 ))

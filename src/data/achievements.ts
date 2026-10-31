@@ -89,6 +89,40 @@ export interface PressArticle {
 
 export const competitions: Competition[] = [
   {
+    id: 'biicc-2026',
+    title: 'Borneo International Innovation Creativity Competition (BIICC) 2026',
+    award: 'Gold Award',
+    organizer:
+      'Borneo International Innovation & Creativity Council',
+    eventDate: '2026',
+    isoEventDate: '2026-04-15',
+    location: 'Borneo, Sarawak, Malaysia',
+    featured: false,
+    projectName: 'BIICC Innovation Initiative',
+    projectSubtitle: 'Gold Award Winner — International Innovation & Engineering',
+    description:
+      'Awarded the Gold Award at the Borneo International Innovation Creativity Competition (BIICC) 2026 for engineering ingenuity, creative system architecture, and impactful technological problem-solving.',
+    team: [
+      {
+        name: 'Darwin Danish',
+        role: 'Lead Architect & Systems Engineer',
+      },
+    ],
+    technologies: [
+      'IoT Systems',
+      'Embedded Computing',
+      'Machine Learning',
+      'Python',
+      'System Architecture',
+    ],
+    specs: [
+      { label: 'Competition Scope', value: 'International Innovation & Creativity' },
+      { label: 'Award', value: 'Gold Award' },
+      { label: 'Evaluation Domains', value: 'Engineering Rigor, Originality, Real-World Impact' },
+    ],
+    category: 'International Innovation & Technology',
+  },
+  {
     id: 'mini-inno-waste-2',
     title: 'Pertandingan Reka Cipta Mini Inno Waste 2.0',
     award: '1st Place Champion (Juara Pertama)',

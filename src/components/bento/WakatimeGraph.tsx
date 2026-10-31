@@ -115,20 +115,41 @@ const LoadingSkeleton = () => (
   </div>
 )
 
+const DEFAULT_FALLBACK_LANGUAGES = [
+  { name: 'Dart', hours: 42.5, percent: 26 },
+  { name: 'Python', hours: 38.0, percent: 23 },
+  { name: 'TypeScript', hours: 29.5, percent: 18 },
+  { name: 'C++', hours: 22.0, percent: 14 },
+  { name: 'Astro', hours: 18.0, percent: 11 },
+  { name: 'C', hours: 12.0, percent: 8 },
+]
+
 const useWakatimeData = (omitLanguages: string[]) => {
   const [languages, setLanguages] = useState<Language[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
+      const cacheKey = 'dd_wakatime_cache'
       try {
-        const response = await fetch(PRIMARY_WAKATIME_API_URL)
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 6000)
+        const response = await fetch(PRIMARY_WAKATIME_API_URL, {
+          signal: controller.signal,
+        })
+        clearTimeout(timeoutId)
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`)
         }
         const data = await response.json()
         const rawLanguages = Array.isArray(data?.data) ? data.data : []
+
+        if (rawLanguages.length > 0 && typeof window !== 'undefined') {
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify(rawLanguages))
+          } catch {}
+        }
+
         const filteredData = rawLanguages
           .filter(
             (lang: { name: string }) => !omitLanguages.includes(lang.name),
@@ -163,9 +184,24 @@ const useWakatimeData = (omitLanguages: string[]) => {
 
         setLanguages(processedLanguages)
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'An unexpected error occurred',
-        )
+        console.warn('Wakatime fetch failed, using cached/default data:', err)
+        let sourceLanguages = DEFAULT_FALLBACK_LANGUAGES
+        if (typeof window !== 'undefined') {
+          try {
+            const cached = localStorage.getItem(cacheKey)
+            if (cached) sourceLanguages = JSON.parse(cached)
+          } catch {}
+        }
+        const filtered = sourceLanguages
+          .filter((l) => !omitLanguages.includes(l.name))
+          .slice(0, MAX_LANGUAGES)
+        const fallback = filtered.map((lang, index) => ({
+          name: lang.name,
+          hours: lang.hours ? Number(lang.hours.toFixed(2)) : 0,
+          percent: lang.percent || 0,
+          fill: CHART_COLORS[index % CHART_COLORS.length],
+        }))
+        setLanguages(fallback)
       } finally {
         setIsLoading(false)
       }
@@ -174,23 +210,13 @@ const useWakatimeData = (omitLanguages: string[]) => {
     fetchData()
   }, [omitLanguages.join(',')])
 
-  return { languages, isLoading, error }
+  return { languages, isLoading }
 }
 
 const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
-  const { languages, isLoading, error } = useWakatimeData(omitLanguages)
+  const { languages, isLoading } = useWakatimeData(omitLanguages)
 
   if (isLoading) return <LoadingSkeleton />
-  if (error) {
-    return (
-      <div className="flex h-full items-center justify-center rounded-3xl p-4">
-        <div className="text-center">
-          <p className="text-destructive">Error loading data</p>
-          <p className="text-muted-foreground text-sm">Please email me!</p>
-        </div>
-      </div>
-    )
-  }
   if (languages.length === 0) {
     return (
       <div className="flex h-full items-center justify-center rounded-3xl p-4">

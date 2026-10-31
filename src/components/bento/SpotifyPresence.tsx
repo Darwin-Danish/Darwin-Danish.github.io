@@ -20,11 +20,40 @@ interface CachedData {
 const CACHE_KEY = 'spotify-presence-cache'
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
 const RETRY_DELAY = 2000 // 2 seconds
-const MAX_RETRIES = 3
+
+const DEFAULT_TRACK: Track = {
+  name: 'Smooth Operator',
+  artist: { '#text': 'Sade' },
+  album: { '#text': 'Diamond Life' },
+  image: [
+    { '#text': '' },
+    { '#text': '' },
+    { '#text': '' },
+    {
+      '#text':
+        'https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png',
+    },
+  ],
+  url: 'https://open.spotify.com/search/Smooth%20Operator',
+  '@attr': { nowplaying: 'false' },
+}
 
 const SpotifyPresence = () => {
-  const [displayData, setDisplayData] = useState<Track | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [displayData, setDisplayData] = useState<Track | null>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem(CACHE_KEY)
+        if (cached) {
+          const parsedCache: CachedData = JSON.parse(cached)
+          if (Date.now() - parsedCache.timestamp <= CACHE_DURATION) {
+            return parsedCache.track
+          }
+        }
+      } catch {}
+    }
+    return DEFAULT_TRACK
+  })
+  const [isLoading, setIsLoading] = useState(false)
   const [, setError] = useState<string | null>(null)
   const retryCountRef = useRef(0)
   const fetchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -61,7 +90,7 @@ const SpotifyPresence = () => {
   const fetchWithRetry = async (retryCount = 0): Promise<void> => {
     try {
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000)
+      const timeoutId = setTimeout(() => controller.abort(), 4000)
 
       const response = await fetch(
         'https://lastfm-last-played.biancarosa.com.br/DarwinDanish/latest-song',
@@ -90,19 +119,14 @@ const SpotifyPresence = () => {
         throw new Error('No track data received')
       }
     } catch (fetchError) {
-      console.error(`Fetch attempt ${retryCount + 1} failed:`, fetchError)
-
-      if (retryCount < MAX_RETRIES) {
+      if (retryCount < 1) {
         retryCountRef.current = retryCount + 1
 
-        fetchTimeoutRef.current = setTimeout(
-          () => {
-            fetchWithRetry(retryCount + 1)
-          },
-          RETRY_DELAY * (retryCount + 1),
-        )
+        fetchTimeoutRef.current = setTimeout(() => {
+          fetchWithRetry(retryCount + 1)
+        }, RETRY_DELAY)
       } else {
-        setError('Failed to load music data')
+        setDisplayData((prev) => prev || DEFAULT_TRACK)
         retryCountRef.current = 0
       }
     } finally {
@@ -114,13 +138,8 @@ const SpotifyPresence = () => {
     const cachedTrack = getCachedData()
     if (cachedTrack) {
       setDisplayData(cachedTrack)
-      setIsLoading(false)
-      setError(null)
-
-      fetchWithRetry().catch(() => {})
-    } else {
-      fetchWithRetry()
     }
+    fetchWithRetry().catch(() => {})
 
     return () => {
       if (fetchTimeoutRef.current) {

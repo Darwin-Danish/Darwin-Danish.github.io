@@ -65,12 +65,12 @@ const latestPostImage =
       </div>
     </div>
     <div class="aspect-square p-2 [grid-area:b]">
-      <div data-trigger class="bg-muted size-full border">
+      <div data-trigger class="group/details bg-muted size-full border">
         <div
           class="size-full bg-[url('/static/bento/details-background.png')] bg-cover bg-center bg-no-repeat"
         >
           <div
-            class="relative size-full bg-[url('/static/bento/details-foreground.png')] bg-cover bg-center bg-no-repeat transition-opacity duration-200 sm:opacity-0 sm:hover:opacity-100"
+            class="relative size-full bg-[url('/static/bento/details-foreground.png')] bg-cover bg-center bg-no-repeat transition-opacity duration-200 sm:opacity-0 sm:group-hover/details:opacity-100"
           >
             <p
               class="text-foreground/80 bg-background absolute top-1/2 left-0 mr-24 ml-4 -translate-y-1/2 border p-3 text-xs text-pretty"
@@ -172,12 +172,15 @@ const latestPostImage =
       </div>
     </div>
     <div class="aspect-square p-2 [grid-area:f] sm:aspect-[2/1]">
-      <div data-trigger class="bg-muted relative size-full border">
+      <div
+        data-trigger
+        class="group/calendar bg-muted relative size-full border"
+      >
         <div
           class="absolute size-full bg-[url('/static/bento/calendar-background.png')] bg-cover bg-left bg-no-repeat"
         >
           <div
-            class="absolute size-full bg-[url('/static/bento/calendar-foreground.png')] bg-cover bg-left bg-no-repeat transition-opacity duration-200 sm:opacity-0 sm:hover:opacity-100"
+            class="absolute size-full bg-[url('/static/bento/calendar-foreground.png')] bg-cover bg-left bg-no-repeat transition-opacity duration-200 sm:opacity-0 sm:group-hover/calendar:opacity-100"
           >
             <p
               class="text-foreground/80 bg-background absolute top-[37.5%] left-4 -translate-y-1/2 border p-2 text-xs text-pretty"
@@ -187,7 +190,7 @@ const latestPostImage =
           </div>
         </div>
         <div class="flex size-full items-center justify-center p-8">
-          <GithubCalendar username="Darwin-Danish" client:load />
+          <GithubCalendar username="darwindanish" client:load />
         </div>
       </div>
     </div>

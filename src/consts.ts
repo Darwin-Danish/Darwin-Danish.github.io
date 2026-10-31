@@ -3,8 +3,8 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const SITE: Site = {
   title: 'Darwin Danish',
   description:
-    'A young computer engineering student and tech enthusiast passionate about IoT, machine learning, software development, and motorsport tech & innovation',
-  href: 'https://darwin-danish.github.io',
+    'Computer engineering student and systems builder passionate about IoT architectures, machine learning, software engineering, and motorsport tech & innovation.',
+  href: 'https://darwindanish.github.io',
   author: 'Darwin Danish',
   locale: 'en-US',
   featuredPostCount: 2,
@@ -49,12 +49,16 @@ export const NAV_LINKS: SocialLink[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: 'https://github.com/Darwin-Danish',
+    href: 'https://github.com/darwindanish',
     label: 'GitHub',
   },
   {
     href: 'https://linkedin.com/in/darwin-danish',
     label: 'LinkedIn',
+  },
+  {
+    href: 'https://orcid.org/0009-0000-1047-4320',
+    label: 'ORCID',
   },
   {
     href: 'https://www.instagram.com/darwin.danish29',
@@ -77,7 +81,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'Gravatar',
   },
   {
-    href: 'mailto:lumina.ai.devs@gmail.com',
+    href: 'mailto:darwindanish.work@gmail.com',
     label: 'Email',
   },
   {
@@ -96,6 +100,7 @@ export const ICON_MAP: IconMap = {
   Discord: 'simple-icons:discord',
   'Hugging Face': 'simple-icons:huggingface',
   PyPI: 'simple-icons:pypi',
+  ORCID: 'simple-icons:orcid',
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
 }

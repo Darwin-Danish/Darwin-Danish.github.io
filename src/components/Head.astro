@@ -18,7 +18,8 @@ const personSchema = {
   gender: 'https://schema.org/Male',
   birthDate: '2009-02-24',
   url: SITE.href,
-  jobTitle: 'Student & Computer Engineering Enthusiast',
+  email: author?.mail || 'darwindanish.work@gmail.com',
+  jobTitle: 'Computer Engineering Student & Systems Builder',
   description: author?.bio || SITE.description,
   image: [
     author?.avatar
@@ -47,6 +48,7 @@ const personSchema = {
     alternateName: 'SMK Kapit',
   },
   award: [
+    'Gold Award - Borneo International Innovation Creativity Competition (BIICC) 2026',
     '1st Place Champion (Juara Pertama) & RM 1,000 Grand Prize - Pertandingan Reka Cipta Mini Inno Waste 2.0 (Project Lumina)',
   ],
   knowsLanguage: [
@@ -73,8 +75,9 @@ const personSchema = {
   ],
   sameAs: [
     author?.website && author.website !== SITE.href ? author.website : null,
-    author?.github || 'https://github.com/Darwin-Danish',
+    author?.github || 'https://github.com/darwindanish',
     author?.linkedin || 'https://linkedin.com/in/darwin-danish',
+    author?.orcid || 'https://orcid.org/0009-0000-1047-4320',
     author?.instagram || 'https://www.instagram.com/darwin.danish29',
     author?.threads || 'https://www.threads.net/@darwin.danish29',
     author?.gravatar || 'https://gravatar.com/darwindanish',
@@ -109,6 +112,10 @@ const personSchema = {
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=yes"
+  />
+  <meta
+    name="google-site-verification"
+    content="YIj5zJdAJuIN9Uh9IosE0uphNopW6FRWNom3wf1cAmU"
   />
   <meta name="generator" content={Astro.generator} />
   <meta name="author" content="Darwin Danish" />
