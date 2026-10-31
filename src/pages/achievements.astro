@@ -21,7 +21,7 @@ const achievementsSchema = {
   '@type': 'ItemList',
   name: `Achievements & Honors - ${SITE.title}`,
   description:
-    'Official record of competition championships, press coverage, technical credentials, and engineering milestones of Darwin Danish.',
+    'Official record of competition championships, technical milestones, and academic foundations of Darwin Danish.',
   url: `${SITE.href}/achievements/`,
   datePublished: '2024-11-09',
   dateModified: currentIsoDate,
@@ -79,15 +79,14 @@ const achievementsSchema = {
   ],
 }
 
-const featuredCompetition =
-  competitions.find((c) => c.featured) || competitions[0]
+const featuredCompetition = competitions[0]
 const otherCompetitions = competitions.filter(
-  (c) => c.id !== featuredCompetition.id,
+  (c) => c.id !== featuredCompetition?.id,
 )
 
 const featuredImages = [
-  ...(featuredCompetition.images || []),
-  ...(featuredCompetition.image
+  ...(featuredCompetition?.images || []),
+  ...(featuredCompetition?.image
     ? [
         {
           src: featuredCompetition.image,
@@ -103,16 +102,16 @@ const featuredImages = [
   <Fragment slot="head">
     <PageHead
       title="Achievements"
-      description="Official track record of competition championships, press coverage, technical milestones, and verified credentials by Darwin Danish."
+      description="Official record of competitive championships, technical projects, and academic foundations by Darwin Danish."
       keywords={[
         'Achievements',
         'Awards',
         'Mini Inno Waste 2.0',
         'Project Lumina',
         'SMK Kapit',
+        'Science Stream',
         'Darwin Danish',
         'Competitions',
-        'Sarawak STEM',
       ]}
     />
     <script
@@ -138,12 +137,6 @@ const featuredImages = [
     <div class="col-start-2 flex w-full flex-col gap-12 pb-14 text-left">
       <!-- 1. Header with Metadata -->
       <header class="border-border/60 flex flex-col gap-3 border-b pb-8">
-        <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-muted-foreground">
-          <span>Verified Track Record</span>
-          <span>•</span>
-          <span class="text-foreground">Catalog Updated: October 2026</span>
-        </div>
-
         <div class="space-y-2">
           <h1
             class="text-foreground flex items-center gap-3 text-2xl font-bold tracking-tight sm:text-3xl"
@@ -151,458 +144,260 @@ const featuredImages = [
             Achievements & Honors
           </h1>
           <p class="text-muted-foreground text-sm leading-relaxed sm:text-base">
-            Official record of competitive championships, hardware inventions,
-            machine learning research, journalistic coverage, and engineering
-            milestones rooted in Kapit, Sarawak.
+            Official record of competitive championships, technical projects,
+            and academic foundations rooted in Kapit, Sarawak.
           </p>
         </div>
       </header>
 
-      <!-- 2. Press & Media Coverage ("In the News") -->
-      <section id="press-room" class="flex scroll-mt-24 flex-col gap-6">
-        <div class="flex flex-col gap-1">
-          <div
-            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
-          >
-            <Icon name="lucide:newspaper" class="size-4 text-foreground" />
-            <span>In The News</span>
-          </div>
-          <h2 class="text-foreground text-xl font-bold tracking-tight">
-            Journalistic & Media Coverage
-          </h2>
-          <p class="text-muted-foreground text-xs sm:text-sm">
-            Press reports, newspaper articles, and community releases covering
-            Darwin Danish's engineering initiatives.
-          </p>
-        </div>
+      <!-- 2. Press & Media Coverage (Omitted when empty, easily updated via data/achievements.ts) -->
+      {
+        pressArticles.length > 0 && (
+          <section id="press-room" class="flex scroll-mt-24 flex-col gap-6">
+            <div class="flex flex-col gap-1">
+              <div class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase">
+                <Icon name="lucide:newspaper" class="size-4 text-foreground" />
+                <span>In The News</span>
+              </div>
+              <h2 class="text-foreground text-xl font-bold tracking-tight">
+                Journalistic & Media Coverage
+              </h2>
+            </div>
 
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {
-            pressArticles.map((article) => (
-              <article class="border-border bg-muted/15 hover:border-foreground/30 hover:bg-muted/25 flex flex-col justify-between rounded-lg border p-4 transition-all duration-200 sm:p-5">
-                <div class="space-y-3">
-                  <div class="flex flex-wrap items-center justify-between gap-2">
-                    <div class="flex items-center gap-2">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {pressArticles.map((article) => (
+                <article class="border-border bg-muted/15 hover:border-foreground/30 flex flex-col justify-between rounded-lg border p-4 transition-all duration-200 sm:p-5">
+                  <div class="space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
                       <span class="border-border bg-muted/40 text-foreground rounded border px-2 py-0.5 font-mono text-[10px] font-semibold">
                         {article.publisher}
                       </span>
                       <span class="text-muted-foreground font-mono text-[10px]">
-                        {article.publisherBadge}
+                        {article.date}
                       </span>
                     </div>
-                    <span class="text-muted-foreground font-mono text-[10px]">
-                      {article.date}
-                    </span>
+
+                    <h3 class="text-foreground text-sm font-semibold tracking-tight sm:text-base">
+                      {article.title}
+                    </h3>
+
+                    <p class="text-muted-foreground text-xs leading-relaxed">
+                      {article.excerpt}
+                    </p>
                   </div>
 
-                  <h3 class="text-foreground line-clamp-2 text-sm font-semibold tracking-tight sm:text-base">
-                    {article.title}
-                  </h3>
+                  <div class="border-border/40 mt-4 flex items-center justify-between border-t pt-3 font-mono text-xs">
+                    <span class="text-muted-foreground text-[11px]">
+                      {article.readTime}
+                    </span>
+                    <a
+                      href={article.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 transition-colors hover:underline"
+                    >
+                      <span>Read Article</span>
+                      <Icon name="lucide:external-link" class="size-3" />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      }
 
-                  <p class="text-muted-foreground line-clamp-4 text-xs leading-relaxed">
-                    {article.excerpt}
+      <!-- 3. Featured Competitions & Hackathons -->
+      {
+        featuredCompetition && (
+          <section id="competitions" class="flex scroll-mt-24 flex-col gap-6">
+            <div class="flex flex-col gap-1">
+              <div class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase">
+                <Icon name="lucide:trophy" class="size-4 text-foreground" />
+                <span>Competitions & Honors</span>
+              </div>
+              <h2 class="text-foreground text-xl font-bold tracking-tight">
+                Competition History
+              </h2>
+            </div>
+
+            {/* Featured Champion Highlight Card: Mini Inno Waste 2.0 */}
+            <div
+              id="featured-champion"
+              class="border-border bg-muted/15 scroll-mt-24 rounded-lg border p-5 transition-all duration-200 sm:p-6"
+            >
+              <div class="border-border/60 mb-4 flex flex-wrap items-center justify-between gap-2 border-b pb-4">
+                <div class="border-border bg-muted/40 text-foreground inline-flex items-center gap-2 rounded border px-3 py-1 font-mono text-xs font-semibold">
+                  <Icon
+                    name="lucide:award"
+                    class="size-4 shrink-0 text-foreground"
+                  />
+                  <span>
+                    {featuredCompetition.award} • {featuredCompetition.prize}
+                  </span>
+                </div>
+                <div class="text-muted-foreground flex items-center gap-1.5 font-mono text-xs">
+                  <Icon name="lucide:calendar" class="size-3.5" />
+                  <time datetime={featuredCompetition.isoEventDate}>
+                    {featuredCompetition.eventDate}
+                  </time>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div>
+                  <h3 class="text-foreground text-lg font-bold sm:text-xl">
+                    {featuredCompetition.title}
+                  </h3>
+                  <p class="text-muted-foreground mt-1 font-mono text-xs sm:text-sm">
+                    {featuredCompetition.projectSubtitle}
                   </p>
                 </div>
 
-                <div class="border-border/40 mt-4 flex items-center justify-between border-t pt-3 font-mono text-xs">
-                  <span class="text-muted-foreground text-[11px]">
-                    {article.readTime}
-                  </span>
-                  <a
-                    href={article.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 transition-colors hover:underline"
-                  >
-                    <span>Read Article</span>
-                    <Icon name="lucide:external-link" class="size-3" />
-                  </a>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </section>
+                <p class="text-muted-foreground text-xs leading-relaxed sm:text-sm">
+                  {featuredCompetition.description}
+                </p>
 
-      <!-- 3. Featured Competitions & Hackathons -->
-      <section id="competitions" class="flex scroll-mt-24 flex-col gap-6">
-        <div class="flex flex-col gap-1">
-          <div
-            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
-          >
-            <Icon name="lucide:trophy" class="size-4 text-foreground" />
-            <span>Competitions & Hackathons</span>
-          </div>
-          <h2 class="text-foreground text-xl font-bold tracking-tight">
-            Championships & Hackathons
-          </h2>
-          <p class="text-muted-foreground text-xs sm:text-sm">
-            Competitive engineering challenges evaluated by panels of industry,
-            education, and technical judges.
-          </p>
-        </div>
-
-        <!-- Featured Champion Highlight Card: Mini Inno Waste 2.0 -->
-        <div
-          id="featured-champion"
-          class="border-border bg-muted/15 scroll-mt-24 rounded-lg border p-5 transition-all duration-200 sm:p-6"
-        >
-          <div
-            class="border-border/60 mb-4 flex flex-wrap items-center justify-between gap-2 border-b pb-4"
-          >
-            <div
-              class="border-border bg-muted/40 text-foreground inline-flex items-center gap-2 rounded border px-3 py-1 font-mono text-xs font-semibold"
-            >
-              <Icon name="lucide:award" class="size-4 shrink-0 text-foreground" />
-              <span>{featuredCompetition.award} • {featuredCompetition.prize}</span>
-            </div>
-            <div
-              class="text-muted-foreground flex items-center gap-1.5 font-mono text-xs"
-            >
-              <Icon name="lucide:calendar" class="size-3.5" />
-              <time datetime={featuredCompetition.isoEventDate}>
-                {featuredCompetition.eventDate}
-              </time>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div>
-              <h3 class="text-foreground text-lg font-bold sm:text-xl">
-                {featuredCompetition.title}
-              </h3>
-              <p class="text-muted-foreground mt-1 font-mono text-xs sm:text-sm">
-                {featuredCompetition.projectSubtitle}
-              </p>
-            </div>
-
-            <p class="text-muted-foreground text-xs leading-relaxed sm:text-sm">
-              {featuredCompetition.description}
-            </p>
-
-            <!-- Team Roster -->
-            {
-              featuredCompetition.team && (
-                <div class="border-border bg-background/50 grid grid-cols-1 gap-2.5 rounded-lg border p-3 font-mono text-xs sm:grid-cols-2">
-                  {featuredCompetition.team.map((member) => (
-                    <div>
-                      <span class="text-foreground font-semibold">
-                        {member.name}
-                      </span>
-                      <span class="text-muted-foreground block text-[11px]">
-                        {member.role}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )
-            }
-
-            <!-- Real Photo Evidence Gallery -->
-            {
-              featuredImages.length > 0 && (
-                <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
-                  {featuredImages.map((img) => (
-                    <a
-                      href={img.src}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="group/photo border-border bg-muted/20 relative block overflow-hidden rounded-lg border transition-colors hover:border-foreground/40"
-                    >
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        loading="lazy"
-                        class="h-56 w-full object-cover object-top transition-transform duration-200 group-hover/photo:scale-[1.02] sm:h-64"
-                      />
-                      <div class="border-border/60 bg-background/90 text-muted-foreground flex items-center justify-between border-t p-2.5 font-mono text-[11px]">
-                        <span>{img.caption || 'Award Evidence'}</span>
-                        <Icon
-                          name="lucide:external-link"
-                          class="size-3 shrink-0 text-foreground"
-                        />
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              )
-            }
-
-            <!-- Bottom Action & Tech Tags -->
-            <div class="border-border/40 flex flex-wrap items-center justify-between gap-3 border-t pt-3">
-              <div class="flex flex-wrap items-center gap-1.5">
-                {
-                  featuredCompetition.technologies?.map((tech) => (
-                    <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
-                      {tech}
-                    </span>
-                  ))
-                }
-              </div>
-
-              {
-                featuredCompetition.link && (
-                  <a
-                    href={featuredCompetition.link}
-                    class="border-border bg-muted hover:bg-muted/80 text-foreground inline-flex items-center gap-1.5 rounded border px-3 py-1.5 font-mono text-xs font-medium transition-colors"
-                  >
-                    <span>{featuredCompetition.linkLabel || 'View Details'}</span>
-                    <Icon name="lucide:arrow-right" class="size-3.5" />
-                  </a>
-                )
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Additional Competitions Accordion -->
-        <div id="additional-competitions" class="scroll-mt-24 space-y-3">
-          <div
-            class="text-muted-foreground font-mono text-xs font-semibold tracking-wider uppercase"
-          >
-            Additional Competitions & Challenges
-          </div>
-
-          {
-            otherCompetitions.map((comp) => (
-              <details class="group border-border bg-muted/10 hover:border-foreground/30 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden">
-                <summary class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span class="border-border bg-muted/40 text-foreground rounded border px-2 py-0.5 text-[11px] font-semibold">
-                      {comp.category || 'COMPETITION'}
-                    </span>
-                    <span>{comp.title}</span>
-                    <span class="text-muted-foreground text-xs font-normal">
-                      | {comp.award}
-                    </span>
-                  </div>
-                  <Icon
-                    name="lucide:chevron-down"
-                    class="text-muted-foreground size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
-                  />
-                </summary>
-
-                <div class="border-border/40 text-muted-foreground mt-3 space-y-3 border-t pt-3 font-mono text-xs leading-relaxed">
-                  <div class="flex items-center gap-2 text-[11px]">
-                    <span class="text-foreground font-semibold">
-                      Event Date:
-                    </span>
-                    <time datetime={comp.isoEventDate}>{comp.eventDate}</time>
-                    <span>•</span>
-                    <span class="text-foreground font-semibold">
-                      Organizer:
-                    </span>
-                    <span>{comp.organizer}</span>
-                  </div>
-
-                  <p>{comp.description}</p>
-
-                  {comp.specs && comp.specs.length > 0 && (
-                    <div class="border-border/60 bg-background/50 grid grid-cols-1 gap-2 rounded border p-3 text-[11px] sm:grid-cols-2">
-                      {comp.specs.map((spec) => (
-                        <div>
-                          <strong class="text-foreground">{spec.label}:</strong>{' '}
-                          <span>{spec.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {comp.technologies && comp.technologies.length > 0 && (
-                    <div class="flex flex-wrap items-center gap-1.5 pt-1">
-                      {comp.technologies.map((tech) => (
-                        <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 text-[10px]">
-                          {tech}
+                {/* Team Roster */}
+                {featuredCompetition.team && (
+                  <div class="border-border bg-background/50 grid grid-cols-1 gap-2.5 rounded-lg border p-3 font-mono text-xs sm:grid-cols-2">
+                    {featuredCompetition.team.map((member) => (
+                      <div>
+                        <span class="text-foreground font-semibold">
+                          {member.name}
                         </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {(() => {
-                    const compPhotos = [
-                      ...(comp.images || []),
-                      ...(comp.image
-                        ? [{ src: comp.image, alt: `${comp.title} Photo` }]
-                        : []),
-                    ]
-                    return compPhotos.length > 0 ? (
-                      <div class="grid grid-cols-1 gap-2 pt-2 sm:grid-cols-2">
-                        {compPhotos.map((img) => (
-                          <a
-                            href={img.src}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group/compimg border-border relative block overflow-hidden rounded border transition-colors hover:border-foreground/40"
-                          >
-                            <img
-                              src={img.src}
-                              alt={img.alt}
-                              loading="lazy"
-                              class="h-44 w-full object-cover transition-transform duration-200 group-hover/compimg:scale-[1.02]"
-                            />
-                            <div class="bg-background text-muted-foreground flex items-center justify-between p-1.5 text-[10px]">
-                              <span>{img.caption || 'View Full Image'}</span>
-                              <Icon
-                                name="lucide:external-link"
-                                class="size-2.5 shrink-0 text-foreground"
-                              />
-                            </div>
-                          </a>
-                        ))}
+                        <span class="text-muted-foreground block text-[11px]">
+                          {member.role}
+                        </span>
                       </div>
-                    ) : null
-                  })()}
-
-                  {comp.link && (
-                    <div class="pt-1">
-                      <a
-                        href={comp.link}
-                        target={comp.link.startsWith('http') ? '_blank' : '_self'}
-                        rel={
-                          comp.link.startsWith('http')
-                            ? 'noopener noreferrer'
-                            : undefined
-                        }
-                        class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 transition-colors hover:underline"
-                      >
-                        <span>{comp.linkLabel || 'View Details'}</span>
-                        <Icon name="lucide:external-link" class="size-3" />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </details>
-            ))
-          }
-        </div>
-      </section>
-
-      <!-- 4. Certifications & Credentials -->
-      <section id="credentials" class="flex scroll-mt-24 flex-col gap-6">
-        <div class="flex flex-col gap-1">
-          <div
-            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
-          >
-            <Icon name="lucide:shield-check" class="size-4 text-foreground" />
-            <span>Certifications & Credentials</span>
-          </div>
-          <h2 class="text-foreground text-xl font-bold tracking-tight">
-            Certifications & Technical Credentials
-          </h2>
-          <p class="text-muted-foreground text-xs sm:text-sm">
-            Verifiable technical credentials, academic specializations, and
-            engineering proficiencies.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {
-            certifications.map((cred) => (
-              <div class="border-border bg-muted/15 hover:border-foreground/30 hover:bg-muted/25 space-y-3 rounded-lg border p-4 transition-all duration-200 sm:p-5">
-                <div class="flex items-center justify-between gap-2">
-                  <div class="flex items-center gap-2.5">
-                    <div class="border-border bg-background flex size-7 items-center justify-center rounded border text-foreground">
-                      <Icon name={cred.icon || 'lucide:award'} class="size-4" />
-                    </div>
-                    <div>
-                      <div class="text-foreground text-xs font-bold">
-                        {cred.issuer}
-                      </div>
-                      <div class="text-muted-foreground font-mono text-[10px]">
-                        Issued: {cred.issueDate}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-border bg-muted/40 text-muted-foreground inline-flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[10px]">
-                    <span>{cred.status || 'Verified'}</span>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 class="text-foreground text-sm font-semibold tracking-tight">
-                    {cred.name}
-                  </h3>
-                  {cred.credentialId && (
-                    <div class="text-muted-foreground mt-1 font-mono text-[11px]">
-                      ID:{' '}
-                      <span class="text-foreground">{cred.credentialId}</span>
-                    </div>
-                  )}
-                </div>
-
-                {cred.image && (
-                  <a
-                    href={cred.image}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group/cert border-border bg-muted/20 relative block overflow-hidden rounded border transition-colors hover:border-foreground/40"
-                  >
-                    <img
-                      src={cred.image}
-                      alt={`${cred.name} Certificate`}
-                      loading="lazy"
-                      class="max-h-48 w-full object-contain p-1 transition-transform duration-200 group-hover/cert:scale-[1.02]"
-                    />
-                    <div class="border-border/60 bg-background/90 text-muted-foreground flex items-center justify-between border-t px-2.5 py-1 font-mono text-[10px]">
-                      <span>Certificate Preview</span>
-                      <span class="text-foreground inline-flex items-center gap-1">
-                        <span>View Full</span>
-                        <Icon name="lucide:external-link" class="size-2.5" />
-                      </span>
-                    </div>
-                  </a>
-                )}
-
-                {cred.skills && cred.skills.length > 0 && (
-                  <div class="flex flex-wrap gap-1.5 pt-1">
-                    {cred.skills.map((skill) => (
-                      <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
-                        {skill}
-                      </span>
                     ))}
                   </div>
                 )}
 
-                {cred.verificationUrl && (
-                  <div class="border-border/30 flex justify-end border-t pt-2">
-                    <a
-                      href={cred.verificationUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 font-mono text-[11px] transition-colors hover:underline"
-                    >
-                      <span>Verify Credential</span>
-                      <Icon name="lucide:external-link" class="size-3" />
-                    </a>
+                {/* Real Photo Evidence Gallery */}
+                {featuredImages.length > 0 && (
+                  <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+                    {featuredImages.map((img) => (
+                      <a
+                        href={img.src}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group/photo border-border bg-muted/20 relative block overflow-hidden rounded-lg border transition-colors hover:border-foreground/40"
+                      >
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          loading="lazy"
+                          class="h-56 w-full object-cover object-top transition-transform duration-200 group-hover/photo:scale-[1.02] sm:h-64"
+                        />
+                        <div class="border-border/60 bg-background/90 text-muted-foreground flex items-center justify-between border-t p-2.5 font-mono text-[11px]">
+                          <span>{img.caption || 'Award Evidence'}</span>
+                          <Icon
+                            name="lucide:external-link"
+                            class="size-3 shrink-0 text-foreground"
+                          />
+                        </div>
+                      </a>
+                    ))}
                   </div>
                 )}
-              </div>
-            ))
-          }
-        </div>
-      </section>
 
-      <!-- 5. Engineering Timeline -->
+                {/* Bottom Action & Tech Tags */}
+                <div class="border-border/40 flex flex-wrap items-center justify-between gap-3 border-t pt-3">
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    {featuredCompetition.technologies?.map((tech) => (
+                      <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {featuredCompetition.link && (
+                    <a
+                      href={featuredCompetition.link}
+                      class="border-border bg-muted hover:bg-muted/80 text-foreground inline-flex items-center gap-1.5 rounded border px-3 py-1.5 font-mono text-xs font-medium transition-colors"
+                    >
+                      <span>
+                        {featuredCompetition.linkLabel || 'View Details'}
+                      </span>
+                      <Icon name="lucide:arrow-right" class="size-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Competitions (Omitted when empty, easily updated via data/achievements.ts) */}
+            {otherCompetitions.length > 0 && (
+              <div id="additional-competitions" class="scroll-mt-24 space-y-3">
+                <div class="text-muted-foreground font-mono text-xs font-semibold tracking-wider uppercase">
+                  Additional Competitions
+                </div>
+
+                {otherCompetitions.map((comp) => (
+                  <div class="border-border bg-muted/10 rounded-lg border p-4 font-mono text-xs">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <span class="text-foreground font-semibold">
+                        {comp.title}
+                      </span>
+                      <span class="text-muted-foreground">{comp.award}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )
+      }
+
+      {/* 4. Certifications (Omitted when empty, easily updated via data/achievements.ts) */}
+      {
+        certifications.length > 0 && (
+          <section id="credentials" class="flex scroll-mt-24 flex-col gap-6">
+            <div class="flex flex-col gap-1">
+              <div class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase">
+                <Icon
+                  name="lucide:shield-check"
+                  class="size-4 text-foreground"
+                />
+                <span>Certifications</span>
+              </div>
+              <h2 class="text-foreground text-xl font-bold tracking-tight">
+                Technical Credentials
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {certifications.map((cred) => (
+                <div class="border-border bg-muted/15 rounded-lg border p-4 font-mono text-xs">
+                  <div class="text-foreground font-semibold">{cred.name}</div>
+                  <div class="text-muted-foreground">{cred.issuer}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 5. Academic Foundations & Journey -->
       <section id="timeline" class="flex scroll-mt-24 flex-col gap-6">
         <div class="flex flex-col gap-1">
           <div
             class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
           >
-            <Icon name="lucide:git-branch" class="size-4 text-foreground" />
-            <span>Engineering Milestones</span>
+            <Icon name="lucide:graduation-cap" class="size-4 text-foreground" />
+            <span>Academic Foundations</span>
           </div>
           <h2 class="text-foreground text-xl font-bold tracking-tight">
-            The Engineering Progression: SMK Kapit to Advanced Systems
+            Academic Background & STEM Focus
           </h2>
           <p class="text-muted-foreground text-xs sm:text-sm">
-            Chronological milestone tracker documenting technical evolution
-            across embedded hardware, autonomous robotics, and machine learning
-            systems. Filter by domain or expand individual technical specifications.
+            Current secondary education at SMK Kapit (Kapit National Secondary School)
+            and core scientific disciplines.
           </p>
         </div>
 
-        <!-- React Interactive Timeline Component -->
+        {/* React Interactive Timeline Component */}
         <InteractiveTimeline client:load />
       </section>
     </div>

@@ -9,12 +9,9 @@ interface TOCItem {
 }
 
 const tocItems: TOCItem[] = [
-  { id: 'press-room', label: 'In The News', sub: false },
-  { id: 'competitions', label: 'Competitions & Hackathons', sub: false },
-  { id: 'featured-champion', label: 'Mini Inno Waste 2.0', sub: true },
-  { id: 'additional-competitions', label: 'Additional Challenges', sub: true },
-  { id: 'credentials', label: 'Certifications & Credentials', sub: false },
-  { id: 'timeline', label: 'Engineering Milestones', sub: false },
+  { id: 'competitions', label: 'Competitions & Honors', sub: false },
+  { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)', sub: true },
+  { id: 'timeline', label: 'Academic Foundations', sub: false },
 ]
 ---
 
@@ -58,83 +55,100 @@ const tocItems: TOCItem[] = [
 </aside>
 
 <script>
-  const HEADER_OFFSET = 140
-
-  class AchievementsDesktopTOC {
+  class AchievementsDesktopTOCController {
     links: NodeListOf<HTMLAnchorElement> | null = null
-    sectionIds: string[] = [
-      'press-room',
-      'competitions',
-      'featured-champion',
-      'additional-competitions',
-      'credentials',
-      'timeline',
-    ]
-    sections: { id: string; element: HTMLElement }[] = []
+    sections: { id: string; top: number }[] = []
 
     init() {
-      const container = document.getElementById('achievements-desktop-toc')
-      if (!container) return
+      this.links = document.querySelectorAll(
+        '.achievements-desktop-toc-link',
+      )
+      if (!this.links || this.links.length === 0) return
 
-      this.links = container.querySelectorAll('.achievements-desktop-toc-link')
-      this.sections = this.sectionIds
-        .map((id) => ({
-          id,
-          element: document.getElementById(id) as HTMLElement,
-        }))
-        .filter((s) => s.element !== null)
-
-      this.updateActiveLink()
+      this.cacheSectionPositions()
       window.addEventListener('scroll', this.handleScroll, { passive: true })
+      window.addEventListener('resize', this.cacheSectionPositions, {
+        passive: true,
+      })
+      this.handleScroll()
+    }
+
+    cacheSectionPositions = () => {
+      if (!this.links) return
+      this.sections = []
+
+      this.links.forEach((link) => {
+        const id = link.getAttribute('data-toc-target')
+        if (!id) return
+        const element = document.getElementById(id)
+        if (element) {
+          this.sections.push({
+            id,
+            top: element.getBoundingClientRect().top + window.scrollY,
+          })
+        }
+      })
+
+      this.sections.sort((a, b) => a.top - b.top)
     }
 
     handleScroll = () => {
-      this.updateActiveLink()
-    }
+      if (!this.links || this.sections.length === 0) return
 
-    updateActiveLink() {
-      if (this.sections.length === 0 || !this.links) return
-
-      const scrollPos = window.scrollY + HEADER_OFFSET
-      let activeId = ''
-
-      if (
+      const scrollPos = window.scrollY + 140
+      const isAtBottom =
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 60
-      ) {
+
+      let activeId = this.sections[0].id
+
+      if (isAtBottom) {
         activeId = this.sections[this.sections.length - 1].id
       } else {
         for (let i = this.sections.length - 1; i >= 0; i--) {
-          const sec = this.sections[i]
-          const top = sec.element.getBoundingClientRect().top + window.scrollY
-          if (top <= scrollPos) {
-            activeId = sec.id
+          if (scrollPos >= this.sections[i].top) {
+            activeId = this.sections[i].id
             break
           }
         }
       }
 
       this.links.forEach((link) => {
-        const target = link.dataset.tocTarget
-        const isMatch = target === activeId
-        link.classList.toggle('text-foreground', isMatch)
-        link.classList.toggle('font-semibold', isMatch)
-        if (link.classList.contains('border-l')) {
-          link.classList.toggle('border-foreground', isMatch)
-          link.classList.toggle('border-border/50', !isMatch)
+        const targetId = link.getAttribute('data-toc-target')
+        const isActive = targetId === activeId
+
+        if (isActive) {
+          link.classList.remove('text-muted-foreground', 'text-muted-foreground/75')
+          link.classList.add('text-foreground', 'font-semibold')
+          if (link.classList.contains('border-l')) {
+            link.classList.remove('border-border/50')
+            link.classList.add('border-foreground')
+          }
+        } else {
+          link.classList.remove('text-foreground', 'font-semibold')
+          link.classList.add(
+            link.classList.contains('border-l')
+              ? 'text-muted-foreground/75'
+              : 'text-muted-foreground',
+          )
+          if (link.classList.contains('border-l')) {
+            link.classList.remove('border-foreground')
+            link.classList.add('border-border/50')
+          }
         }
       })
     }
 
     cleanup() {
       window.removeEventListener('scroll', this.handleScroll)
+      window.removeEventListener('resize', this.cacheSectionPositions)
     }
   }
 
-  let desktopTOCInstance: AchievementsDesktopTOC | null = null
+  let desktopTOCInstance: AchievementsDesktopTOCController | null = null
 
   document.addEventListener('astro:page-load', () => {
-    desktopTOCInstance = new AchievementsDesktopTOC()
+    desktopTOCInstance = new AchievementsDesktopTOCController()
     desktopTOCInstance.init()
   })
 

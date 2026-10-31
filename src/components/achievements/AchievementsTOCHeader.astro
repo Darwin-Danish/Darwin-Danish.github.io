@@ -9,12 +9,9 @@ interface TOCItem {
 }
 
 const sections: TOCItem[] = [
-  { id: 'press-room', label: 'In The News', sub: false },
-  { id: 'competitions', label: 'Competitions & Hackathons', sub: false },
+  { id: 'competitions', label: 'Competitions & Honors', sub: false },
   { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)', sub: true },
-  { id: 'additional-competitions', label: 'Additional Challenges', sub: true },
-  { id: 'credentials', label: 'Certifications & Credentials', sub: false },
-  { id: 'timeline', label: 'Engineering Milestones', sub: false },
+  { id: 'timeline', label: 'Academic Foundations', sub: false },
 ]
 ---
 
@@ -52,199 +49,184 @@ const sections: TOCItem[] = [
         </div>
         <span
           id="achievements-mobile-current-section"
-          class="text-muted-foreground grow truncate font-mono text-xs"
+          class="text-muted-foreground flex-grow truncate font-mono text-xs"
         >
-          Overview
+          {sections[0].label}
         </span>
-        <span class="text-muted-foreground ml-2">
-          <Icon
-            name="lucide:chevron-down"
-            class="size-4 transition-transform duration-200 group-open:rotate-180"
-          />
-        </span>
+        <Icon
+          name="lucide:chevron-down"
+          class="text-muted-foreground ml-2 size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
+        />
       </div>
     </summary>
 
-    <ScrollArea
-      client:load
-      className="bg-background/95 border-border/60 mx-auto max-w-3xl border-b"
-      data-toc-header-scroll
+    <div
+      class="border-border/60 bg-background/95 fixed inset-x-0 z-40 border-b backdrop-blur-md"
     >
-      <div class="max-h-[35vh]">
-        <ul
-          class="flex list-none flex-col gap-y-2 px-4 py-3 font-mono text-xs"
-          id="achievements-mobile-toc-list"
-        >
-          {
-            sections.map((section) => (
-              <li>
+      <ScrollArea client:load className="max-h-[60vh] overflow-y-auto" type="auto">
+        <div class="mx-auto max-w-3xl px-4 py-3 font-mono">
+          <div
+            class="text-muted-foreground mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:list" class="size-3.5" />
+            <span>On This Page</span>
+          </div>
+
+          <nav class="flex flex-col gap-1 text-xs">
+            {
+              sections.map((sec) => (
                 <a
-                  href={`#${section.id}`}
-                  class={`achievements-mobile-toc-item block py-1 transition-colors ${
-                    section.sub
-                      ? 'border-border/50 text-muted-foreground/75 hover:text-foreground ml-3 border-l pl-3'
-                      : 'text-muted-foreground hover:text-foreground'
+                  href={`#${sec.id}`}
+                  data-toc-target={sec.id}
+                  class={`achievements-mobile-toc-link flex items-center justify-between py-2 transition-colors ${
+                    sec.sub
+                      ? 'border-border/40 text-muted-foreground/75 hover:text-foreground ml-3 border-l pl-3'
+                      : 'text-muted-foreground hover:text-foreground font-medium'
                   }`}
-                  data-section-id={section.id}
                 >
-                  {section.label}
+                  <span>{sec.label}</span>
                 </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </ScrollArea>
+              ))
+            }
+          </nav>
+        </div>
+      </ScrollArea>
+    </div>
   </details>
 </div>
 
 <script>
-  const INITIAL_LABEL = 'Overview'
-  const HEADER_OFFSET = 120
-  const PROGRESS_CIRCLE_RADIUS = 10
-  const CIRCUMFERENCE = 2 * Math.PI * PROGRESS_CIRCLE_RADIUS
+  const CIRCLE_RADIUS = 10
+  const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS
 
-  class AchievementsMobileTOC {
-    progressCircle: HTMLElement | null = null
-    currentText: HTMLElement | null = null
-    details: HTMLDetailsElement | null = null
-    list: HTMLElement | null = null
-    sections: { id: string; element: HTMLElement }[] = []
+  class AchievementsMobileTOCController {
+    detailsElement: HTMLDetailsElement | null = null
+    currentSectionSpan: HTMLSpanElement | null = null
+    progressCircle: SVGCircleElement | null = null
+    links: NodeListOf<HTMLAnchorElement> | null = null
+    sections: { id: string; label: string; element: HTMLElement }[] = []
 
     init() {
-      const container = document.getElementById(
-        'achievements-mobile-toc-container',
+      this.detailsElement = document.querySelector(
+        '#achievements-mobile-toc-container details',
       )
-      if (!container) return
-
-      this.progressCircle = document.getElementById(
-        'achievements-mobile-progress-circle',
-      )
-      this.currentText = document.getElementById(
+      this.currentSectionSpan = document.getElementById(
         'achievements-mobile-current-section',
       )
-      this.details = container.querySelector('details')
-      this.list = document.getElementById('achievements-mobile-toc-list')
+      this.progressCircle = document.getElementById(
+        'achievements-mobile-progress-circle',
+      ) as unknown as SVGCircleElement
+      this.links = document.querySelectorAll(
+        '.achievements-mobile-toc-link',
+      )
 
-      const sectionIds = [
-        'press-room',
-        'competitions',
-        'featured-champion',
-        'additional-competitions',
-        'credentials',
-        'timeline',
+      if (!this.detailsElement || !this.currentSectionSpan || !this.progressCircle) {
+        return
+      }
+
+      this.cacheSections()
+      this.setupEventListeners()
+      this.updateProgress()
+    }
+
+    cacheSections() {
+      this.sections = []
+      const sectionConfigs = [
+        { id: 'competitions', label: 'Competitions & Honors' },
+        { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)' },
+        { id: 'timeline', label: 'Academic Foundations' },
       ]
-      this.sections = sectionIds
-        .map((id) => ({
-          id,
-          element: document.getElementById(id) as HTMLElement,
-        }))
-        .filter((s) => s.element !== null)
 
-      if (this.progressCircle) {
-        this.progressCircle.style.strokeDasharray = CIRCUMFERENCE.toString()
-        this.progressCircle.style.strokeDashoffset = CIRCUMFERENCE.toString()
-      }
-
-      // Close details when an item is clicked
-      if (this.list) {
-        this.list
-          .querySelectorAll('.achievements-mobile-toc-item')
-          .forEach((item) => {
-            item.addEventListener('click', () => {
-              if (this.details) {
-                this.details.open = false
-              }
-            })
+      sectionConfigs.forEach((cfg) => {
+        const el = document.getElementById(cfg.id)
+        if (el) {
+          this.sections.push({
+            id: cfg.id,
+            label: cfg.label,
+            element: el,
           })
-      }
-
-      this.updateProgress()
-      this.updateActiveSection()
-
-      window.addEventListener('scroll', this.handleScroll, { passive: true })
+        }
+      })
     }
 
-    handleScroll = () => {
-      this.updateProgress()
-      this.updateActiveSection()
+    setupEventListeners() {
+      window.addEventListener('scroll', this.updateProgress, { passive: true })
+
+      this.links?.forEach((link) => {
+        link.addEventListener('click', () => {
+          if (this.detailsElement) {
+            this.detailsElement.open = false
+          }
+        })
+      })
+
+      document.addEventListener('click', (e) => {
+        if (
+          this.detailsElement &&
+          this.detailsElement.open &&
+          !this.detailsElement.contains(e.target as Node)
+        ) {
+          this.detailsElement.open = false
+        }
+      })
     }
 
-    updateProgress() {
-      if (!this.progressCircle) return
+    updateProgress = () => {
       const scrollable =
         document.documentElement.scrollHeight - window.innerHeight
-      const progress =
-        scrollable > 0 ? Math.min(Math.max(window.scrollY / scrollable, 0), 1) : 0
-      this.progressCircle.style.strokeDashoffset = (
-        CIRCUMFERENCE *
-        (1 - progress)
-      ).toString()
-    }
+      const scrollY = window.scrollY
 
-    updateActiveSection() {
-      if (this.sections.length === 0) return
-
-      const scrollPos = window.scrollY + HEADER_OFFSET
-      let currentId = ''
-      let currentLabel = INITIAL_LABEL
-
-      const labelMap: Record<string, string> = {
-        'press-room': 'In The News',
-        competitions: 'Competitions & Hackathons',
-        'featured-champion': 'Mini Inno Waste 2.0 (Juara)',
-        'additional-competitions': 'Additional Challenges',
-        credentials: 'Certifications & Credentials',
-        timeline: 'Engineering Milestones',
+      if (this.progressCircle && scrollable > 0) {
+        const progress = Math.min(Math.max(scrollY / scrollable, 0), 1)
+        const offset = CIRCLE_CIRCUMFERENCE * (1 - progress)
+        this.progressCircle.style.strokeDashoffset = offset.toString()
       }
 
-      if (window.scrollY < 80) {
-        currentId = ''
-        currentLabel = INITIAL_LABEL
-      } else if (
+      if (this.sections.length === 0 || !this.currentSectionSpan) return
+
+      const scrollPos = window.scrollY + 140
+      const isAtBottom =
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 60
-      ) {
-        const last = this.sections[this.sections.length - 1]
-        currentId = last.id
-        currentLabel = labelMap[last.id] || INITIAL_LABEL
+
+      let currentSec = this.sections[0]
+
+      if (isAtBottom) {
+        currentSec = this.sections[this.sections.length - 1]
       } else {
         for (let i = this.sections.length - 1; i >= 0; i--) {
-          const sec = this.sections[i]
-          const top = sec.element.getBoundingClientRect().top + window.scrollY
-          if (top <= scrollPos) {
-            currentId = sec.id
-            currentLabel = labelMap[sec.id] || INITIAL_LABEL
+          const sectionTop =
+            this.sections[i].element.getBoundingClientRect().top + window.scrollY
+          if (scrollPos >= sectionTop) {
+            currentSec = this.sections[i]
             break
           }
         }
       }
 
-      if (this.currentText) {
-        this.currentText.textContent = currentLabel
-      }
+      this.currentSectionSpan.textContent = currentSec.label
 
-      if (this.list) {
-        this.list
-          .querySelectorAll<HTMLElement>('.achievements-mobile-toc-item')
-          .forEach((item) => {
-            const match = item.dataset.sectionId === currentId
-            item.classList.toggle('text-foreground', match)
-            item.classList.toggle('font-semibold', match)
-            item.classList.toggle('text-muted-foreground', !match)
-          })
-      }
+      this.links?.forEach((link) => {
+        const targetId = link.getAttribute('data-toc-target')
+        if (targetId === currentSec.id) {
+          link.classList.remove('text-muted-foreground', 'text-muted-foreground/75')
+          link.classList.add('text-foreground', 'font-semibold')
+        } else {
+          link.classList.remove('text-foreground', 'font-semibold')
+          link.classList.add('text-muted-foreground')
+        }
+      })
     }
 
     cleanup() {
-      window.removeEventListener('scroll', this.handleScroll)
+      window.removeEventListener('scroll', this.updateProgress)
     }
   }
 
-  let mobileTOCInstance: AchievementsMobileTOC | null = null
+  let mobileTOCInstance: AchievementsMobileTOCController | null = null
 
   document.addEventListener('astro:page-load', () => {
-    mobileTOCInstance = new AchievementsMobileTOC()
+    mobileTOCInstance = new AchievementsMobileTOCController()
     mobileTOCInstance.init()
   })
 
