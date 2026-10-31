@@ -1,6 +1,5 @@
 ---
 import { SITE } from '@/consts'
-import SpeedInsights from '@vercel/speed-insights/astro'
 import { getEntry } from 'astro:content'
 import { ClientRouter } from 'astro:transitions'
 import Favicons from './Favicons.astro'
@@ -147,7 +146,6 @@ const personSchema = {
 
   <Favicons />
   <ClientRouter />
-  <SpeedInsights />
 
   <script
     type="application/ld+json"

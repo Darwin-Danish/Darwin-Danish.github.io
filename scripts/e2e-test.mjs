@@ -668,6 +668,64 @@ registerTest({
   },
 })
 
+registerTest({
+  id: 'T1.F5.6',
+  tier: 'Tier 1',
+  feature: 'F5 - Netlify & Vercel Script Elimination',
+  title:
+    'dist/ static files contain zero references to Vercel scripts (_vercel/insights, _vercel/speed-insights)',
+  run: () => {
+    const htmlFiles = [
+      'index.html',
+      'about/index.html',
+      'work/index.html',
+      'blog/index.html',
+      'achievements/index.html',
+      '404.html',
+    ]
+    for (const rel of htmlFiles) {
+      const html = readDist(rel)
+      if (html) {
+        assertNotContains(
+          html,
+          '_vercel/insights',
+          `${rel} must not contain Vercel analytics script`,
+        )
+        assertNotContains(
+          html,
+          '_vercel/speed-insights',
+          `${rel} must not contain Vercel speed insights script`,
+        )
+      }
+    }
+  },
+})
+
+registerTest({
+  id: 'T1.F5.7',
+  tier: 'Tier 1',
+  feature: 'F5 - Netlify & Vercel Script Elimination',
+  title:
+    'Layout.astro and Head.astro contain zero @vercel/analytics or @vercel/speed-insights imports',
+  run: () => {
+    const layout = readSrc('src/layouts/Layout.astro')
+    assert(layout !== null, 'src/layouts/Layout.astro must exist')
+    assertNotContains(
+      layout,
+      '@vercel/analytics',
+      'Layout.astro must not import @vercel/analytics',
+    )
+
+    const head = readSrc('src/components/Head.astro')
+    assert(head !== null, 'src/components/Head.astro must exist')
+    assertNotContains(
+      head,
+      '@vercel/speed-insights',
+      'Head.astro must not import @vercel/speed-insights',
+    )
+  },
+})
+
 // --- Feature 6: Blog & Works Tabs Empty & Card Fallbacks ---
 registerTest({
   id: 'T1.F6.1',
@@ -924,6 +982,33 @@ registerTest({
       code,
       '@jktrn/ef6e633b',
       'WakatimeGraph.tsx must not point to @jktrn',
+    )
+  },
+})
+
+registerTest({
+  id: 'T1.F8.6',
+  tier: 'Tier 1',
+  feature: 'F8 - AI Traces & Crawler Safeguards',
+  title:
+    'DiscordPresence.tsx implements crawler evasion, abort timeout, and does not depend on react-use-lanyard',
+  run: () => {
+    const code = readSrc('src/components/bento/DiscordPresence.tsx')
+    assert(code !== null, 'DiscordPresence.tsx must exist')
+    assertNotContains(
+      code,
+      'react-use-lanyard',
+      'DiscordPresence.tsx must not import third-party react-use-lanyard',
+    )
+    assertContains(
+      code,
+      'isCrawler',
+      'DiscordPresence.tsx must implement isCrawler bot check',
+    )
+    assertContains(
+      code,
+      'AbortController',
+      'DiscordPresence.tsx must use AbortController timeout',
     )
   },
 })

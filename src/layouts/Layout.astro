@@ -8,7 +8,6 @@ import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
 import { SITE } from '@/consts'
 import { cn } from '@/lib/utils'
-import Analytics from '@vercel/analytics/astro'
 
 interface Props {
   class?: string
@@ -24,7 +23,6 @@ const { class: className } = Astro.props
   data-theme="dark"
 >
   <Head>
-    <Analytics />
     <slot name="head" />
   </Head>
   <body>

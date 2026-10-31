@@ -1,6 +1,5 @@
 import { useMemo, useState, useEffect, useCallback, memo } from 'react'
 import { FaDiscord } from 'react-icons/fa'
-import { useLanyard } from 'react-use-lanyard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn, getElapsedTime } from '@/lib/utils'
 import AvatarComponent from '@/components/ui/avatar'
@@ -232,7 +231,7 @@ const ActivityDisplay = memo<{
   )
 })
 
-const LoadingSkeleton = memo(() => (
+export const LoadingSkeleton = memo(() => (
   <DiscordLayout
     statusIndicator={
       <Skeleton className="ring-muted absolute right-1 bottom-1 size-4 rounded-full ring-6" />
@@ -240,6 +239,87 @@ const LoadingSkeleton = memo(() => (
     activityContent={<Skeleton className="h-full w-full" />}
   />
 ))
+
+interface LanyardResponse {
+  success: boolean
+  data?: {
+    discord_status: 'online' | 'idle' | 'dnd' | 'offline'
+    activities?: Activity[]
+  }
+  error?: {
+    message: string
+    code: string
+  }
+}
+
+/**
+ * Detect search engine bots / crawlers (Googlebot, Bingbot, Lighthouse, etc.)
+ * Crawlers should not initiate external live WebSocket/XHR requests to api.lanyard.rest,
+ * avoiding network timeouts, resource loading errors, or blocking crawler budgets.
+ */
+function isCrawler(): boolean {
+  if (typeof navigator === 'undefined') return false
+  if (navigator.webdriver) return true
+  return /bot|crawler|spider|googlebot|google-inspectiontool|bingbot|yandex|duckduckbot|slurp|baiduspider|headless|lighthouse|ptst/i.test(
+    navigator.userAgent || '',
+  )
+}
+
+function useLanyardPresence(userId: string) {
+  const [data, setData] = useState<LanyardResponse | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    // Avoid running on server or if userId is missing or if client is a search bot/crawler
+    if (!userId || typeof window === 'undefined' || isCrawler()) {
+      return
+    }
+
+    const controller = new AbortController()
+    // 4-second timeout to prevent any hanging connections
+    const timeoutId = setTimeout(() => {
+      controller.abort()
+    }, 4000)
+
+    setIsLoading(true)
+
+    fetch(`https://api.lanyard.rest/v1/users/${userId}`, {
+      signal: controller.signal,
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Lanyard responded with status ${response.status}`)
+        }
+        return response.json() as Promise<LanyardResponse>
+      })
+      .then((json) => {
+        if (json.success && json.data) {
+          setData(json)
+        } else {
+          setError(new Error(json.error?.message || 'Invalid Lanyard payload'))
+        }
+      })
+      .catch((err) => {
+        // Silently capture aborts or network failures into state without unhandled rejections
+        setError(err instanceof Error ? err : new Error(String(err)))
+      })
+      .finally(() => {
+        clearTimeout(timeoutId)
+        setIsLoading(false)
+      })
+
+    return () => {
+      clearTimeout(timeoutId)
+      controller.abort()
+    }
+  }, [userId])
+
+  return { data, isLoading, error }
+}
 
 const DiscordPresence = () => {
   // If no valid Discord User ID is configured, show default presence
@@ -262,13 +342,7 @@ const DiscordPresence = () => {
     )
   }
 
-  const {
-    data: lanyard,
-    isLoading,
-    error,
-  } = useLanyard({
-    userId: DISCORD_USER_ID,
-  })
+  const { data: lanyard, error } = useLanyardPresence(DISCORD_USER_ID)
 
   const mainActivity = useMemo(() => {
     if (!lanyard?.data?.activities) return null
@@ -297,10 +371,6 @@ const DiscordPresence = () => {
     const intervalId = setInterval(updateElapsedTime, 1000)
     return () => clearInterval(intervalId)
   }, [mainActivity?.timestamps?.start, updateElapsedTime])
-
-  if (isLoading) {
-    return <LoadingSkeleton />
-  }
 
   if (error || !lanyard?.data) {
     return (
