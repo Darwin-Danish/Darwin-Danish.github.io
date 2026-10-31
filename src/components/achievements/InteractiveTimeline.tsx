@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   Filter,
   Terminal,
+  RotateCcw,
 } from 'lucide-react'
 
 type Category =
@@ -24,6 +25,7 @@ type Category =
 
 interface Milestone {
   id: string
+  nodeNumber: string
   year: string
   date: string
   category: 'COMPETITIONS' | 'HARDWARE & IOT' | 'AI & ML' | 'EDUCATION'
@@ -45,6 +47,7 @@ interface Milestone {
 const MILESTONES: Milestone[] = [
   {
     id: 'motorsport-future',
+    nodeNumber: '06',
     year: '2026+',
     date: 'Present & Beyond',
     category: 'HARDWARE & IOT',
@@ -71,6 +74,7 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: 'exoplanet-stacking-2025',
+    nodeNumber: '05',
     year: '2025',
     date: 'November 2025',
     category: 'AI & ML',
@@ -99,6 +103,7 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: 'lumina-championship-2024',
+    nodeNumber: '04',
     year: '2024',
     date: 'November 2024',
     category: 'COMPETITIONS',
@@ -137,6 +142,7 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: 'robotics-telemetry-2023',
+    nodeNumber: '03',
     year: '2023',
     date: 'Mid 2023',
     category: 'HARDWARE & IOT',
@@ -163,6 +169,7 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: 'arduino-prototyping-2022',
+    nodeNumber: '02',
     year: '2022',
     date: 'Late 2022',
     category: 'HARDWARE & IOT',
@@ -189,6 +196,7 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: 'smk-kapit-roots-2021',
+    nodeNumber: '01',
     year: '2021',
     date: 'Early 2021',
     category: 'EDUCATION',
@@ -255,17 +263,17 @@ export default function InteractiveTimeline() {
   const renderIcon = (icon: Milestone['icon']) => {
     switch (icon) {
       case 'trophy':
-        return <Trophy className="size-4 text-amber-400" />
+        return <Trophy className="size-3.5 text-amber-400 sm:size-4" />
       case 'bot':
-        return <Bot className="size-4 text-sky-400" />
+        return <Bot className="size-3.5 text-sky-400 sm:size-4" />
       case 'cpu':
-        return <Cpu className="size-4 text-emerald-400" />
+        return <Cpu className="size-3.5 text-emerald-400 sm:size-4" />
       case 'school':
-        return <GraduationCap className="size-4 text-orange-400" />
+        return <GraduationCap className="size-3.5 text-orange-400 sm:size-4" />
       case 'sparkles':
-        return <Sparkles className="size-4 text-purple-400" />
+        return <Sparkles className="size-3.5 text-purple-400 sm:size-4" />
       default:
-        return <Layers className="text-primary size-4" />
+        return <Layers className="text-primary size-3.5 sm:size-4" />
     }
   }
 
@@ -311,6 +319,7 @@ export default function InteractiveTimeline() {
             <button
               type="button"
               onClick={expandAll}
+              aria-label="Expand all technical blueprints"
               className="border-border text-muted-foreground hover:border-primary hover:text-foreground rounded border px-2.5 py-1 transition active:scale-95"
             >
               [+ Expand All]
@@ -318,6 +327,7 @@ export default function InteractiveTimeline() {
             <button
               type="button"
               onClick={collapseAll}
+              aria-label="Collapse all technical blueprints"
               className="border-border text-muted-foreground hover:border-primary hover:text-foreground rounded border px-2.5 py-1 transition active:scale-95"
             >
               [- Collapse All]
@@ -326,7 +336,11 @@ export default function InteractiveTimeline() {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex flex-wrap gap-1.5 pt-1">
+        <div
+          className="flex flex-wrap gap-1.5 pt-1"
+          role="group"
+          aria-label="Timeline Category Filters"
+        >
           {filterOptions.map((opt) => {
             const count =
               opt.key === 'ALL'
@@ -337,16 +351,17 @@ export default function InteractiveTimeline() {
               <button
                 key={opt.key}
                 type="button"
+                aria-pressed={isSelected}
                 onClick={() => setActiveFilter(opt.key)}
-                className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-xs transition-all duration-150 ${
+                className={`flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-xs transition-all duration-150 ${
                   isSelected
-                    ? 'border-primary bg-primary/10 text-primary border font-semibold shadow-xs'
+                    ? 'border-primary bg-primary/10 text-primary border font-semibold shadow-sm'
                     : 'border-border/70 bg-background/50 text-muted-foreground hover:border-border hover:text-foreground border'
                 }`}
               >
                 <span>{opt.label}</span>
                 <span
-                  className={`py-0.2 rounded-full px-1.5 text-[10px] ${
+                  className={`rounded-full px-1.5 py-0.5 text-[10px] ${
                     isSelected
                       ? 'bg-primary/20 text-primary'
                       : 'bg-muted text-muted-foreground'
@@ -361,190 +376,222 @@ export default function InteractiveTimeline() {
       </div>
 
       {/* Vertical Spine Timeline */}
-      <div className="relative pl-6 sm:pl-8">
+      <div className="relative pl-8 sm:pl-10">
         {/* Continuous Circuit Spine Line */}
-        <div className="from-primary/60 via-border/80 to-primary/30 absolute top-2 bottom-2 left-2.5 w-[2px] bg-gradient-to-b sm:left-3.5" />
+        <div className="from-primary/70 via-border/80 to-primary/30 absolute top-3 bottom-3 left-3 w-[2px] bg-gradient-to-b sm:left-4" />
 
-        <div className="space-y-6">
-          {filteredMilestones.map((milestone, idx) => {
-            const isExpanded = !!expandedIds[milestone.id]
-            const isFeatured = milestone.featured
+        {/* Empty State Fallback */}
+        {filteredMilestones.length === 0 ? (
+          <div className="border-border bg-muted/15 flex flex-col items-center justify-center gap-3 rounded-lg border p-8 text-center">
+            <span className="text-muted-foreground font-mono text-xs">
+              [NO_MILESTONES_FOUND_IN_SELECTED_DOMAIN]
+            </span>
+            <p className="text-foreground text-sm font-semibold">
+              No milestone entries match this domain filter.
+            </p>
+            <button
+              type="button"
+              onClick={() => setActiveFilter('ALL')}
+              className="border-primary bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 font-mono text-xs transition-colors"
+            >
+              <RotateCcw className="size-3.5" />
+              <span>Reset Filter to All</span>
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {filteredMilestones.map((milestone) => {
+              const isExpanded = !!expandedIds[milestone.id]
+              const isFeatured = milestone.featured
+              const drawerId = `blueprint-${milestone.id}`
 
-            return (
-              <div key={milestone.id} className="group relative">
-                {/* Circuit Node Marker */}
-                <div
-                  className={`bg-background absolute top-3 -left-6 flex size-6 items-center justify-center rounded-full border transition-transform duration-200 group-hover:scale-110 sm:-left-8 sm:size-7 ${
-                    isFeatured
-                      ? 'border-amber-400/80 shadow-[0_0_12px_rgba(251,191,36,0.35)] ring-2 ring-amber-400/20'
-                      : 'border-border group-hover:border-primary'
-                  }`}
-                >
-                  {renderIcon(milestone.icon)}
-                </div>
-
-                {/* Milestone Content Card */}
-                <div
-                  className={`rounded-lg border transition-all duration-200 ${
-                    isFeatured
-                      ? 'border-amber-500/30 bg-amber-500/[0.03] hover:border-amber-500/50'
-                      : 'border-border bg-muted/15 hover:border-primary/40 hover:bg-muted/25'
-                  }`}
-                >
-                  {/* Card Header */}
-                  <div className="p-4 sm:p-5">
-                    {/* Meta Bar */}
-                    <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-primary font-mono text-xs font-bold">
-                          {milestone.date}
-                        </span>
-                        <span
-                          className={`rounded border px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${getCategoryBadgeClass(
-                            milestone.category,
-                          )}`}
-                        >
-                          {milestone.category}
-                        </span>
-                        <span className="border-border/80 bg-background/80 text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
-                          [{milestone.status}]
-                        </span>
-                      </div>
-                      <span className="text-muted-foreground/60 font-mono text-[11px]">
-                        NODE #{String(MILESTONES.length - idx).padStart(2, '0')}
-                      </span>
-                    </div>
-
-                    {/* Title & Subtitle */}
-                    <h3 className="text-foreground mb-1 text-base font-semibold tracking-tight sm:text-lg">
-                      {milestone.title}
-                    </h3>
-                    <p className="text-primary/80 mb-2 font-mono text-xs sm:text-sm">
-                      {milestone.subtitle}
-                    </p>
-
-                    {/* Journey Breadcrumb */}
-                    <div className="text-muted-foreground/80 bg-background/40 border-border/40 mb-3 flex w-fit items-center gap-1.5 rounded border px-2.5 py-1 font-mono text-[11px]">
-                      <Terminal className="text-primary size-3 shrink-0" />
-                      <span>{milestone.journeyStep}</span>
-                    </div>
-
-                    {/* Summary */}
-                    <p className="text-muted-foreground text-xs leading-relaxed sm:text-sm">
-                      {milestone.summary}
-                    </p>
-
-                    {/* Bottom Action / Expansion Trigger */}
-                    <div className="border-border/50 mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-3">
-                      <button
-                        type="button"
-                        onClick={() => toggleExpand(milestone.id)}
-                        className="text-primary hover:text-foreground flex items-center gap-1.5 font-mono text-xs transition-colors"
-                      >
-                        {isExpanded ? (
-                          <>
-                            <ChevronUp className="size-3.5" />
-                            <span>[- Hide Technical Blueprint]</span>
-                          </>
-                        ) : (
-                          <>
-                            <ChevronDown className="size-3.5" />
-                            <span>[+ Inspect Technical Blueprint & Specs]</span>
-                          </>
-                        )}
-                      </button>
-
-                      {milestone.link && (
-                        <a
-                          href={milestone.link}
-                          target={
-                            milestone.link.startsWith('http')
-                              ? '_blank'
-                              : '_self'
-                          }
-                          rel={
-                            milestone.link.startsWith('http')
-                              ? 'noopener noreferrer'
-                              : undefined
-                          }
-                          className="text-primary flex items-center gap-1 font-mono text-xs hover:underline"
-                        >
-                          <span>{milestone.linkLabel || 'View Details'}</span>
-                          {milestone.link.startsWith('http') ? (
-                            <ExternalLink className="size-3" />
-                          ) : (
-                            <ArrowRight className="size-3" />
-                          )}
-                        </a>
-                      )}
-                    </div>
+              return (
+                <div key={milestone.id} className="group relative">
+                  {/* Circuit Node Marker directly on the spine */}
+                  <div
+                    className={`bg-background absolute top-4 left-[-26px] z-10 flex size-6 items-center justify-center rounded-full border transition-transform duration-200 group-hover:scale-110 sm:left-[-32px] sm:size-7 ${
+                      isFeatured
+                        ? 'border-amber-400/80 shadow-[0_0_12px_rgba(251,191,36,0.35)] ring-2 ring-amber-400/20'
+                        : 'border-border group-hover:border-primary'
+                    }`}
+                  >
+                    {renderIcon(milestone.icon)}
                   </div>
 
-                  {/* Expandable Technical Blueprint Drawer */}
-                  {isExpanded && (
-                    <div className="border-border/60 bg-background/60 space-y-4 border-t p-4 sm:p-5">
-                      {/* Problem & Solution Grid */}
-                      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                        <div className="border-border/70 bg-muted/20 space-y-1 rounded border p-3">
-                          <div className="text-destructive flex items-center gap-1 font-mono text-[11px] tracking-wider uppercase">
-                            <span className="bg-destructive size-1.5 rounded-full" />
-                            The Constraint / Challenge
-                          </div>
-                          <p className="text-muted-foreground text-xs leading-relaxed">
-                            {milestone.problem}
-                          </p>
+                  {/* Horizontal Circuit Branch Trace connecting node to card */}
+                  <div className="border-border/60 group-hover:border-primary/50 absolute top-[27px] left-[-2px] h-[1px] w-2 border-t border-dashed transition-colors sm:left-[-4px] sm:w-4" />
+
+                  {/* Milestone Content Card */}
+                  <div
+                    className={`rounded-lg border transition-all duration-200 ${
+                      isFeatured
+                        ? 'border-amber-500/30 bg-amber-500/[0.03] hover:border-amber-500/50'
+                        : 'border-border bg-muted/15 hover:border-primary/40 hover:bg-muted/25'
+                    }`}
+                  >
+                    {/* Card Header */}
+                    <div className="p-4 sm:p-5">
+                      {/* Meta Bar */}
+                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-primary font-mono text-xs font-bold">
+                            {milestone.date}
+                          </span>
+                          <span
+                            className={`rounded border px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${getCategoryBadgeClass(
+                              milestone.category,
+                            )}`}
+                          >
+                            {milestone.category}
+                          </span>
+                          <span className="border-border/80 bg-background/80 text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
+                            [{milestone.status}]
+                          </span>
                         </div>
-                        <div className="border-border/70 bg-muted/20 space-y-1 rounded border p-3">
-                          <div className="flex items-center gap-1 font-mono text-[11px] tracking-wider text-emerald-400 uppercase">
-                            <span className="size-1.5 rounded-full bg-emerald-400" />
-                            Engineered Architecture
-                          </div>
-                          <p className="text-muted-foreground text-xs leading-relaxed">
-                            {milestone.solution}
-                          </p>
-                        </div>
+                        {/* Persistent Node Sequence Identifier (Fixed across filters) */}
+                        <span className="text-muted-foreground/70 font-mono text-[11px]">
+                          NODE #{milestone.nodeNumber}
+                        </span>
                       </div>
 
-                      {/* Technical Specs Table */}
-                      <div className="border-border/60 bg-muted/10 rounded border p-3">
-                        <div className="text-foreground mb-2 flex items-center gap-1.5 font-mono text-[11px] tracking-wider uppercase">
-                          <Cpu className="text-primary size-3" />
-                          <span>Hardware & Stack Telemetry</span>
-                        </div>
-                        <div className="grid grid-cols-1 gap-2 font-mono text-xs sm:grid-cols-2">
-                          {milestone.specs.map((spec, sIdx) => (
-                            <div
-                              key={sIdx}
-                              className="border-border/30 flex items-start justify-between gap-2 border-b pb-1"
-                            >
-                              <span className="text-muted-foreground/70 shrink-0">
-                                {spec.label}:
-                              </span>
-                              <span className="text-foreground text-right">
-                                {spec.value}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
+                      {/* Title & Subtitle */}
+                      <h3 className="text-foreground mb-1 text-base font-semibold tracking-tight sm:text-lg">
+                        {milestone.title}
+                      </h3>
+                      <p className="text-primary/80 mb-2 font-mono text-xs sm:text-sm">
+                        {milestone.subtitle}
+                      </p>
+
+                      {/* Journey Breadcrumb */}
+                      <div className="text-muted-foreground/80 bg-background/40 border-border/40 mb-3 flex w-fit items-center gap-1.5 rounded border px-2.5 py-1 font-mono text-[11px]">
+                        <Terminal className="text-primary size-3 shrink-0" />
+                        <span>{milestone.journeyStep}</span>
                       </div>
 
-                      {/* Engineering Breakthrough Callout */}
-                      <div className="border-l-primary bg-primary/5 rounded border-l-2 p-3 text-xs">
-                        <div className="text-primary mb-1 flex items-center gap-1.5 font-mono font-semibold">
-                          <CheckCircle2 className="size-3.5" />
-                          <span>Key Technical Breakthrough</span>
-                        </div>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {milestone.breakthrough}
-                        </p>
+                      {/* Summary */}
+                      <p className="text-muted-foreground text-xs leading-relaxed sm:text-sm">
+                        {milestone.summary}
+                      </p>
+
+                      {/* Bottom Action / Expansion Trigger */}
+                      <div className="border-border/50 mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-3">
+                        <button
+                          type="button"
+                          aria-expanded={isExpanded}
+                          aria-controls={drawerId}
+                          onClick={() => toggleExpand(milestone.id)}
+                          className="text-primary hover:text-foreground flex cursor-pointer items-center gap-1.5 font-mono text-xs transition-colors"
+                        >
+                          {isExpanded ? (
+                            <>
+                              <ChevronUp className="size-3.5" />
+                              <span>[- Hide Technical Blueprint]</span>
+                            </>
+                          ) : (
+                            <>
+                              <ChevronDown className="size-3.5" />
+                              <span>
+                                [+ Inspect Technical Blueprint & Specs]
+                              </span>
+                            </>
+                          )}
+                        </button>
+
+                        {milestone.link && (
+                          <a
+                            href={milestone.link}
+                            target={
+                              milestone.link.startsWith('http')
+                                ? '_blank'
+                                : '_self'
+                            }
+                            rel={
+                              milestone.link.startsWith('http')
+                                ? 'noopener noreferrer'
+                                : undefined
+                            }
+                            className="text-primary flex items-center gap-1 font-mono text-xs hover:underline"
+                          >
+                            <span>{milestone.linkLabel || 'View Details'}</span>
+                            {milestone.link.startsWith('http') ? (
+                              <ExternalLink className="size-3" />
+                            ) : (
+                              <ArrowRight className="size-3" />
+                            )}
+                          </a>
+                        )}
                       </div>
                     </div>
-                  )}
+
+                    {/* Expandable Technical Blueprint Drawer */}
+                    {isExpanded && (
+                      <div
+                        id={drawerId}
+                        className="border-border/60 bg-background/60 space-y-4 border-t p-4 sm:p-5"
+                      >
+                        {/* Problem & Solution Grid */}
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                          <div className="border-border/70 bg-muted/20 space-y-1 rounded border p-3">
+                            <div className="text-destructive flex items-center gap-1 font-mono text-[11px] tracking-wider uppercase">
+                              <span className="bg-destructive size-1.5 rounded-full" />
+                              The Constraint / Challenge
+                            </div>
+                            <p className="text-muted-foreground text-xs leading-relaxed">
+                              {milestone.problem}
+                            </p>
+                          </div>
+                          <div className="border-border/70 bg-muted/20 space-y-1 rounded border p-3">
+                            <div className="flex items-center gap-1 font-mono text-[11px] tracking-wider text-emerald-400 uppercase">
+                              <span className="size-1.5 rounded-full bg-emerald-400" />
+                              Engineered Architecture
+                            </div>
+                            <p className="text-muted-foreground text-xs leading-relaxed">
+                              {milestone.solution}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Technical Specs Table */}
+                        <div className="border-border/60 bg-muted/10 rounded border p-3">
+                          <div className="text-foreground mb-2 flex items-center gap-1.5 font-mono text-[11px] tracking-wider uppercase">
+                            <Cpu className="text-primary size-3" />
+                            <span>Hardware & Stack Telemetry</span>
+                          </div>
+                          <div className="grid grid-cols-1 gap-2 font-mono text-xs sm:grid-cols-2">
+                            {milestone.specs.map((spec, sIdx) => (
+                              <div
+                                key={sIdx}
+                                className="border-border/30 flex items-start justify-between gap-2 border-b pb-1"
+                              >
+                                <span className="text-muted-foreground/70 shrink-0">
+                                  {spec.label}:
+                                </span>
+                                <span className="text-foreground text-right">
+                                  {spec.value}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Engineering Breakthrough Callout */}
+                        <div className="border-l-primary bg-primary/5 rounded border-l-2 p-3 text-xs">
+                          <div className="text-primary mb-1 flex items-center gap-1.5 font-mono font-semibold">
+                            <CheckCircle2 className="size-3.5" />
+                            <span>Key Technical Breakthrough</span>
+                          </div>
+                          <p className="text-muted-foreground leading-relaxed">
+                            {milestone.breakthrough}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

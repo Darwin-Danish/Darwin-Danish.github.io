@@ -201,7 +201,7 @@ const credentials = [
 ]
 ---
 
-<Layout>
+<Layout class="max-w-3xl">
   <Fragment slot="head">
     <PageHead
       title="Achievements"
@@ -225,11 +225,9 @@ const credentials = [
   </Fragment>
 
   <!-- Breadcrumbs Navigation -->
-  <div class="mx-auto w-full max-w-3xl">
-    <Breadcrumbs items={[{ label: 'Achievements', icon: 'lucide:trophy' }]} />
-  </div>
+  <Breadcrumbs items={[{ label: 'Achievements', icon: 'lucide:trophy' }]} />
 
-  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12 pb-12 text-left">
+  <div class="flex w-full flex-col gap-12 pb-12 text-left">
     <!-- 1. Header with Entity Badge and Track Record Overview -->
     <header class="border-border/60 flex flex-col gap-4 border-b pb-8">
       <div class="flex flex-wrap items-center gap-2">
@@ -237,7 +235,7 @@ const credentials = [
           class="border-primary/30 bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-xs"
         >
           <span class="bg-primary size-2 animate-pulse rounded-full"></span>
-          <span>[RECORD_ID: DD-ACHV-2025]</span>
+          <span>[RECORD_ID: DD-ACHV-2026]</span>
         </div>
         <span
           class="border-border bg-muted/40 text-muted-foreground rounded-full border px-3 py-1 font-mono text-xs"
@@ -264,15 +262,52 @@ const credentials = [
         </p>
       </div>
 
+      <!-- Quick Section Navigation Anchor Bar -->
+      <nav
+        class="flex flex-wrap items-center gap-2 pt-1"
+        aria-label="Achievements section shortcuts"
+      >
+        <a
+          href="#press-room"
+          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
+        >
+          <Icon name="lucide:newspaper" class="size-3 text-sky-400" />
+          <span>[PRESS_ROOM]</span>
+        </a>
+        <a
+          href="#competitions"
+          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
+        >
+          <Icon name="lucide:trophy" class="size-3 text-amber-400" />
+          <span>[CHAMPIONSHIPS]</span>
+        </a>
+        <a
+          href="#credentials"
+          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
+        >
+          <Icon name="lucide:shield-check" class="size-3 text-emerald-400" />
+          <span>[CREDENTIALS]</span>
+        </a>
+        <a
+          href="#timeline"
+          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
+        >
+          <Icon name="lucide:git-branch" class="text-primary size-3" />
+          <span>[TIMELINE_ODYSSEY]</span>
+        </a>
+      </nav>
+
       <!-- Telemetry Quick Numbers Bar -->
       <div class="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">
         <div
           class="rounded-lg border border-amber-500/30 bg-amber-500/[0.04] p-3"
         >
-          <div
-            class="font-mono text-[10px] tracking-wider text-amber-400 uppercase"
-          >
-            Competition
+          <div class="flex items-center justify-between">
+            <span
+              class="font-mono text-[10px] tracking-wider text-amber-400 uppercase"
+              >Competition</span
+            >
+            <Icon name="lucide:trophy" class="size-3.5 text-amber-400/80" />
           </div>
           <div class="text-foreground mt-0.5 text-lg font-bold">1st Place</div>
           <div class="text-muted-foreground font-mono text-[11px]">
@@ -281,10 +316,12 @@ const credentials = [
         </div>
 
         <div class="border-primary/30 bg-primary/[0.04] rounded-lg border p-3">
-          <div
-            class="text-primary font-mono text-[10px] tracking-wider uppercase"
-          >
-            Award Bounty
+          <div class="flex items-center justify-between">
+            <span
+              class="text-primary font-mono text-[10px] tracking-wider uppercase"
+              >Award Bounty</span
+            >
+            <Icon name="lucide:award" class="text-primary/80 size-3.5" />
           </div>
           <div class="text-foreground mt-0.5 text-lg font-bold">RM 1,000</div>
           <div class="text-muted-foreground font-mono text-[11px]">
@@ -293,10 +330,12 @@ const credentials = [
         </div>
 
         <div class="rounded-lg border border-sky-500/30 bg-sky-500/[0.04] p-3">
-          <div
-            class="font-mono text-[10px] tracking-wider text-sky-400 uppercase"
-          >
-            Core Systems
+          <div class="flex items-center justify-between">
+            <span
+              class="font-mono text-[10px] tracking-wider text-sky-400 uppercase"
+              >Core Systems</span
+            >
+            <Icon name="lucide:cpu" class="size-3.5 text-sky-400/80" />
           </div>
           <div class="text-foreground mt-0.5 text-lg font-bold">IoT & ML</div>
           <div class="text-muted-foreground font-mono text-[11px]">
@@ -307,10 +346,15 @@ const credentials = [
         <div
           class="rounded-lg border border-emerald-500/30 bg-emerald-500/[0.04] p-3"
         >
-          <div
-            class="font-mono text-[10px] tracking-wider text-emerald-400 uppercase"
-          >
-            Alma Mater
+          <div class="flex items-center justify-between">
+            <span
+              class="font-mono text-[10px] tracking-wider text-emerald-400 uppercase"
+              >Alma Mater</span
+            >
+            <Icon
+              name="lucide:graduation-cap"
+              class="size-3.5 text-emerald-400/80"
+            />
           </div>
           <div class="text-foreground mt-0.5 text-lg font-bold">SMK Kapit</div>
           <div class="text-muted-foreground font-mono text-[11px]">
@@ -320,8 +364,74 @@ const credentials = [
       </div>
     </header>
 
-    <!-- 2. Featured Competitions & Hackathons -->
-    <section class="flex flex-col gap-6">
+    <!-- 2. Press & Media Room ("In the News") -->
+    <section id="press-room" class="flex scroll-mt-20 flex-col gap-6">
+      <div class="flex flex-col gap-1">
+        <div
+          class="flex items-center gap-2 font-mono text-xs tracking-wider text-sky-400 uppercase"
+        >
+          <Icon name="lucide:newspaper" class="size-4" />
+          <span>[PRESS_ROOM::MEDIA_MENTIONS]</span>
+        </div>
+        <h2 class="text-foreground text-xl font-bold tracking-tight">
+          In The News & Journalistic Coverage
+        </h2>
+        <p class="text-muted-foreground text-xs sm:text-sm">
+          Real-world press reports, newspaper articles, and community releases
+          covering Darwin Danish's innovations.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {
+          pressArticles.map((article) => (
+            <article class="border-border bg-muted/15 hover:border-primary/50 hover:bg-muted/25 flex flex-col justify-between rounded-lg border p-4 transition-all duration-200 sm:p-5">
+              <div class="space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div class="flex items-center gap-2">
+                    <span class="rounded border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-400">
+                      {article.publisher}
+                    </span>
+                    <span class="text-muted-foreground font-mono text-[10px]">
+                      {article.publisherBadge}
+                    </span>
+                  </div>
+                  <span class="text-muted-foreground font-mono text-[10px]">
+                    {article.date}
+                  </span>
+                </div>
+
+                <h3 class="text-foreground line-clamp-2 text-sm font-semibold tracking-tight sm:text-base">
+                  {article.title}
+                </h3>
+
+                <p class="text-muted-foreground line-clamp-4 text-xs leading-relaxed">
+                  {article.excerpt}
+                </p>
+              </div>
+
+              <div class="border-border/40 mt-4 flex items-center justify-between border-t pt-3 font-mono text-xs">
+                <span class="text-muted-foreground/70 text-[11px]">
+                  {article.readTime}
+                </span>
+                <a
+                  href={article.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-primary hover:text-foreground inline-flex items-center gap-1 transition-colors hover:underline"
+                >
+                  <span>Read Article</span>
+                  <Icon name="lucide:external-link" class="size-3" />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 3. Featured Competitions & Hackathons -->
+    <section id="competitions" class="flex scroll-mt-20 flex-col gap-6">
       <div class="flex flex-col gap-1">
         <div
           class="flex items-center gap-2 font-mono text-xs tracking-wider text-amber-400 uppercase"
@@ -421,7 +531,7 @@ const credentials = [
             </div>
           </div>
 
-          <!-- Real Photo Evidence Gallery -->
+          <!-- Real Photo Evidence Gallery with tuned aspect ratios and framing -->
           <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
             <div
               class="group border-border bg-muted/30 relative overflow-hidden rounded-lg border"
@@ -430,10 +540,10 @@ const credentials = [
                 src="/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d.jpg"
                 alt="Darwin Danish and team holding the RM 1,000 championship mock check on stage"
                 loading="lazy"
-                class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                class="h-56 w-full object-cover object-top transition-transform duration-300 group-hover:scale-105 sm:h-64"
               />
               <div
-                class="bg-background/90 text-muted-foreground absolute inset-x-0 bottom-0 flex items-center justify-between p-2 font-mono text-[11px] backdrop-blur-xs"
+                class="bg-background/90 text-muted-foreground absolute inset-x-0 bottom-0 flex items-center justify-between p-2 font-mono text-[11px] backdrop-blur-sm"
               >
                 <span>🏆 Holding the RM1,000 Championship Check</span>
                 <span class="text-amber-400">Stage Final</span>
@@ -447,10 +557,10 @@ const credentials = [
                 src="/uploads/df6e92ef-8212-4847-9aac-cf5bdbdfe473.jpg"
                 alt="Team with Project Lumina, trophy, and mentor Mdm Victoria"
                 loading="lazy"
-                class="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                class="h-56 w-full object-cover object-top transition-transform duration-300 group-hover:scale-105 sm:h-64"
               />
               <div
-                class="bg-background/90 text-muted-foreground absolute inset-x-0 bottom-0 flex items-center justify-between p-2 font-mono text-[11px] backdrop-blur-xs"
+                class="bg-background/90 text-muted-foreground absolute inset-x-0 bottom-0 flex items-center justify-between p-2 font-mono text-[11px] backdrop-blur-sm"
               >
                 <span>🤖 Lumina, Trophy & Mentor Mdm Victoria</span>
                 <span class="text-amber-400">Post-Award</span>
@@ -500,10 +610,10 @@ const credentials = [
 
         <!-- Slot 1 -->
         <details
-          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary::-webkit-details-marker]:hidden"
+          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden"
         >
           <summary
-            class="text-foreground flex cursor-pointer items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
+            class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
           >
             <div class="flex flex-wrap items-center gap-2">
               <span
@@ -545,10 +655,10 @@ const credentials = [
 
         <!-- Slot 2 -->
         <details
-          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary::-webkit-details-marker]:hidden"
+          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden"
         >
           <summary
-            class="text-foreground flex cursor-pointer items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
+            class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
           >
             <div class="flex flex-wrap items-center gap-2">
               <span
@@ -589,10 +699,10 @@ const credentials = [
 
         <!-- Slot 3 -->
         <details
-          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary::-webkit-details-marker]:hidden"
+          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden"
         >
           <summary
-            class="text-foreground flex cursor-pointer items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
+            class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
           >
             <div class="flex flex-wrap items-center gap-2">
               <span
@@ -634,74 +744,8 @@ const credentials = [
       </div>
     </section>
 
-    <!-- 3. Press & Media Room ("In the News") -->
-    <section class="flex flex-col gap-6">
-      <div class="flex flex-col gap-1">
-        <div
-          class="flex items-center gap-2 font-mono text-xs tracking-wider text-sky-400 uppercase"
-        >
-          <Icon name="lucide:newspaper" class="size-4" />
-          <span>[PRESS_ROOM::MEDIA_MENTIONS]</span>
-        </div>
-        <h2 class="text-foreground text-xl font-bold tracking-tight">
-          In The News & Journalistic Coverage
-        </h2>
-        <p class="text-muted-foreground text-xs sm:text-sm">
-          Real-world press reports, newspaper articles, and community releases
-          covering Darwin Danish's innovations.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {
-          pressArticles.map((article) => (
-            <article class="border-border bg-muted/15 hover:border-primary/50 hover:bg-muted/25 flex flex-col justify-between rounded-lg border p-4 transition-all duration-200 sm:p-5">
-              <div class="space-y-3">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="flex items-center gap-2">
-                    <span class="rounded border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-400">
-                      {article.publisher}
-                    </span>
-                    <span class="text-muted-foreground font-mono text-[10px]">
-                      {article.publisherBadge}
-                    </span>
-                  </div>
-                  <span class="text-muted-foreground font-mono text-[10px]">
-                    {article.date}
-                  </span>
-                </div>
-
-                <h3 class="text-foreground line-clamp-2 text-sm font-semibold tracking-tight sm:text-base">
-                  {article.title}
-                </h3>
-
-                <p class="text-muted-foreground line-clamp-4 text-xs leading-relaxed">
-                  {article.excerpt}
-                </p>
-              </div>
-
-              <div class="border-border/40 mt-4 flex items-center justify-between border-t pt-3 font-mono text-xs">
-                <span class="text-muted-foreground/70 text-[11px]">
-                  {article.readTime}
-                </span>
-                <a
-                  href={article.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-primary hover:text-foreground inline-flex items-center gap-1 transition-colors hover:underline"
-                >
-                  <span>Read Article</span>
-                  <Icon name="lucide:external-link" class="size-3" />
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
     <!-- 4. Certifications & Credentials -->
-    <section class="flex flex-col gap-6">
+    <section id="credentials" class="flex scroll-mt-20 flex-col gap-6">
       <div class="flex flex-col gap-1">
         <div
           class="flex items-center gap-2 font-mono text-xs tracking-wider text-emerald-400 uppercase"
@@ -778,7 +822,7 @@ const credentials = [
     </section>
 
     <!-- 5. Unique Interactive Vertical Engineering Timeline -->
-    <section class="flex flex-col gap-6">
+    <section id="timeline" class="flex scroll-mt-20 flex-col gap-6">
       <div class="flex flex-col gap-1">
         <div
           class="text-primary flex items-center gap-2 font-mono text-xs tracking-wider uppercase"
