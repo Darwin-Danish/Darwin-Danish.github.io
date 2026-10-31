@@ -27,10 +27,37 @@ const { Content } = await render(project)
 const authors = await parseAuthors(['darwindanish'])
 const author = authors[0]
 const postReadingTime = readingTime(calculateWordCountFromHtml(project.body))
+
+import { SITE } from '@/consts'
+
+const resolvedProjectImage =
+  typeof project.data.image === 'object' && project.data.image && 'src' in project.data.image
+    ? `${SITE.href}${project.data.image.src}`
+    : typeof project.data.image === 'string'
+      ? `${SITE.href}${project.data.image.startsWith('/') ? project.data.image : '/' + project.data.image}`
+      : `${SITE.href}/static/twitter-card.png`
+
+const projectSchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": project.data.name,
+  "description": project.data.description,
+  "image": resolvedProjectImage,
+  "url": Astro.url.href,
+  "author": {
+    "@type": "Person",
+    "name": "Darwin Danish",
+    "legalName": "Darwin Danish Anak Geramong",
+    "url": SITE.href
+  }
+}
 ---
 
 <Layout>
-  <PageHead slot="head" title={`${project.data.name} - Project`} description={project.data.description} />
+  <Fragment slot="head">
+    <PageHead title={`${project.data.name} - Project`} description={project.data.description} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(projectSchema)} />
+  </Fragment>
   
   <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)] mb-8">
     <Breadcrumbs

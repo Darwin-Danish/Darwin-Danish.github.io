@@ -1,5 +1,6 @@
 ---
 name: Darwin Danish
+fullName: Darwin Danish Anak Geramong
 pronouns: he/him
 avatar: /images/darwin-danish.jpg
 bio: Hey, I’m Darwin! I’m a computer engineering student and tech enthusiast

@@ -3,10 +3,28 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { Content } from '../content/about.mdx'
+import { SITE } from '@/consts'
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": `About - ${SITE.title}`,
+  "description": SITE.description,
+  "url": `${SITE.href}/about/`,
+  "mainEntity": {
+    "@type": "Person",
+    "@id": `${SITE.href}#person`,
+    "name": "Darwin Danish",
+    "legalName": "Darwin Danish Anak Geramong",
+  },
+}
 ---
 
 <Layout>
-  <PageHead slot="head" title="About" />
+  <Fragment slot="head">
+    <PageHead title="About" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(aboutSchema)} />
+  </Fragment>
   <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
     <Breadcrumbs items={[{ label: 'About', icon: 'lucide:info' }]} />
   </div>

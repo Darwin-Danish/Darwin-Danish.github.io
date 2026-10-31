@@ -33,10 +33,27 @@ const paginatedPosts = allPosts.slice(startIndex, endIndex)
 const postsByYear = groupPostsByYear(paginatedPosts)
 const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 const hasPosts = paginatedPosts.length > 0
+
+const blogIndexSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": `Blog - ${SITE.title}`,
+  "description": SITE.description,
+  "url": `${SITE.href}/blog/`,
+  "author": {
+    "@type": "Person",
+    "name": "Darwin Danish",
+    "legalName": "Darwin Danish Anak Geramong",
+    "url": SITE.href,
+  },
+}
 ---
 
 <Layout class="max-w-3xl">
-  <PageHead slot="head" title="Blog" />
+  <Fragment slot="head">
+    <PageHead title="Blog" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(blogIndexSchema)} />
+  </Fragment>
   <Breadcrumbs
     items={[
       { label: 'Blog', href: '/blog/', icon: 'lucide:library-big' },

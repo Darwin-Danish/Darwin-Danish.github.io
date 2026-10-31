@@ -66,10 +66,46 @@ const combinedReadingTime =
     : null
 
 const tocSections = await getTOCSections(currentPostId)
+
+import { SITE } from '@/consts'
+
+const resolvedPostImage =
+  typeof post?.data?.image === 'object' &&
+  post.data.image &&
+  'src' in post.data.image
+    ? `${SITE.href}${post.data.image.src}`
+    : typeof post?.data?.image === 'string'
+      ? `${SITE.href}${post.data.image.startsWith('/') ? post.data.image : '/' + post.data.image}`
+      : `${SITE.href}/static/twitter-card.png`
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "url": Astro.url.href,
+  "datePublished": post.data.date ? post.data.date.toISOString() : undefined,
+  "image": resolvedPostImage,
+  "author": {
+    "@type": "Person",
+    "name": "Darwin Danish",
+    "legalName": "Darwin Danish Anak Geramong",
+    "url": SITE.href
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Darwin Danish",
+    "legalName": "Darwin Danish Anak Geramong",
+    "url": SITE.href
+  }
+}
 ---
 
 <Layout>
-  <PostHead slot="head" post={post} />
+  <Fragment slot="head">
+    <PostHead post={post} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(blogSchema)} />
+  </Fragment>
   {
     (hasChildPosts || isCurrentSubpost) && (
       <SubpostsHeader

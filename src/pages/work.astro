@@ -18,10 +18,45 @@ const lastUpdatedDate = projects.length > 0
   : new Date();
 
 import { formatDate } from '@/lib/utils'
+import { SITE } from '@/consts'
+
+const workSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Projects by Darwin Danish",
+  "description": "Showcase of projects and engineering work by Darwin Danish.",
+  "itemListElement": projects.map((project, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "item": {
+      "@type": "CreativeWork",
+      "name": project.data.name,
+      "description": project.data.description,
+      "url": project.data.link || `${SITE.href}/work/`,
+      ...(project.data.image
+        ? {
+            "image":
+              typeof project.data.image === 'string'
+                ? `${SITE.href}${project.data.image.startsWith('/') ? project.data.image : '/' + project.data.image}`
+                : `${SITE.href}/static/twitter-card.png`,
+          }
+        : {}),
+      "author": {
+        "@type": "Person",
+        "name": "Darwin Danish",
+        "legalName": "Darwin Danish Anak Geramong",
+        "url": SITE.href,
+      },
+    },
+  })),
+}
 ---
 
 <Layout>
-  <PageHead slot="head" title="Work" />
+  <Fragment slot="head">
+    <PageHead title="Work" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(workSchema)} />
+  </Fragment>
   <div class="mx-auto w-full max-w-[calc(var(--container-3xl)-2rem)]">
     <Breadcrumbs items={[{ label: 'Work', icon: 'lucide:briefcase' }]} />
   </div>

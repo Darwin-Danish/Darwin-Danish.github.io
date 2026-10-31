@@ -11,9 +11,17 @@ const author = authorEntry?.data
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${SITE.href}#person`,
   "name": author?.name || "Darwin Danish",
+  "legalName": author?.fullName || "Darwin Danish Anak Geramong",
+  "alternateName": [
+    "Darwin Danish Anak Geramong",
+    "Darwin Danish"
+  ],
+  "givenName": "Darwin Danish",
+  "familyName": "Anak Geramong",
   "url": SITE.href,
-  "jobTitle": "Student & Developer",
+  "jobTitle": "Student & Computer Engineering Enthusiast",
   "description": author?.bio || SITE.description,
   "image": [
     author?.avatar
@@ -23,15 +31,24 @@ const personSchema = {
       : `${SITE.href}/static/logo.png`,
   ],
   "sameAs": [
-    author?.website,
+    author?.website && author.website !== SITE.href ? author.website : null,
     author?.github,
     author?.linkedin,
+    author?.twitter,
     author?.discord,
     author?.discordInvite,
     "https://huggingface.co/DarwinDanish",
     "https://peerlist.io/darwindanish",
     "https://stackoverflow.com/users/22384131/darwin-danish",
-  ].filter(Boolean)
+  ].filter(Boolean),
+  "knowsAbout": [
+    "Computer Engineering",
+    "IoT",
+    "Machine Learning",
+    "Robotics",
+    "Astronomy",
+    "Software Development"
+  ]
 }
 ---
 

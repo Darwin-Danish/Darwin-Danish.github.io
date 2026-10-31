@@ -35,7 +35,7 @@ const { class: className } = Astro.props
         <slot name="subposts-navigation" />
         <slot name="table-of-contents" />
       </div>
-      <main class="grow">
+      <main class="grow" data-page-content>
         <div class={cn('mx-auto flex grow flex-col gap-y-6 px-4', className)}>
           <slot />
         </div>
