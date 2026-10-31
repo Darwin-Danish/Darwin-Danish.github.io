@@ -4,11 +4,10 @@ import {
   Cpu,
   Bot,
   GraduationCap,
-  Sparkles,
+  Layers,
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  Layers,
   ArrowRight,
   CheckCircle2,
   Filter,
@@ -19,16 +18,15 @@ import {
 type Category =
   | 'ALL'
   | 'COMPETITIONS'
-  | 'HARDWARE & IOT'
+  | 'EMBEDDED & HARDWARE'
   | 'AI & ML'
   | 'EDUCATION'
 
 interface Milestone {
   id: string
-  nodeNumber: string
   year: string
   date: string
-  category: 'COMPETITIONS' | 'HARDWARE & IOT' | 'AI & ML' | 'EDUCATION'
+  category: 'COMPETITIONS' | 'EMBEDDED & HARDWARE' | 'AI & ML' | 'EDUCATION'
   status: string
   title: string
   subtitle: string
@@ -41,61 +39,59 @@ interface Milestone {
   link?: string
   linkLabel?: string
   featured?: boolean
-  icon: 'trophy' | 'cpu' | 'bot' | 'school' | 'sparkles'
+  icon: 'trophy' | 'cpu' | 'bot' | 'school' | 'layers'
 }
 
 const MILESTONES: Milestone[] = [
   {
-    id: 'motorsport-future',
-    nodeNumber: '06',
+    id: 'embedded-systems-future',
     year: '2026+',
-    date: 'Present & Beyond',
-    category: 'HARDWARE & IOT',
-    status: 'ACTIVE_HORIZON',
-    title: 'Motorsport Tech & High-Rate Telemetry Systems',
-    subtitle: 'Autonomous Systems & Edge AI for High-Performance Mobility',
+    date: 'Active & Future Research',
+    category: 'EMBEDDED & HARDWARE',
+    status: 'Active Focus',
+    title: 'High-Performance Embedded Systems & Edge Computing',
+    subtitle: 'Real-Time Operating Systems (RTOS) & Low-Latency Edge Intelligence',
     summary:
-      'Pursuing high-frequency sensor fusion, CAN bus telemetry analysis, and low-latency edge computing with aspirations toward Formula 1 technology and automotive innovation.',
-    journeyStep: 'AI Research → Real-Time Telemetry & Motorsport Engineering',
+      'Advancing research into deterministic embedded computing, real-time operating systems (RTOS), and executing lightweight neural network models directly on constrained microcontrollers.',
+    journeyStep: 'AI Systems → Real-Time Embedded Systems & Edge Computing',
     problem:
-      'High-speed automotive systems produce millions of sensor telemetry signals per second where network latency makes cloud compute infeasible.',
+      'Constrained edge environments have strict power, memory, and timing requirements where cloud round-trip latency and network instability make remote inference non-viable.',
     solution:
-      'Investigating deterministic microcontrollers, real-time operating systems (RTOS), and lightweight neural network inference on constrained embedded hardware.',
+      'Designing deterministic firmware architectures using FreeRTOS, memory-optimized data structures, and deploying INT8 quantized neural network inference via TensorFlow Lite for Microcontrollers.',
     specs: [
-      { label: 'Domain', value: 'Automotive Telemetry & Sensor Fusion' },
-      { label: 'Protocols', value: 'CAN Bus, SPI, I2C, MQTT' },
-      { label: 'Target', value: 'Motorsport Tech & Innovation' },
-      { label: 'Inspiration', value: 'Scuderia Ferrari / Carlos Sainz #55' },
+      { label: 'Domain', value: 'Embedded Systems & Edge Intelligence' },
+      { label: 'Target Platforms', value: 'ARM Cortex-M, ESP32, RISC-V' },
+      { label: 'Firmware Stack', value: 'FreeRTOS, Bare-Metal Embedded C++' },
+      { label: 'Protocols', value: 'SPI, I2C, UART, CAN Bus' },
     ],
     breakthrough:
-      'Bridging low-level embedded hardware design with high-level machine learning models to enable split-second decision-making at the edge.',
-    icon: 'sparkles',
+      'Coupling low-level bare-metal hardware control with quantized machine learning models to enable reliable split-second edge inference without cloud dependency.',
+    icon: 'cpu',
     featured: false,
   },
   {
     id: 'exoplanet-stacking-2025',
-    nodeNumber: '05',
     year: '2025',
     date: 'November 2025',
     category: 'AI & ML',
-    status: 'AI_RESEARCH',
-    title: 'Exoplanet Classifier Pipeline via Stacking Ensembles',
-    subtitle: 'Published Open-Source Model on Hugging Face Hub',
+    status: 'Research Publication',
+    title: 'Exoplanet Transit Classifier Pipeline via Stacking Ensembles',
+    subtitle: 'Open-Source Machine Learning Pipeline on Hugging Face',
     summary:
       'Engineered an automated machine learning stacking ensemble pipeline that classifies Kepler space telescope light curves to distinguish genuine exoplanets from astrophysical false positives.',
     journeyStep: 'Lumina Smart IoT → Astronomical Machine Learning & Stacking',
     problem:
-      'Single ML estimators frequently stumble on planetary transit light curves due to extreme class imbalance and stellar flare noise.',
+      'Individual ML estimators struggle on astronomical light curves due to severe class imbalance, stellar flare noise, and instrumental transit artifacts.',
     solution:
-      'Synthesized a multi-tier stacking meta-classifier uniting Random Forests, Gradient Boosters, and Logistic Regression meta-learners to achieve high recall on faint transit dips.',
+      'Synthesized a multi-tier stacking meta-classifier uniting Random Forests, Gradient Boosters, and Logistic Regression meta-learners to achieve elevated recall on faint transit signatures.',
     specs: [
       { label: 'Model Architecture', value: 'Scikit-Learn StackingClassifier' },
-      { label: 'Dataset', value: 'Kepler Exoplanet Transit Light Curves' },
-      { label: 'Ecosystem', value: 'Python, Pandas, Scikit-Learn' },
-      { label: 'Hosting', value: 'Hugging Face Hub Open Weights' },
+      { label: 'Dataset', value: 'Kepler Exoplanet Transit Photometry' },
+      { label: 'Ecosystem', value: 'Python 3.10, Scikit-Learn, Pandas' },
+      { label: 'Distribution', value: 'Hugging Face Hub Open Weights' },
     ],
     breakthrough:
-      'Stacking heterogeneous model families mitigated individual inductive biases, substantially decreasing the false-alarm rate on complex planetary candidates.',
+      'Stacking heterogeneous model families mitigated individual inductive biases, significantly decreasing the false-alarm rate on faint planetary transit candidates.',
     link: 'https://huggingface.co/DarwinDanish/exoplanet-classifier-stacking',
     linkLabel: 'View Model on Hugging Face',
     icon: 'bot',
@@ -103,127 +99,110 @@ const MILESTONES: Milestone[] = [
   },
   {
     id: 'lumina-championship-2024',
-    nodeNumber: '04',
     year: '2024',
     date: 'November 2024',
     category: 'COMPETITIONS',
-    status: 'CHAMPION_JUARA',
+    status: 'Championship',
     title: '1st Place Champion: Pertandingan Reka Cipta Mini Inno Waste 2.0',
-    subtitle: 'Grand Prize (RM 1,000) for Project Lumina — Smart Bunny Eco-Bin',
+    subtitle: 'Grand Prize (RM 1,000) for Project Lumina — Smart Interactive Eco-Bin',
     summary:
-      'Won 1st Place (Juara Pertama) with teammates Nigel Sibat and Dexter Sangin under mentor Mdm Victoria. Transformed discarded rubber tires into an AI-powered conversational bin with real-time app telemetry and WhatsApp emergency alerts.',
+      'Won 1st Place (Juara Pertama) with teammates Nigel Sibat and Dexter Sangin under mentor Mdm Victoria. Engineered an AI-powered conversational waste station from repurposed vehicle tires with voice interaction and automated WhatsApp alerts.',
     journeyStep:
       'Robotics Prototypes → State Innovation Champion (Project Lumina)',
     problem:
-      'Standard public waste bins suffer from lack of user engagement, overflow without warning, and discarded tires create severe environmental disposal issues.',
+      'Standard recycling bins suffer from low engagement, lack of fill-level visibility, and discarded vehicle tires represent a severe environmental recycling challenge.',
     solution:
-      'Engineered an interactive bunny-themed recycling bin using stacked repurposed tires, Raspberry Pi brain, Picovoice offline wake-words, OpenAI Whisper speech transcription, GPT conversational logic, and WhatsApp automated alerts.',
+      'Built an interactive bin using repurposed tires, Raspberry Pi 4 compute core, Picovoice offline wake-word detection, OpenAI Whisper speech transcription, conversational logic, and automated WhatsApp alert dispatch.',
     specs: [
       { label: 'Award', value: '1st Place Champion (Juara Pertama)' },
       { label: 'Prize', value: 'RM 1,000 Cash Prize' },
-      {
-        label: 'Chassis',
-        value: 'Repurposed vehicle tires + 3D printed PETG ears',
-      },
-      { label: 'Compute & Audio', value: 'Raspberry Pi 4, I2S DAC, Mic array' },
-      {
-        label: 'Networking',
-        value: 'Dual stack (Local WebSockets + Cloud REST)',
-      },
+      { label: 'Chassis', value: 'Repurposed Vehicle Tires & 3D Printed PETG' },
+      { label: 'Compute Core', value: 'Raspberry Pi 4 Model B, I2S DAC, USB Mic' },
+      { label: 'Networking', value: 'Dual Stack (Local WebSockets + WhatsApp API)' },
       { label: 'Team', value: 'Darwin Danish, Nigel Sibat, Dexter Sangin' },
-      { label: 'Mentor', value: 'Mdm Victoria' },
     ],
     breakthrough:
-      'Demonstrated that sustainable hardware recycling combined with intuitive voice conversational AI makes community waste segregation both engaging and operationally efficient.',
+      'Proved that combining sustainable physical repurposing with intuitive voice AI makes community waste sorting engaging, accessible, and operationally transparent.',
     link: '/blog/posts/lumina-journey/',
-    linkLabel: 'Read Full Lumina Journey & Story',
+    linkLabel: 'Read Full Lumina Technical Case Study',
     icon: 'trophy',
     featured: true,
   },
   {
-    id: 'robotics-telemetry-2023',
-    nodeNumber: '03',
+    id: 'robotics-systems-2023',
     year: '2023',
     date: 'Mid 2023',
-    category: 'HARDWARE & IOT',
-    status: 'SYSTEMS_DEV',
-    title: 'Autonomous Robotics & Mobile Companion Interfaces',
-    subtitle: 'Sensor Integration, Dual Motor H-Bridges & App Prototyping',
+    category: 'EMBEDDED & HARDWARE',
+    status: 'Systems Engineering',
+    title: 'Autonomous Robotics & Sensor Integration',
+    subtitle: 'Motor H-Bridges, Closed-Loop Guidance & Wireless Dashboards',
     summary:
-      'Stepped up from simple microcontrollers to full-stack IoT devices. Built autonomous sensor rovers and programmed real-time mobile telemetry dashboards using Kodular and WebSocket bridges.',
+      'Progressed from basic microcontrollers to integrated robotics systems. Built autonomous sensor rovers and programmed real-time mobile monitoring dashboards using local WebSocket bridges.',
     journeyStep: 'SMK Kapit Electronics Club → Autonomous Mobile Prototyping',
     problem:
-      'Wireless telemetry between microcontrollers and smartphones in low-connectivity areas was erratic and difficult to debug.',
+      'Wireless data transfer between microcontrollers and host devices in low-connectivity rural environments was unstable and prone to connection drops.',
     solution:
-      'Created custom communication protocols running over local Wi-Fi hotspots, establishing bi-directional real-time telemetry without requiring external cloud servers.',
+      'Architected a direct local Wi-Fi communication bridge over WebSockets and JSON payloads, achieving reliable bi-directional data transmission without requiring external cloud access.',
     specs: [
-      { label: 'Platform', value: 'ESP32 & Raspberry Pi Zero' },
-      { label: 'Telemetry', value: 'Local WebSockets & JSON payloads' },
-      { label: 'App Engine', value: 'Kodular Visual Mobile Framework' },
-      { label: 'Sensors', value: 'HC-SR04, DHT22, IR Reflex arrays' },
+      { label: 'Platforms', value: 'ESP32 & Raspberry Pi Zero' },
+      { label: 'Protocol', value: 'Local WebSockets & JSON Payloads' },
+      { label: 'App Engine', value: 'Kodular Mobile Companion App' },
+      { label: 'Sensory Array', value: 'HC-SR04 Ultrasonic, DHT22, IR Reflective' },
     ],
     breakthrough:
-      'Decoupling the local control loop from external internet access ensured total system reliability during live field demonstrations.',
+      'Decoupled the local real-time control loop from external internet dependencies, ensuring total reliability during live field demonstrations.',
     icon: 'cpu',
     featured: false,
   },
   {
     id: 'arduino-prototyping-2022',
-    nodeNumber: '02',
     year: '2022',
     date: 'Late 2022',
-    category: 'HARDWARE & IOT',
-    status: 'PROTOTYPING',
-    title: 'First Embedded Microcontrollers & Physical Circuits',
-    subtitle: 'Circuit Soldering, GPIO Logic & Sensor Interfacing in Kapit',
+    category: 'EMBEDDED & HARDWARE',
+    status: 'Hardware Prototyping',
+    title: 'Embedded Microcontrollers & Physical Circuit Design',
+    subtitle: 'Circuit Prototyping, GPIO Logic & Sensor Interfacing in Kapit',
     summary:
-      'Sourced components, constructed custom breadboard prototypes, and programmed embedded C++ on Arduino boards to build automated environmental sensors and digital displays.',
+      'Sourced components, constructed custom breadboard prototypes, and programmed embedded C++ on Arduino boards to build automated environmental monitors and digital displays.',
     journeyStep: 'SMK Kapit Classroom → Physical Breadboarding & C++',
     problem:
-      'Living in Kapit, Sarawak meant long shipping turnaround for electronics parts, demanding careful schematic planning with zero tolerance for short-circuited components.',
+      'Living in Kapit, Sarawak meant long turnaround times for replacement components, requiring rigorous schematic planning before soldering.',
     solution:
-      'Mastered circuit simulation in TinkerCAD before physical assembly, salvaged components from old consumer appliances, and developed robust soldering habits.',
+      'Simulated circuits thoroughly prior to physical assembly, salvaged components from unused electronics, and developed meticulous soldering and testing habits.',
     specs: [
       { label: 'Microcontroller', value: 'ATmega328P / Arduino Uno' },
-      { label: 'Languages', value: 'C++, Arduino Wiring' },
-      { label: 'Components', value: 'Relays, 16x2 LCDs, Shift Registers' },
-      { label: 'Focus', value: 'Power regulation & electrical safety' },
+      { label: 'Programming', value: 'Embedded C++, Arduino Toolchain' },
+      { label: 'Components', value: 'Relays, 16x2 Character LCDs, Shift Registers' },
+      { label: 'Key Focus', value: 'Power regulation, pull-up resistors & safety' },
     ],
     breakthrough:
-      'Realized how code transcends software to manipulate physical hardware, igniting a lifelong dedication to computer engineering.',
+      'Connected software logic directly to physical hardware behaviors, establishing the foundation for a career in computer engineering.',
     icon: 'cpu',
     featured: false,
   },
   {
     id: 'smk-kapit-roots-2021',
-    nodeNumber: '01',
     year: '2021',
     date: 'Early 2021',
     category: 'EDUCATION',
-    status: 'FOUNDATION_ROOTS',
-    title: 'Genesis at SMK Kapit (Kapit National Secondary School)',
-    subtitle: 'Academic Foundations, Logic Design & First Lines of Python',
+    status: 'Academic Foundations',
+    title: 'Foundations at SMK Kapit (Kapit National Secondary School)',
+    subtitle: 'Academic Foundations, Discrete Logic & Algorithm Development',
     summary:
-      'Began high school journey at SMK Kapit in Sarawak, diving passionately into mathematics, physics, and computer science. Self-taught computer algorithms and fundamental programming.',
+      'Commenced secondary school at SMK Kapit in Sarawak, focusing deeply on mathematics, physics, and computer science. Self-taught computer algorithms and fundamental programming.',
     journeyStep: 'Origin: Kapit National Secondary School (SMK Kapit)',
     problem:
-      'Traditional school curriculum had limited practical computer engineering and robotics exposure.',
+      'Standard curriculum had limited practical computer engineering and robotics exposure in rural Sarawak.',
     solution:
-      'Proactively researched computer architectures, absorbed open educational materials, and started writing custom scripts to automate daily tasks and simple logic games.',
+      'Studied computer architectures, absorbed open educational materials, and wrote custom scripts to automate tasks and build logic simulations.',
     specs: [
-      {
-        label: 'Institution',
-        value: 'Kapit National Secondary School (SMK Kapit)',
-      },
+      { label: 'Institution', value: 'SMK Kapit (Kapit National Secondary School)' },
       { label: 'Location', value: 'Kapit, Sarawak, Malaysia' },
-      { label: 'First Language', value: 'Python 3' },
-      {
-        label: 'Core Topics',
-        value: 'Boolean Logic, Algorithms, Linux Basics',
-      },
+      { label: 'Primary Language', value: 'Python 3' },
+      { label: 'Core Topics', value: 'Boolean Algebra, Algorithms, Linux Basics' },
     ],
     breakthrough:
-      'Discovered that curiosity and disciplined online self-study could conquer any geographical divide between remote Sarawak and global tech innovation.',
+      'Proved that curiosity and disciplined self-study can bridge any geographic distance between remote Sarawak and global technology innovation.',
     icon: 'school',
     featured: false,
   },
@@ -263,32 +242,15 @@ export default function InteractiveTimeline() {
   const renderIcon = (icon: Milestone['icon']) => {
     switch (icon) {
       case 'trophy':
-        return <Trophy className="size-3.5 text-amber-400 sm:size-4" />
+        return <Trophy className="size-3.5 text-foreground/80 sm:size-4" />
       case 'bot':
-        return <Bot className="size-3.5 text-sky-400 sm:size-4" />
+        return <Bot className="size-3.5 text-foreground/80 sm:size-4" />
       case 'cpu':
-        return <Cpu className="size-3.5 text-emerald-400 sm:size-4" />
+        return <Cpu className="size-3.5 text-foreground/80 sm:size-4" />
       case 'school':
-        return <GraduationCap className="size-3.5 text-orange-400 sm:size-4" />
-      case 'sparkles':
-        return <Sparkles className="size-3.5 text-purple-400 sm:size-4" />
+        return <GraduationCap className="size-3.5 text-foreground/80 sm:size-4" />
       default:
-        return <Layers className="text-primary size-3.5 sm:size-4" />
-    }
-  }
-
-  const getCategoryBadgeClass = (category: Milestone['category']) => {
-    switch (category) {
-      case 'COMPETITIONS':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-      case 'AI & ML':
-        return 'bg-sky-500/10 text-sky-400 border-sky-500/30'
-      case 'HARDWARE & IOT':
-        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-      case 'EDUCATION':
-        return 'bg-orange-500/10 text-orange-400 border-orange-500/30'
-      default:
-        return 'bg-muted text-muted-foreground border-border'
+        return <Layers className="size-3.5 text-foreground/80 sm:size-4" />
     }
   }
 
@@ -296,8 +258,8 @@ export default function InteractiveTimeline() {
     { key: 'ALL', label: 'All Milestones' },
     { key: 'COMPETITIONS', label: 'Competitions' },
     { key: 'AI & ML', label: 'AI & Machine Learning' },
-    { key: 'HARDWARE & IOT', label: 'Robotics & IoT' },
-    { key: 'EDUCATION', label: 'Education & Roots' },
+    { key: 'EMBEDDED & HARDWARE', label: 'Embedded Systems & Hardware' },
+    { key: 'EDUCATION', label: 'Academic Foundations' },
   ]
 
   return (
@@ -306,36 +268,33 @@ export default function InteractiveTimeline() {
       <div className="border-border bg-muted/20 flex flex-col gap-3 rounded-lg border p-3 sm:p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="text-muted-foreground flex items-center gap-2 font-mono text-xs">
-            <Filter className="text-primary size-3.5" />
-            <span className="text-foreground font-semibold">
-              FILTER TIMELINE:
-            </span>
+            <Filter className="text-foreground size-3.5" />
+            <span className="text-foreground font-semibold">Filter Timeline:</span>
             <span>
-              Showing {filteredMilestones.length} of {MILESTONES.length}{' '}
-              milestones
+              Showing {filteredMilestones.length} of {MILESTONES.length} milestones
             </span>
           </div>
           <div className="flex items-center gap-2 font-mono text-xs">
             <button
               type="button"
               onClick={expandAll}
-              aria-label="Expand all technical blueprints"
-              className="border-border text-muted-foreground hover:border-primary hover:text-foreground rounded border px-2.5 py-1 transition active:scale-95"
+              aria-label="Expand all specifications"
+              className="border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground rounded border px-2.5 py-1 transition active:scale-95 cursor-pointer"
             >
-              [+ Expand All]
+              Expand All
             </button>
             <button
               type="button"
               onClick={collapseAll}
-              aria-label="Collapse all technical blueprints"
-              className="border-border text-muted-foreground hover:border-primary hover:text-foreground rounded border px-2.5 py-1 transition active:scale-95"
+              aria-label="Collapse all specifications"
+              className="border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground rounded border px-2.5 py-1 transition active:scale-95 cursor-pointer"
             >
-              [- Collapse All]
+              Collapse All
             </button>
           </div>
         </div>
 
-        {/* Filter Pills */}
+        {/* Filter Buttons */}
         <div
           className="flex flex-wrap gap-1.5 pt-1"
           role="group"
@@ -355,15 +314,15 @@ export default function InteractiveTimeline() {
                 onClick={() => setActiveFilter(opt.key)}
                 className={`flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-xs transition-all duration-150 ${
                   isSelected
-                    ? 'border-primary bg-primary/10 text-primary border font-semibold shadow-sm'
-                    : 'border-border/70 bg-background/50 text-muted-foreground hover:border-border hover:text-foreground border'
+                    ? 'border-foreground/60 bg-foreground/10 text-foreground border font-semibold'
+                    : 'border-border bg-background text-muted-foreground hover:border-border hover:text-foreground border'
                 }`}
               >
                 <span>{opt.label}</span>
                 <span
-                  className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                  className={`rounded px-1.5 py-0.2 text-[10px] ${
                     isSelected
-                      ? 'bg-primary/20 text-primary'
+                      ? 'bg-foreground/20 text-foreground'
                       : 'bg-muted text-muted-foreground'
                   }`}
                 >
@@ -377,22 +336,22 @@ export default function InteractiveTimeline() {
 
       {/* Vertical Spine Timeline */}
       <div className="relative pl-8 sm:pl-10">
-        {/* Continuous Circuit Spine Line */}
-        <div className="from-primary/70 via-border/80 to-primary/30 absolute top-3 bottom-3 left-3 w-[2px] bg-gradient-to-b sm:left-4" />
+        {/* Continuous Spine Line */}
+        <div className="bg-border absolute top-3 bottom-3 left-3 w-[1px] sm:left-4" />
 
         {/* Empty State Fallback */}
         {filteredMilestones.length === 0 ? (
           <div className="border-border bg-muted/15 flex flex-col items-center justify-center gap-3 rounded-lg border p-8 text-center">
             <span className="text-muted-foreground font-mono text-xs">
-              [NO_MILESTONES_FOUND_IN_SELECTED_DOMAIN]
+              No milestones found in this category.
             </span>
             <p className="text-foreground text-sm font-semibold">
-              No milestone entries match this domain filter.
+              No milestone entries match the selected filter.
             </p>
             <button
               type="button"
               onClick={() => setActiveFilter('ALL')}
-              className="border-primary bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 font-mono text-xs transition-colors"
+              className="border-border bg-muted text-foreground hover:bg-muted/80 inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 font-mono text-xs transition-colors cursor-pointer"
             >
               <RotateCcw className="size-3.5" />
               <span>Reset Filter to All</span>
@@ -403,30 +362,30 @@ export default function InteractiveTimeline() {
             {filteredMilestones.map((milestone) => {
               const isExpanded = !!expandedIds[milestone.id]
               const isFeatured = milestone.featured
-              const drawerId = `blueprint-${milestone.id}`
+              const drawerId = `spec-${milestone.id}`
 
               return (
                 <div key={milestone.id} className="group relative">
-                  {/* Circuit Node Marker directly on the spine */}
+                  {/* Spine Node Marker */}
                   <div
-                    className={`bg-background absolute top-4 left-[-26px] z-10 flex size-6 items-center justify-center rounded-full border transition-transform duration-200 group-hover:scale-110 sm:left-[-32px] sm:size-7 ${
+                    className={`bg-background absolute top-4 left-[-26px] z-10 flex size-6 items-center justify-center rounded-full border transition-colors sm:left-[-32px] sm:size-7 ${
                       isFeatured
-                        ? 'border-amber-400/80 shadow-[0_0_12px_rgba(251,191,36,0.35)] ring-2 ring-amber-400/20'
-                        : 'border-border group-hover:border-primary'
+                        ? 'border-foreground/60'
+                        : 'border-border group-hover:border-foreground/40'
                     }`}
                   >
                     {renderIcon(milestone.icon)}
                   </div>
 
-                  {/* Horizontal Circuit Branch Trace connecting node to card */}
-                  <div className="border-border/60 group-hover:border-primary/50 absolute top-[27px] left-[-2px] h-[1px] w-2 border-t border-dashed transition-colors sm:left-[-4px] sm:w-4" />
+                  {/* Horizontal Trace Line */}
+                  <div className="border-border/60 absolute top-[27px] left-[-2px] h-[1px] w-2 border-t sm:left-[-4px] sm:w-4" />
 
-                  {/* Milestone Content Card */}
+                  {/* Milestone Card */}
                   <div
                     className={`rounded-lg border transition-all duration-200 ${
                       isFeatured
-                        ? 'border-amber-500/30 bg-amber-500/[0.03] hover:border-amber-500/50'
-                        : 'border-border bg-muted/15 hover:border-primary/40 hover:bg-muted/25'
+                        ? 'border-border/80 bg-muted/20 hover:border-foreground/40'
+                        : 'border-border bg-muted/10 hover:border-border hover:bg-muted/20'
                     }`}
                   >
                     {/* Card Header */}
@@ -434,37 +393,29 @@ export default function InteractiveTimeline() {
                       {/* Meta Bar */}
                       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-primary font-mono text-xs font-bold">
+                          <span className="text-foreground font-mono text-xs font-semibold">
                             {milestone.date}
                           </span>
-                          <span
-                            className={`rounded border px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${getCategoryBadgeClass(
-                              milestone.category,
-                            )}`}
-                          >
+                          <span className="border-border bg-muted/40 text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px] uppercase">
                             {milestone.category}
                           </span>
-                          <span className="border-border/80 bg-background/80 text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
-                            [{milestone.status}]
+                          <span className="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
+                            {milestone.status}
                           </span>
                         </div>
-                        {/* Persistent Node Sequence Identifier (Fixed across filters) */}
-                        <span className="text-muted-foreground/70 font-mono text-[11px]">
-                          NODE #{milestone.nodeNumber}
-                        </span>
                       </div>
 
                       {/* Title & Subtitle */}
                       <h3 className="text-foreground mb-1 text-base font-semibold tracking-tight sm:text-lg">
                         {milestone.title}
                       </h3>
-                      <p className="text-primary/80 mb-2 font-mono text-xs sm:text-sm">
+                      <p className="text-muted-foreground mb-2 font-mono text-xs sm:text-sm">
                         {milestone.subtitle}
                       </p>
 
-                      {/* Journey Breadcrumb */}
-                      <div className="text-muted-foreground/80 bg-background/40 border-border/40 mb-3 flex w-fit items-center gap-1.5 rounded border px-2.5 py-1 font-mono text-[11px]">
-                        <Terminal className="text-primary size-3 shrink-0" />
+                      {/* Progression Step */}
+                      <div className="text-muted-foreground border-border/60 bg-background/50 mb-3 flex w-fit items-center gap-1.5 rounded border px-2.5 py-1 font-mono text-[11px]">
+                        <Terminal className="text-muted-foreground size-3 shrink-0" />
                         <span>{milestone.journeyStep}</span>
                       </div>
 
@@ -473,26 +424,24 @@ export default function InteractiveTimeline() {
                         {milestone.summary}
                       </p>
 
-                      {/* Bottom Action / Expansion Trigger */}
+                      {/* Bottom Action */}
                       <div className="border-border/50 mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-3">
                         <button
                           type="button"
                           aria-expanded={isExpanded}
                           aria-controls={drawerId}
                           onClick={() => toggleExpand(milestone.id)}
-                          className="text-primary hover:text-foreground flex cursor-pointer items-center gap-1.5 font-mono text-xs transition-colors"
+                          className="text-foreground/80 hover:text-foreground flex cursor-pointer items-center gap-1.5 font-mono text-xs transition-colors"
                         >
                           {isExpanded ? (
                             <>
                               <ChevronUp className="size-3.5" />
-                              <span>[- Hide Technical Blueprint]</span>
+                              <span>Hide Technical Specifications</span>
                             </>
                           ) : (
                             <>
                               <ChevronDown className="size-3.5" />
-                              <span>
-                                [+ Inspect Technical Blueprint & Specs]
-                              </span>
+                              <span>View Technical Specifications</span>
                             </>
                           )}
                         </button>
@@ -501,16 +450,14 @@ export default function InteractiveTimeline() {
                           <a
                             href={milestone.link}
                             target={
-                              milestone.link.startsWith('http')
-                                ? '_blank'
-                                : '_self'
+                              milestone.link.startsWith('http') ? '_blank' : '_self'
                             }
                             rel={
                               milestone.link.startsWith('http')
                                 ? 'noopener noreferrer'
                                 : undefined
                             }
-                            className="text-primary flex items-center gap-1 font-mono text-xs hover:underline"
+                            className="text-foreground/80 hover:text-foreground flex items-center gap-1 font-mono text-xs hover:underline"
                           >
                             <span>{milestone.linkLabel || 'View Details'}</span>
                             {milestone.link.startsWith('http') ? (
@@ -523,27 +470,27 @@ export default function InteractiveTimeline() {
                       </div>
                     </div>
 
-                    {/* Expandable Technical Blueprint Drawer */}
+                    {/* Expandable Specifications Drawer */}
                     {isExpanded && (
                       <div
                         id={drawerId}
                         className="border-border/60 bg-background/60 space-y-4 border-t p-4 sm:p-5"
                       >
-                        {/* Problem & Solution Grid */}
+                        {/* Constraints & Architecture Grid */}
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <div className="border-border/70 bg-muted/20 space-y-1 rounded border p-3">
-                            <div className="text-destructive flex items-center gap-1 font-mono text-[11px] tracking-wider uppercase">
-                              <span className="bg-destructive size-1.5 rounded-full" />
-                              The Constraint / Challenge
+                            <div className="text-foreground flex items-center gap-1.5 font-mono text-[11px] font-semibold tracking-wider uppercase">
+                              <span className="bg-muted-foreground size-1.5 rounded-full" />
+                              Challenge & Constraints
                             </div>
                             <p className="text-muted-foreground text-xs leading-relaxed">
                               {milestone.problem}
                             </p>
                           </div>
                           <div className="border-border/70 bg-muted/20 space-y-1 rounded border p-3">
-                            <div className="flex items-center gap-1 font-mono text-[11px] tracking-wider text-emerald-400 uppercase">
-                              <span className="size-1.5 rounded-full bg-emerald-400" />
-                              Engineered Architecture
+                            <div className="text-foreground flex items-center gap-1.5 font-mono text-[11px] font-semibold tracking-wider uppercase">
+                              <span className="bg-foreground size-1.5 rounded-full" />
+                              Architectural Solution
                             </div>
                             <p className="text-muted-foreground text-xs leading-relaxed">
                               {milestone.solution}
@@ -551,11 +498,11 @@ export default function InteractiveTimeline() {
                           </div>
                         </div>
 
-                        {/* Technical Specs Table */}
+                        {/* System Specifications */}
                         <div className="border-border/60 bg-muted/10 rounded border p-3">
-                          <div className="text-foreground mb-2 flex items-center gap-1.5 font-mono text-[11px] tracking-wider uppercase">
-                            <Cpu className="text-primary size-3" />
-                            <span>Hardware & Stack Telemetry</span>
+                          <div className="text-foreground mb-2 flex items-center gap-1.5 font-mono text-[11px] font-semibold tracking-wider uppercase">
+                            <Cpu className="text-foreground size-3" />
+                            <span>System Specifications</span>
                           </div>
                           <div className="grid grid-cols-1 gap-2 font-mono text-xs sm:grid-cols-2">
                             {milestone.specs.map((spec, sIdx) => (
@@ -563,7 +510,7 @@ export default function InteractiveTimeline() {
                                 key={sIdx}
                                 className="border-border/30 flex items-start justify-between gap-2 border-b pb-1"
                               >
-                                <span className="text-muted-foreground/70 shrink-0">
+                                <span className="text-muted-foreground shrink-0">
                                   {spec.label}:
                                 </span>
                                 <span className="text-foreground text-right">
@@ -574,11 +521,11 @@ export default function InteractiveTimeline() {
                           </div>
                         </div>
 
-                        {/* Engineering Breakthrough Callout */}
-                        <div className="border-l-primary bg-primary/5 rounded border-l-2 p-3 text-xs">
-                          <div className="text-primary mb-1 flex items-center gap-1.5 font-mono font-semibold">
+                        {/* Key Technical Milestone */}
+                        <div className="border-border/80 bg-muted/20 rounded border-l-2 border-l-foreground p-3 text-xs">
+                          <div className="text-foreground mb-1 flex items-center gap-1.5 font-mono font-semibold">
                             <CheckCircle2 className="size-3.5" />
-                            <span>Key Technical Breakthrough</span>
+                            <span>Key Technical Milestone</span>
                           </div>
                           <p className="text-muted-foreground leading-relaxed">
                             {milestone.breakthrough}

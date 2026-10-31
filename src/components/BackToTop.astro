@@ -1,0 +1,105 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<button
+  id="global-back-to-top"
+  type="button"
+  aria-label="Scroll to top"
+  title="Scroll to top"
+  class="border-border bg-background/85 text-muted-foreground hover:border-foreground/40 hover:bg-muted/80 hover:text-foreground focus-visible:ring-ring fixed right-6 bottom-6 z-40 hidden size-10 items-center justify-center rounded-full border shadow-sm backdrop-blur transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95 group sm:right-8 sm:bottom-8"
+>
+  <Icon
+    name="lucide:arrow-up"
+    class="size-4 transition-transform duration-200 group-hover:-translate-y-0.5"
+  />
+</button>
+
+<script>
+  class BackToTopController {
+    button: HTMLElement | null = null
+    footer: HTMLElement | null = null
+
+    init() {
+      this.button = document.getElementById('global-back-to-top')
+      this.footer = document.querySelector('footer')
+      if (!this.button) return
+
+      // Completely disabled on home route
+      if (this.isHomePage()) {
+        this.hide()
+        return
+      }
+
+      this.button.addEventListener('click', this.scrollToTop)
+      window.addEventListener('scroll', this.handleScroll, { passive: true })
+      this.handleScroll()
+    }
+
+    isHomePage(): boolean {
+      const path = window.location.pathname.replace(/\/+$/, '')
+      return path === '' || path === '/index.html'
+    }
+
+    handleScroll = () => {
+      if (!this.button) return
+      if (this.isHomePage()) {
+        this.hide()
+        return
+      }
+
+      const scrolledEnough = window.scrollY > 300
+      let footerVisible = false
+      if (this.footer) {
+        const footerRect = this.footer.getBoundingClientRect()
+        footerVisible = footerRect.top <= window.innerHeight
+      }
+
+      if (scrolledEnough && !footerVisible) {
+        this.show()
+      } else {
+        this.hide()
+      }
+    }
+
+    show() {
+      if (!this.button) return
+      this.button.classList.remove('hidden')
+      this.button.classList.add('flex')
+    }
+
+    hide() {
+      if (!this.button) return
+      this.button.classList.add('hidden')
+      this.button.classList.remove('flex')
+    }
+
+    scrollToTop = () => {
+      const prefersReduced = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReduced ? 'auto' : 'smooth',
+      })
+    }
+
+    cleanup() {
+      if (this.button) {
+        this.button.removeEventListener('click', this.scrollToTop)
+      }
+      window.removeEventListener('scroll', this.handleScroll)
+    }
+  }
+
+  let backToTopInstance: BackToTopController | null = null
+
+  document.addEventListener('astro:page-load', () => {
+    backToTopInstance = new BackToTopController()
+    backToTopInstance.init()
+  })
+
+  document.addEventListener('astro:before-swap', () => {
+    backToTopInstance?.cleanup()
+  })
+</script>

@@ -1,10 +1,20 @@
 ---
+import AchievementsTOCHeader from '@/components/achievements/AchievementsTOCHeader.astro'
+import AchievementsTOCSidebar from '@/components/achievements/AchievementsTOCSidebar.astro'
 import InteractiveTimeline from '@/components/achievements/InteractiveTimeline'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import { SITE } from '@/consts'
+import {
+  certifications,
+  competitions,
+  pressArticles,
+} from '@/data/achievements'
 import Layout from '@/layouts/Layout.astro'
 import { Icon } from 'astro-icon/components'
+
+// Dynamic current ISO date for schema freshness while preserving historical competition dates
+const currentIsoDate = new Date().toISOString().split('T')[0]
 
 const achievementsSchema = {
   '@context': 'https://schema.org',
@@ -13,6 +23,8 @@ const achievementsSchema = {
   description:
     'Official record of competition championships, press coverage, technical credentials, and engineering milestones of Darwin Danish.',
   url: `${SITE.href}/achievements/`,
+  datePublished: '2024-11-09',
+  dateModified: currentIsoDate,
   itemListElement: [
     {
       '@type': 'ListItem',
@@ -23,7 +35,9 @@ const achievementsSchema = {
         description:
           'Secured 1st Place Grand Prize and RM 1,000 cash award for Project Lumina, an AI-powered conversational recycling bin engineered from repurposed vehicle tires, Raspberry Pi 4, and speech recognition models.',
         award: '1st Place Champion (Juara Pertama) & RM 1,000 Grand Prize',
+        startDate: '2024-11-09',
         datePublished: '2024-11-09',
+        dateModified: currentIsoDate,
         sponsor: {
           '@type': 'Organization',
           name: 'Pejabat Pendidikan Daerah (PPD) Kapit & Environmental Education Council',
@@ -46,6 +60,7 @@ const achievementsSchema = {
         description:
           'Interactive IoT bin combining recycled tire chassis, Raspberry Pi, OpenAI Whisper speech transcription, and automated WhatsApp alert dispatch.',
         dateCreated: '2024-11-09',
+        dateModified: currentIsoDate,
         url: `${SITE.href}/blog/posts/lumina-journey/`,
         author: {
           '@type': 'Person',
@@ -65,6 +80,7 @@ const achievementsSchema = {
         description:
           'Stacking ensemble meta-classifier on Kepler space telescope photometry distinguishing exoplanet candidates from astrophysical false alarms.',
         dateCreated: '2025-11-23',
+        dateModified: currentIsoDate,
         url: 'https://huggingface.co/DarwinDanish/exoplanet-classifier-stacking',
         author: {
           '@type': 'Person',
@@ -91,117 +107,14 @@ const achievementsSchema = {
   ],
 }
 
-const pressArticles = [
-  {
-    publisher: 'Utusan Borneo',
-    publisherBadge: 'Regional Daily',
-    date: 'November 2024',
-    title:
-      "Inovasi Mini Inno Waste 2.0: Pasukan SMK Kapit Cipta Tong Sampah Pintar 'Lumina'",
-    excerpt:
-      'Pasukan inovasi SMK Kapit yang diketuai oleh Darwin Danish bersama Nigel Sibat dan Dexter Sangin di bawah bimbingan Cikgu Victoria dinobatkan sebagai Juara Pertandingan Reka Cipta Mini Inno Waste 2.0. Reka cipta tong sampah pintar bertemakan arnab ini menggabungkan tayar terpakai, mikrokomputer Raspberry Pi, dan sistem kecerdasan buatan bagi memupuk kesedaran kitar semula.',
-    link: 'https://www.utusanborneo.com.my',
-    category: 'State Innovation & Education',
-    readTime: '3 min read',
-  },
-  {
-    publisher: 'The Borneo Post',
-    publisherBadge: 'Sarawak English Press',
-    date: 'November 2024',
-    title:
-      'Kapit Youths Champion Smart Waste Management Through AI-Powered Eco-Bin',
-    excerpt:
-      "High school innovators from Kapit National Secondary School bagged 1st place with 'Lumina'. The project transforms discarded tires into an interactive, conversational waste station equipped with real-time mobile app telemetry, speech recognition, and instant WhatsApp emergency alerts when full.",
-    link: 'https://www.theborneopost.com',
-    category: 'STEM & Youth Tech',
-    readTime: '4 min read',
-  },
-  {
-    publisher: 'Hugging Face Hub',
-    publisherBadge: 'ML Open Source',
-    date: 'November 2025',
-    title:
-      'Community Release: Astronomical Exoplanet Classifier with Model Stacking',
-    excerpt:
-      'DarwinDanish published a production-grade machine learning stacking pipeline trained on NASA Kepler transit light curve observations, utilizing heterogeneous base estimators to discern genuine planetary transits with elevated precision.',
-    link: 'https://huggingface.co/DarwinDanish/exoplanet-classifier-stacking',
-    category: 'AI & Astrophysics',
-    readTime: '2 min read',
-  },
-  {
-    publisher: 'Sarawak STEM Gazette',
-    publisherBadge: 'Education Bulletin',
-    date: 'December 2024',
-    title:
-      'Empowering Rural Talents: The Rising Wave of Young Computer Engineers in Kapit',
-    excerpt:
-      'Spotlight feature on Darwin Danish and student engineers in Sarawak demonstrating that high-tech innovations—spanning embedded IoT, WebSocket communications, and AI agents—can emerge directly from school laboratories in Kapit.',
-    link: 'https://sarawak.gov.my',
-    category: 'Community Feature',
-    readTime: '5 min read',
-  },
-]
-
-const credentials = [
-  {
-    name: 'Machine Learning & Model Stacking Specialization',
-    issuer: 'DeepLearning / Kaggle Academy',
-    credentialId: 'KAG-ML-STACK-8924',
-    issueDate: '2025',
-    status: 'VERIFIED',
-    icon: 'lucide:binary',
-    skills: [
-      'Scikit-Learn',
-      'Ensemble Methods',
-      'Data Pipelines',
-      'Model Stacking',
-    ],
-    verificationUrl: 'https://huggingface.co/DarwinDanish',
-  },
-  {
-    name: 'Embedded Linux & Physical Computing (Raspberry Pi)',
-    issuer: 'Raspberry Pi Foundation / STEM Academy',
-    credentialId: 'RPF-EMB-2024-551',
-    issueDate: '2024',
-    status: 'VERIFIED',
-    icon: 'lucide:cpu',
-    skills: [
-      'Raspberry Pi OS',
-      'GPIO Interfacing',
-      'Python Daemons',
-      'I2S / UART',
-    ],
-    verificationUrl: 'https://github.com/Darwin-Danish',
-  },
-  {
-    name: 'Distributed Version Control & Software Engineering',
-    issuer: 'GitHub Campus / Linux Foundation',
-    credentialId: 'GH-DEV-0921-VERIFIED',
-    issueDate: '2023',
-    status: 'VERIFIED',
-    icon: 'lucide:git-branch',
-    skills: [
-      'Git CLI',
-      'GitHub Actions CI/CD',
-      'Automated Builds',
-      'Semantic Release',
-    ],
-    verificationUrl: 'https://github.com/Darwin-Danish',
-  },
-  {
-    name: 'Full-Stack Web Architecture & Real-Time APIs',
-    issuer: 'FreeCodeCamp / Open Web Standards',
-    credentialId: 'FCC-JS-FULLSTACK-338',
-    issueDate: '2024',
-    status: 'VERIFIED',
-    icon: 'lucide:globe',
-    skills: ['React', 'Astro', 'WebSockets', 'Node.js REST', 'Tailwind CSS'],
-    verificationUrl: 'https://darwindanish.github.io',
-  },
-]
+const featuredCompetition =
+  competitions.find((c) => c.featured) || competitions[0]
+const otherCompetitions = competitions.filter(
+  (c) => c.id !== featuredCompetition.id,
+)
 ---
 
-<Layout class="max-w-3xl">
+<Layout>
   <Fragment slot="head">
     <PageHead
       title="Achievements"
@@ -224,624 +137,456 @@ const credentials = [
     />
   </Fragment>
 
-  <!-- Breadcrumbs Navigation -->
-  <Breadcrumbs items={[{ label: 'Achievements', icon: 'lucide:trophy' }]} />
+  <!-- Mobile Sticky Table of Contents Header -->
+  <AchievementsTOCHeader slot="table-of-contents" />
 
-  <div class="flex w-full flex-col gap-12 pb-12 text-left">
-    <!-- 1. Header with Entity Badge and Track Record Overview -->
-    <header class="border-border/60 flex flex-col gap-4 border-b pb-8">
-      <div class="flex flex-wrap items-center gap-2">
-        <div
-          class="border-primary/30 bg-primary/10 text-primary inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-xs"
-        >
-          <span class="bg-primary size-2 animate-pulse rounded-full"></span>
-          <span>[RECORD_ID: DD-ACHV-2026]</span>
+  <section
+    class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6"
+  >
+    <div class="col-start-2">
+      <Breadcrumbs items={[{ label: 'Achievements', icon: 'lucide:trophy' }]} />
+    </div>
+
+    <!-- Desktop Sticky Sidebar Table of Contents -->
+    <AchievementsTOCSidebar />
+
+    <div class="col-start-2 flex w-full flex-col gap-12 pb-14 text-left">
+      <!-- 1. Header with Metadata -->
+      <header class="border-border/60 flex flex-col gap-3 border-b pb-8">
+        <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-muted-foreground">
+          <span>Verified Track Record</span>
+          <span>•</span>
+          <span class="text-foreground">Catalog Updated: October 2026</span>
         </div>
-        <span
-          class="border-border bg-muted/40 text-muted-foreground rounded-full border px-3 py-1 font-mono text-xs"
-        >
-          STATUS: 1ST_PLACE_CHAMPION • ACTIVE_RESEARCHER
-        </span>
-      </div>
 
-      <div class="space-y-2">
-        <h1
-          class="text-foreground flex items-center gap-3 text-2xl font-bold tracking-tight sm:text-3xl"
-        >
-          Achievements & Honors
-          <span
-            class="text-muted-foreground text-lg font-normal select-none sm:text-xl"
-            >🏆 (๑•̀ㅂ•́)و✧</span
+        <div class="space-y-2">
+          <h1
+            class="text-foreground flex items-center gap-3 text-2xl font-bold tracking-tight sm:text-3xl"
           >
-        </h1>
-        <p class="text-muted-foreground text-sm leading-relaxed sm:text-base">
-          A verifiable chronicle of competitive victories, hardware inventions,
-          machine learning research, journalistic coverage, and progressive
-          engineering milestones—rooted in Kapit, Sarawak and accelerating
-          toward motorsport technology.
-        </p>
-      </div>
-
-      <!-- Quick Section Navigation Anchor Bar -->
-      <nav
-        class="flex flex-wrap items-center gap-2 pt-1"
-        aria-label="Achievements section shortcuts"
-      >
-        <a
-          href="#press-room"
-          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
-        >
-          <Icon name="lucide:newspaper" class="size-3 text-sky-400" />
-          <span>[PRESS_ROOM]</span>
-        </a>
-        <a
-          href="#competitions"
-          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
-        >
-          <Icon name="lucide:trophy" class="size-3 text-amber-400" />
-          <span>[CHAMPIONSHIPS]</span>
-        </a>
-        <a
-          href="#credentials"
-          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
-        >
-          <Icon name="lucide:shield-check" class="size-3 text-emerald-400" />
-          <span>[CREDENTIALS]</span>
-        </a>
-        <a
-          href="#timeline"
-          class="border-border bg-muted/20 text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 font-mono text-[11px] transition-colors"
-        >
-          <Icon name="lucide:git-branch" class="text-primary size-3" />
-          <span>[TIMELINE_ODYSSEY]</span>
-        </a>
-      </nav>
-
-      <!-- Telemetry Quick Numbers Bar -->
-      <div class="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4">
-        <div
-          class="rounded-lg border border-amber-500/30 bg-amber-500/[0.04] p-3"
-        >
-          <div class="flex items-center justify-between">
-            <span
-              class="font-mono text-[10px] tracking-wider text-amber-400 uppercase"
-              >Competition</span
-            >
-            <Icon name="lucide:trophy" class="size-3.5 text-amber-400/80" />
-          </div>
-          <div class="text-foreground mt-0.5 text-lg font-bold">1st Place</div>
-          <div class="text-muted-foreground font-mono text-[11px]">
-            Mini Inno Waste 2.0
-          </div>
-        </div>
-
-        <div class="border-primary/30 bg-primary/[0.04] rounded-lg border p-3">
-          <div class="flex items-center justify-between">
-            <span
-              class="text-primary font-mono text-[10px] tracking-wider uppercase"
-              >Award Bounty</span
-            >
-            <Icon name="lucide:award" class="text-primary/80 size-3.5" />
-          </div>
-          <div class="text-foreground mt-0.5 text-lg font-bold">RM 1,000</div>
-          <div class="text-muted-foreground font-mono text-[11px]">
-            Championship Prize
-          </div>
-        </div>
-
-        <div class="rounded-lg border border-sky-500/30 bg-sky-500/[0.04] p-3">
-          <div class="flex items-center justify-between">
-            <span
-              class="font-mono text-[10px] tracking-wider text-sky-400 uppercase"
-              >Core Systems</span
-            >
-            <Icon name="lucide:cpu" class="size-3.5 text-sky-400/80" />
-          </div>
-          <div class="text-foreground mt-0.5 text-lg font-bold">IoT & ML</div>
-          <div class="text-muted-foreground font-mono text-[11px]">
-            Edge & Cloud Stack
-          </div>
-        </div>
-
-        <div
-          class="rounded-lg border border-emerald-500/30 bg-emerald-500/[0.04] p-3"
-        >
-          <div class="flex items-center justify-between">
-            <span
-              class="font-mono text-[10px] tracking-wider text-emerald-400 uppercase"
-              >Alma Mater</span
-            >
-            <Icon
-              name="lucide:graduation-cap"
-              class="size-3.5 text-emerald-400/80"
-            />
-          </div>
-          <div class="text-foreground mt-0.5 text-lg font-bold">SMK Kapit</div>
-          <div class="text-muted-foreground font-mono text-[11px]">
-            Kapit, Sarawak
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- 2. Press & Media Room ("In the News") -->
-    <section id="press-room" class="flex scroll-mt-20 flex-col gap-6">
-      <div class="flex flex-col gap-1">
-        <div
-          class="flex items-center gap-2 font-mono text-xs tracking-wider text-sky-400 uppercase"
-        >
-          <Icon name="lucide:newspaper" class="size-4" />
-          <span>[PRESS_ROOM::MEDIA_MENTIONS]</span>
-        </div>
-        <h2 class="text-foreground text-xl font-bold tracking-tight">
-          In The News & Journalistic Coverage
-        </h2>
-        <p class="text-muted-foreground text-xs sm:text-sm">
-          Real-world press reports, newspaper articles, and community releases
-          covering Darwin Danish's innovations.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {
-          pressArticles.map((article) => (
-            <article class="border-border bg-muted/15 hover:border-primary/50 hover:bg-muted/25 flex flex-col justify-between rounded-lg border p-4 transition-all duration-200 sm:p-5">
-              <div class="space-y-3">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <div class="flex items-center gap-2">
-                    <span class="rounded border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-400">
-                      {article.publisher}
-                    </span>
-                    <span class="text-muted-foreground font-mono text-[10px]">
-                      {article.publisherBadge}
-                    </span>
-                  </div>
-                  <span class="text-muted-foreground font-mono text-[10px]">
-                    {article.date}
-                  </span>
-                </div>
-
-                <h3 class="text-foreground line-clamp-2 text-sm font-semibold tracking-tight sm:text-base">
-                  {article.title}
-                </h3>
-
-                <p class="text-muted-foreground line-clamp-4 text-xs leading-relaxed">
-                  {article.excerpt}
-                </p>
-              </div>
-
-              <div class="border-border/40 mt-4 flex items-center justify-between border-t pt-3 font-mono text-xs">
-                <span class="text-muted-foreground/70 text-[11px]">
-                  {article.readTime}
-                </span>
-                <a
-                  href={article.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-primary hover:text-foreground inline-flex items-center gap-1 transition-colors hover:underline"
-                >
-                  <span>Read Article</span>
-                  <Icon name="lucide:external-link" class="size-3" />
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- 3. Featured Competitions & Hackathons -->
-    <section id="competitions" class="flex scroll-mt-20 flex-col gap-6">
-      <div class="flex flex-col gap-1">
-        <div
-          class="flex items-center gap-2 font-mono text-xs tracking-wider text-amber-400 uppercase"
-        >
-          <Icon name="lucide:trophy" class="size-4" />
-          <span>[COMPETITIONS::RECORD_BOARD]</span>
-        </div>
-        <h2 class="text-foreground text-xl font-bold tracking-tight">
-          Championships & Hackathons
-        </h2>
-        <p class="text-muted-foreground text-xs sm:text-sm">
-          Competitive engineering challenges evaluated by panels of industry,
-          education, and technical judges.
-        </p>
-      </div>
-
-      <!-- Hero Highlight Card: 1st Place Champion at Mini Inno Waste 2.0 -->
-      <div
-        class="relative overflow-hidden rounded-xl border-2 border-amber-500/40 bg-amber-500/[0.03] p-5 shadow-[0_0_24px_rgba(251,191,36,0.06)] transition-all duration-300 hover:border-amber-500/60 sm:p-6"
-      >
-        <!-- Gold Ribbon Tag -->
-        <div
-          class="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/20 pb-4"
-        >
-          <div
-            class="inline-flex items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/15 px-3 py-1 font-mono text-xs font-bold text-amber-400"
-          >
-            <Icon name="lucide:medal" class="size-4 shrink-0" />
-            <span>JUARA (1ST PLACE CHAMPION) • RM 1,000 GRAND PRIZE</span>
-          </div>
-          <div
-            class="text-muted-foreground flex items-center gap-2 font-mono text-xs"
-          >
-            <Icon name="lucide:calendar" class="size-3.5 text-amber-400" />
-            <span>9 November 2024</span>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <div>
-            <h3 class="text-foreground text-lg font-bold sm:text-xl">
-              Pertandingan Reka Cipta Mini Inno Waste 2.0
-            </h3>
-            <p class="text-primary mt-1 font-mono text-xs sm:text-sm">
-              Project Lumina: The Intelligent, AI-Powered Interactive Bunny Bin
-            </p>
-          </div>
-
-          <p class="text-muted-foreground text-xs leading-relaxed sm:text-sm">
-            Secured 1st Place out of all participating institutions in Kapit,
-            Sarawak. Conceived and engineered an interactive waste segregation
-            station made from discarded vehicle tires. Integrated an onboard
-            Raspberry Pi 4, offline Picovoice wake-word recognition, OpenAI
-            Whisper speech transcription, GPT conversational intelligence, and
-            automated emergency WhatsApp notifications to municipal
-            administrators when storage reaches capacity.
+            Achievements & Honors
+          </h1>
+          <p class="text-muted-foreground text-sm leading-relaxed sm:text-base">
+            Official record of competitive championships, hardware inventions,
+            machine learning research, journalistic coverage, and engineering
+            milestones rooted in Kapit, Sarawak.
           </p>
-
-          <!-- Team Roster Callout -->
-          <div
-            class="border-border/80 bg-background/60 grid grid-cols-1 gap-2 rounded-lg border p-3 font-mono text-xs sm:grid-cols-2"
-          >
-            <div>
-              <span class="text-muted-foreground">Lead Architect:</span>
-              <span class="text-foreground ml-1 font-semibold"
-                >Darwin Danish</span
-              >
-              <span class="text-primary block text-[10px]"
-                >Software, Raspberry Pi, Speech AI, Kodular App</span
-              >
-            </div>
-            <div>
-              <span class="text-muted-foreground">Faculty Mentor:</span>
-              <span class="text-foreground ml-1 font-semibold"
-                >Mdm Victoria</span
-              >
-              <span class="text-muted-foreground block text-[10px]"
-                >Project Guidance & Faculty Sponsorship</span
-              >
-            </div>
-            <div>
-              <span class="text-muted-foreground">Mechanical Builder:</span>
-              <span class="text-foreground ml-1 font-semibold">Nigel Sibat</span
-              >
-              <span class="text-muted-foreground block text-[10px]"
-                >Tire Chassis & Mobile Wheelbase Fabrication</span
-              >
-            </div>
-            <div>
-              <span class="text-muted-foreground">Structural Builder:</span>
-              <span class="text-foreground ml-1 font-semibold"
-                >Dexter Sangin</span
-              >
-              <span class="text-muted-foreground block text-[10px]"
-                >Lid Carpentry, 3D Print Finish & Enclosure</span
-              >
-            </div>
-          </div>
-
-          <!-- Real Photo Evidence Gallery with tuned aspect ratios and framing -->
-          <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
-            <div
-              class="group border-border bg-muted/30 relative overflow-hidden rounded-lg border"
-            >
-              <img
-                src="/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d.jpg"
-                alt="Darwin Danish and team holding the RM 1,000 championship mock check on stage"
-                loading="lazy"
-                class="h-56 w-full object-cover object-top transition-transform duration-300 group-hover:scale-105 sm:h-64"
-              />
-              <div
-                class="bg-background/90 text-muted-foreground absolute inset-x-0 bottom-0 flex items-center justify-between p-2 font-mono text-[11px] backdrop-blur-sm"
-              >
-                <span>🏆 Holding the RM1,000 Championship Check</span>
-                <span class="text-amber-400">Stage Final</span>
-              </div>
-            </div>
-
-            <div
-              class="group border-border bg-muted/30 relative overflow-hidden rounded-lg border"
-            >
-              <img
-                src="/uploads/df6e92ef-8212-4847-9aac-cf5bdbdfe473.jpg"
-                alt="Team with Project Lumina, trophy, and mentor Mdm Victoria"
-                loading="lazy"
-                class="h-56 w-full object-cover object-top transition-transform duration-300 group-hover:scale-105 sm:h-64"
-              />
-              <div
-                class="bg-background/90 text-muted-foreground absolute inset-x-0 bottom-0 flex items-center justify-between p-2 font-mono text-[11px] backdrop-blur-sm"
-              >
-                <span>🤖 Lumina, Trophy & Mentor Mdm Victoria</span>
-                <span class="text-amber-400">Post-Award</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Bottom Action -->
-          <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class="bg-background border-border text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]"
-                >Raspberry Pi 4</span
-              >
-              <span
-                class="bg-background border-border text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]"
-                >Whisper AI</span
-              >
-              <span
-                class="bg-background border-border text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]"
-                >WhatsApp Webhook</span
-              >
-              <span
-                class="bg-background border-border text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]"
-                >WebSockets</span
-              >
-            </div>
-
-            <a
-              href="/blog/posts/lumina-journey/"
-              class="border-primary bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-1.5 rounded-md border px-3.5 py-1.5 font-mono text-xs font-semibold transition-colors"
-            >
-              <span>Read Full Lumina Journey & Technical Build</span>
-              <Icon name="lucide:arrow-right" class="size-3.5" />
-            </a>
-          </div>
         </div>
-      </div>
+      </header>
 
-      <!-- Additional Expandable Competition Slots -->
-      <div class="space-y-3">
-        <div
-          class="text-muted-foreground font-mono text-xs tracking-wider uppercase"
-        >
-          [ADDITIONAL_COMPETITIVE_SLOTS]
+      <!-- 2. Press & Media Coverage ("In the News") -->
+      <section id="press-room" class="flex scroll-mt-24 flex-col gap-6">
+        <div class="flex flex-col gap-1">
+          <div
+            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:newspaper" class="size-4 text-foreground" />
+            <span>In The News</span>
+          </div>
+          <h2 class="text-foreground text-xl font-bold tracking-tight">
+            Journalistic & Media Coverage
+          </h2>
+          <p class="text-muted-foreground text-xs sm:text-sm">
+            Press reports, newspaper articles, and community releases covering
+            Darwin Danish's engineering initiatives.
+          </p>
         </div>
 
-        <!-- Slot 1 -->
-        <details
-          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden"
-        >
-          <summary
-            class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
-          >
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class="rounded border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[11px] text-sky-400"
-                >ROBOTICS</span
-              >
-              <span>Sarawak State STEM Robotics Challenge</span>
-              <span class="text-muted-foreground text-xs font-normal"
-                >| Division Finalist & Technical Merit</span
-              >
-            </div>
-            <Icon
-              name="lucide:chevron-down"
-              class="text-muted-foreground size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
-            />
-          </summary>
-          <div
-            class="border-border/40 text-muted-foreground mt-3 space-y-2 border-t pt-3 font-mono text-xs leading-relaxed"
-          >
-            <p>
-              Engineered an autonomous differential-drive navigation rover
-              equipped with dual ultrasonic rangefinders and an infrared
-              line-tracker array. Implemented PID steering compensation on an
-              Arduino Nano to navigate obstacle-strewn corridors without relying
-              on GPS or cloud services.
-            </p>
-            <div class="grid grid-cols-1 gap-2 pt-1 text-[11px] sm:grid-cols-2">
-              <div>
-                <strong class="text-foreground">Stack:</strong> Arduino C++, L298N
-                Motor Driver, HC-SR04, TCRT5000
-              </div>
-              <div>
-                <strong class="text-foreground">Recognition:</strong> Top 5 Division
-                Placement & Autonomous Navigation Commendation
-              </div>
-            </div>
-          </div>
-        </details>
-
-        <!-- Slot 2 -->
-        <details
-          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden"
-        >
-          <summary
-            class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
-          >
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class="rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[11px] text-emerald-400"
-                >INNOVATION</span
-              >
-              <span>Karnival STEM Kebangsaan (National Science Fair)</span>
-              <span class="text-muted-foreground text-xs font-normal"
-                >| State High Distinction</span
-              >
-            </div>
-            <Icon
-              name="lucide:chevron-down"
-              class="text-muted-foreground size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
-            />
-          </summary>
-          <div
-            class="border-border/40 text-muted-foreground mt-3 space-y-2 border-t pt-3 font-mono text-xs leading-relaxed"
-          >
-            <p>
-              Showcased an automated micro-waste sorting prototype using
-              capacitive proximity sensing and servo deflection gates. Evaluated
-              across criteria including material durability, energy efficiency,
-              and potential for integration into municipal recycling streams.
-            </p>
-            <div class="grid grid-cols-1 gap-2 pt-1 text-[11px] sm:grid-cols-2">
-              <div>
-                <strong class="text-foreground">Stack:</strong> ESP32, MG996R Servos,
-                Capacitive Sensor Array, OLED I2C
-              </div>
-              <div>
-                <strong class="text-foreground">Recognition:</strong> High Distinction
-                Award for Sustainable Engineering
-              </div>
-            </div>
-          </div>
-        </details>
-
-        <!-- Slot 3 -->
-        <details
-          class="group border-border bg-muted/15 hover:border-primary/40 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden"
-        >
-          <summary
-            class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none"
-          >
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class="rounded border border-purple-500/30 bg-purple-500/10 px-2 py-0.5 text-[11px] text-purple-400"
-                >AI / SPACE</span
-              >
-              <span>NASA Space Apps Challenge (Sarawak Hub)</span>
-              <span class="text-muted-foreground text-xs font-normal"
-                >| Global Nominee Contender</span
-              >
-            </div>
-            <Icon
-              name="lucide:chevron-down"
-              class="text-muted-foreground size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
-            />
-          </summary>
-          <div
-            class="border-border/40 text-muted-foreground mt-3 space-y-2 border-t pt-3 font-mono text-xs leading-relaxed"
-          >
-            <p>
-              Tackled astronomical big data by architecting an automated
-              exoplanet candidate screening model using light-curve folding and
-              stacked classification. Addressed heavy observational noise and
-              class imbalance, culminating in the open-source pipeline published
-              on Hugging Face.
-            </p>
-            <div class="grid grid-cols-1 gap-2 pt-1 text-[11px] sm:grid-cols-2">
-              <div>
-                <strong class="text-foreground">Stack:</strong> Python 3.10, Scikit-Learn,
-                LightGBM, Random Forest, Matplotlib
-              </div>
-              <div>
-                <strong class="text-foreground">Outcome:</strong> Nominated for Global
-                Review in AI Astrophysics
-              </div>
-            </div>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <!-- 4. Certifications & Credentials -->
-    <section id="credentials" class="flex scroll-mt-20 flex-col gap-6">
-      <div class="flex flex-col gap-1">
-        <div
-          class="flex items-center gap-2 font-mono text-xs tracking-wider text-emerald-400 uppercase"
-        >
-          <Icon name="lucide:shield-check" class="size-4" />
-          <span>[CREDENTIALS::VERIFIED_VAULT]</span>
-        </div>
-        <h2 class="text-foreground text-xl font-bold tracking-tight">
-          Certifications & Technical Credentials
-        </h2>
-        <p class="text-muted-foreground text-xs sm:text-sm">
-          Verifiable technical credentials, academic specializations, and
-          engineering proficiencies.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {
-          credentials.map((cred) => (
-            <div class="border-border bg-muted/15 hover:bg-muted/25 space-y-3 rounded-lg border p-4 transition-all duration-200 hover:border-emerald-500/40 sm:p-5">
-              <div class="flex items-center justify-between gap-2">
-                <div class="flex items-center gap-2">
-                  <div class="flex size-7 items-center justify-center rounded border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
-                    <Icon name={cred.icon} class="size-4" />
-                  </div>
-                  <div>
-                    <div class="text-foreground text-xs font-bold">
-                      {cred.issuer}
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {
+            pressArticles.map((article) => (
+              <article class="border-border bg-muted/15 hover:border-foreground/30 hover:bg-muted/25 flex flex-col justify-between rounded-lg border p-4 transition-all duration-200 sm:p-5">
+                <div class="space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="border-border bg-muted/40 text-foreground rounded border px-2 py-0.5 font-mono text-[10px] font-semibold">
+                        {article.publisher}
+                      </span>
+                      <span class="text-muted-foreground font-mono text-[10px]">
+                        {article.publisherBadge}
+                      </span>
                     </div>
-                    <div class="text-muted-foreground font-mono text-[10px]">
-                      Issued: {cred.issueDate}
-                    </div>
+                    <span class="text-muted-foreground font-mono text-[10px]">
+                      {article.date}
+                    </span>
                   </div>
+
+                  <h3 class="text-foreground line-clamp-2 text-sm font-semibold tracking-tight sm:text-base">
+                    {article.title}
+                  </h3>
+
+                  <p class="text-muted-foreground line-clamp-4 text-xs leading-relaxed">
+                    {article.excerpt}
+                  </p>
                 </div>
 
-                <div class="inline-flex items-center gap-1 rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-400">
-                  <span class="size-1.5 animate-pulse rounded-full bg-emerald-400" />
-                  <span>{cred.status}</span>
-                </div>
-              </div>
-
-              <div>
-                <h3 class="text-foreground text-sm font-semibold tracking-tight">
-                  {cred.name}
-                </h3>
-                <div class="text-muted-foreground/80 mt-1 font-mono text-[11px]">
-                  ID: <span class="text-foreground">{cred.credentialId}</span>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                {cred.skills.map((skill) => (
-                  <span class="bg-background/80 border-border/80 text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
-                    {skill}
+                <div class="border-border/40 mt-4 flex items-center justify-between border-t pt-3 font-mono text-xs">
+                  <span class="text-muted-foreground text-[11px]">
+                    {article.readTime}
                   </span>
-                ))}
-              </div>
-
-              <div class="border-border/30 flex justify-end border-t pt-2">
-                <a
-                  href={cred.verificationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-primary inline-flex items-center gap-1 font-mono text-[11px] hover:underline"
-                >
-                  <span>Verify State</span>
-                  <Icon name="lucide:external-link" class="size-3" />
-                </a>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- 5. Unique Interactive Vertical Engineering Timeline -->
-    <section id="timeline" class="flex scroll-mt-20 flex-col gap-6">
-      <div class="flex flex-col gap-1">
-        <div
-          class="text-primary flex items-center gap-2 font-mono text-xs tracking-wider uppercase"
-        >
-          <Icon name="lucide:git-branch" class="size-4" />
-          <span>[ODYSSEY::ENGINEERING_TIMELINE]</span>
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 transition-colors hover:underline"
+                  >
+                    <span>Read Article</span>
+                    <Icon name="lucide:external-link" class="size-3" />
+                  </a>
+                </div>
+              </article>
+            ))
+          }
         </div>
-        <h2 class="text-foreground text-xl font-bold tracking-tight">
-          The Engineering Odyssey: SMK Kapit to Advanced AI
-        </h2>
-        <p class="text-muted-foreground text-xs sm:text-sm">
-          An interactive, node-by-node milestone tracker documenting Darwin
-          Danish's technical evolution. Filter by domain or expand individual
-          technical blueprints.
-        </p>
-      </div>
+      </section>
 
-      <!-- React Interactive Timeline Component -->
-      <InteractiveTimeline client:load />
-    </section>
-  </div>
+      <!-- 3. Featured Competitions & Hackathons -->
+      <section id="competitions" class="flex scroll-mt-24 flex-col gap-6">
+        <div class="flex flex-col gap-1">
+          <div
+            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:trophy" class="size-4 text-foreground" />
+            <span>Competitions & Hackathons</span>
+          </div>
+          <h2 class="text-foreground text-xl font-bold tracking-tight">
+            Championships & Hackathons
+          </h2>
+          <p class="text-muted-foreground text-xs sm:text-sm">
+            Competitive engineering challenges evaluated by panels of industry,
+            education, and technical judges.
+          </p>
+        </div>
+
+        <!-- Featured Champion Highlight Card: Mini Inno Waste 2.0 -->
+        <div
+          id="featured-champion"
+          class="border-border bg-muted/15 scroll-mt-24 rounded-lg border p-5 transition-all duration-200 sm:p-6"
+        >
+          <div
+            class="border-border/60 mb-4 flex flex-wrap items-center justify-between gap-2 border-b pb-4"
+          >
+            <div
+              class="border-border bg-muted/40 text-foreground inline-flex items-center gap-2 rounded border px-3 py-1 font-mono text-xs font-semibold"
+            >
+              <Icon name="lucide:award" class="size-4 shrink-0 text-foreground" />
+              <span>{featuredCompetition.award} • {featuredCompetition.prize}</span>
+            </div>
+            <div
+              class="text-muted-foreground flex items-center gap-1.5 font-mono text-xs"
+            >
+              <Icon name="lucide:calendar" class="size-3.5" />
+              <time datetime={featuredCompetition.isoEventDate}>
+                {featuredCompetition.eventDate}
+              </time>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-foreground text-lg font-bold sm:text-xl">
+                {featuredCompetition.title}
+              </h3>
+              <p class="text-muted-foreground mt-1 font-mono text-xs sm:text-sm">
+                {featuredCompetition.projectSubtitle}
+              </p>
+            </div>
+
+            <p class="text-muted-foreground text-xs leading-relaxed sm:text-sm">
+              {featuredCompetition.description}
+            </p>
+
+            <!-- Team Roster -->
+            {
+              featuredCompetition.team && (
+                <div class="border-border bg-background/50 grid grid-cols-1 gap-2.5 rounded-lg border p-3 font-mono text-xs sm:grid-cols-2">
+                  {featuredCompetition.team.map((member) => (
+                    <div>
+                      <span class="text-foreground font-semibold">
+                        {member.name}
+                      </span>
+                      <span class="text-muted-foreground block text-[11px]">
+                        {member.role}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )
+            }
+
+            <!-- Real Photo Evidence Gallery -->
+            {
+              featuredCompetition.images &&
+                featuredCompetition.images.length > 0 && (
+                  <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+                    {featuredCompetition.images.map((img) => (
+                      <div class="border-border bg-muted/20 overflow-hidden rounded-lg border">
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          loading="lazy"
+                          class="h-56 w-full object-cover object-top sm:h-64"
+                        />
+                        {img.caption && (
+                          <div class="border-border/60 bg-background/90 text-muted-foreground border-t p-2.5 font-mono text-[11px]">
+                            {img.caption}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )
+            }
+
+            <!-- Bottom Action & Tech Tags -->
+            <div class="border-border/40 flex flex-wrap items-center justify-between gap-3 border-t pt-3">
+              <div class="flex flex-wrap items-center gap-1.5">
+                {
+                  featuredCompetition.technologies?.map((tech) => (
+                    <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
+                      {tech}
+                    </span>
+                  ))
+                }
+              </div>
+
+              {
+                featuredCompetition.link && (
+                  <a
+                    href={featuredCompetition.link}
+                    class="border-border bg-muted hover:bg-muted/80 text-foreground inline-flex items-center gap-1.5 rounded border px-3 py-1.5 font-mono text-xs font-medium transition-colors"
+                  >
+                    <span>{featuredCompetition.linkLabel || 'View Details'}</span>
+                    <Icon name="lucide:arrow-right" class="size-3.5" />
+                  </a>
+                )
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Competitions Accordion -->
+        <div id="additional-competitions" class="scroll-mt-24 space-y-3">
+          <div
+            class="text-muted-foreground font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            Additional Competitions & Challenges
+          </div>
+
+          {
+            otherCompetitions.map((comp) => (
+              <details class="group border-border bg-muted/10 hover:border-foreground/30 rounded-lg border p-4 transition-colors [&_summary]:list-none [&_summary::-webkit-details-marker]:hidden">
+                <summary class="text-foreground flex cursor-pointer list-none items-center justify-between gap-2 font-mono text-sm font-semibold select-none">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="border-border bg-muted/40 text-foreground rounded border px-2 py-0.5 text-[11px] font-semibold">
+                      {comp.category || 'COMPETITION'}
+                    </span>
+                    <span>{comp.title}</span>
+                    <span class="text-muted-foreground text-xs font-normal">
+                      | {comp.award}
+                    </span>
+                  </div>
+                  <Icon
+                    name="lucide:chevron-down"
+                    class="text-muted-foreground size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                  />
+                </summary>
+
+                <div class="border-border/40 text-muted-foreground mt-3 space-y-3 border-t pt-3 font-mono text-xs leading-relaxed">
+                  <div class="flex items-center gap-2 text-[11px]">
+                    <span class="text-foreground font-semibold">
+                      Event Date:
+                    </span>
+                    <time datetime={comp.isoEventDate}>{comp.eventDate}</time>
+                    <span>•</span>
+                    <span class="text-foreground font-semibold">
+                      Organizer:
+                    </span>
+                    <span>{comp.organizer}</span>
+                  </div>
+
+                  <p>{comp.description}</p>
+
+                  {comp.specs && comp.specs.length > 0 && (
+                    <div class="border-border/60 bg-background/50 grid grid-cols-1 gap-2 rounded border p-3 text-[11px] sm:grid-cols-2">
+                      {comp.specs.map((spec) => (
+                        <div>
+                          <strong class="text-foreground">{spec.label}:</strong>{' '}
+                          <span>{spec.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {comp.technologies && comp.technologies.length > 0 && (
+                    <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                      {comp.technologies.map((tech) => (
+                        <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 text-[10px]">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {comp.images && comp.images.length > 0 && (
+                    <div class="grid grid-cols-1 gap-2 pt-2 sm:grid-cols-2">
+                      {comp.images.map((img) => (
+                        <div class="border-border overflow-hidden rounded border">
+                          <img
+                            src={img.src}
+                            alt={img.alt}
+                            loading="lazy"
+                            class="h-44 w-full object-cover"
+                          />
+                          {img.caption && (
+                            <div class="bg-background text-muted-foreground p-1.5 text-[10px]">
+                              {img.caption}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {comp.link && (
+                    <div class="pt-1">
+                      <a
+                        href={comp.link}
+                        target={comp.link.startsWith('http') ? '_blank' : '_self'}
+                        rel={
+                          comp.link.startsWith('http')
+                            ? 'noopener noreferrer'
+                            : undefined
+                        }
+                        class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 transition-colors hover:underline"
+                      >
+                        <span>{comp.linkLabel || 'View Details'}</span>
+                        <Icon name="lucide:external-link" class="size-3" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </details>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- 4. Certifications & Credentials -->
+      <section id="credentials" class="flex scroll-mt-24 flex-col gap-6">
+        <div class="flex flex-col gap-1">
+          <div
+            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:shield-check" class="size-4 text-foreground" />
+            <span>Certifications & Credentials</span>
+          </div>
+          <h2 class="text-foreground text-xl font-bold tracking-tight">
+            Certifications & Technical Credentials
+          </h2>
+          <p class="text-muted-foreground text-xs sm:text-sm">
+            Verifiable technical credentials, academic specializations, and
+            engineering proficiencies.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {
+            certifications.map((cred) => (
+              <div class="border-border bg-muted/15 hover:border-foreground/30 hover:bg-muted/25 space-y-3 rounded-lg border p-4 transition-all duration-200 sm:p-5">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <div class="border-border bg-background flex size-7 items-center justify-center rounded border text-foreground">
+                      <Icon name={cred.icon || 'lucide:award'} class="size-4" />
+                    </div>
+                    <div>
+                      <div class="text-foreground text-xs font-bold">
+                        {cred.issuer}
+                      </div>
+                      <div class="text-muted-foreground font-mono text-[10px]">
+                        Issued: {cred.issueDate}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="border-border bg-muted/40 text-muted-foreground inline-flex items-center gap-1 rounded border px-2 py-0.5 font-mono text-[10px]">
+                    <span>{cred.status || 'Verified'}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="text-foreground text-sm font-semibold tracking-tight">
+                    {cred.name}
+                  </h3>
+                  {cred.credentialId && (
+                    <div class="text-muted-foreground mt-1 font-mono text-[11px]">
+                      ID:{' '}
+                      <span class="text-foreground">{cred.credentialId}</span>
+                    </div>
+                  )}
+                </div>
+
+                {cred.image && (
+                  <div class="border-border overflow-hidden rounded border">
+                    <img
+                      src={cred.image}
+                      alt={`${cred.name} Certificate`}
+                      loading="lazy"
+                      class="h-32 w-full object-cover"
+                    />
+                  </div>
+                )}
+
+                {cred.skills && cred.skills.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5 pt-1">
+                    {cred.skills.map((skill) => (
+                      <span class="border-border bg-background text-muted-foreground rounded border px-2 py-0.5 font-mono text-[10px]">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {cred.verificationUrl && (
+                  <div class="border-border/30 flex justify-end border-t pt-2">
+                    <a
+                      href={cred.verificationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-foreground hover:text-muted-foreground inline-flex items-center gap-1 font-mono text-[11px] transition-colors hover:underline"
+                    >
+                      <span>Verify Credential</span>
+                      <Icon name="lucide:external-link" class="size-3" />
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- 5. Engineering Timeline -->
+      <section id="timeline" class="flex scroll-mt-24 flex-col gap-6">
+        <div class="flex flex-col gap-1">
+          <div
+            class="text-muted-foreground flex items-center gap-2 font-mono text-xs font-semibold tracking-wider uppercase"
+          >
+            <Icon name="lucide:git-branch" class="size-4 text-foreground" />
+            <span>Engineering Milestones</span>
+          </div>
+          <h2 class="text-foreground text-xl font-bold tracking-tight">
+            The Engineering Progression: SMK Kapit to Advanced Systems
+          </h2>
+          <p class="text-muted-foreground text-xs sm:text-sm">
+            Chronological milestone tracker documenting technical evolution
+            across embedded hardware, autonomous robotics, and machine learning
+            systems. Filter by domain or expand individual technical specifications.
+          </p>
+        </div>
+
+        <!-- React Interactive Timeline Component -->
+        <InteractiveTimeline client:load />
+      </section>
+    </div>
+  </section>
 </Layout>

@@ -1,0 +1,136 @@
+---
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Icon } from 'astro-icon/components'
+
+interface TOCItem {
+  id: string
+  label: string
+  sub?: boolean
+}
+
+const tocItems: TOCItem[] = [
+  { id: 'press-room', label: 'In The News', sub: false },
+  { id: 'competitions', label: 'Competitions & Hackathons', sub: false },
+  { id: 'featured-champion', label: 'Mini Inno Waste 2.0', sub: true },
+  { id: 'additional-competitions', label: 'Additional Challenges', sub: true },
+  { id: 'credentials', label: 'Certifications & Credentials', sub: false },
+  { id: 'timeline', label: 'Engineering Milestones', sub: false },
+]
+---
+
+<aside
+  id="achievements-desktop-toc"
+  class="sticky top-20 col-start-1 row-span-1 mr-8 ml-auto hidden h-[calc(100vh-5rem)] w-60 max-w-xs select-none xl:block"
+  aria-label="Table of contents"
+>
+  <ScrollArea
+    client:load
+    className="flex max-h-[calc(100vh-8rem)] flex-col overflow-y-auto"
+    type="hover"
+  >
+    <div class="flex flex-col gap-3 py-2 pr-4 font-mono">
+      <div
+        class="text-muted-foreground flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase"
+      >
+        <Icon name="lucide:list" class="size-3.5" />
+        <span>Contents</span>
+      </div>
+
+      <nav class="flex flex-col gap-1 text-xs">
+        {
+          tocItems.map((item) => (
+            <a
+              href={`#${item.id}`}
+              data-toc-target={item.id}
+              class={`achievements-desktop-toc-link transition-colors duration-150 ${
+                item.sub
+                  ? 'border-border/50 text-muted-foreground/75 hover:border-foreground/60 hover:text-foreground ml-2 border-l py-1 pl-3'
+                  : 'text-muted-foreground hover:text-foreground py-1 font-medium'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </ScrollArea>
+</aside>
+
+<script>
+  const HEADER_OFFSET = 140
+
+  class AchievementsDesktopTOC {
+    links: NodeListOf<HTMLAnchorElement> | null = null
+    sectionIds: string[] = [
+      'press-room',
+      'competitions',
+      'featured-champion',
+      'additional-competitions',
+      'credentials',
+      'timeline',
+    ]
+    sections: { id: string; element: HTMLElement }[] = []
+
+    init() {
+      const container = document.getElementById('achievements-desktop-toc')
+      if (!container) return
+
+      this.links = container.querySelectorAll('.achievements-desktop-toc-link')
+      this.sections = this.sectionIds
+        .map((id) => ({
+          id,
+          element: document.getElementById(id) as HTMLElement,
+        }))
+        .filter((s) => s.element !== null)
+
+      this.updateActiveLink()
+      window.addEventListener('scroll', this.handleScroll, { passive: true })
+    }
+
+    handleScroll = () => {
+      this.updateActiveLink()
+    }
+
+    updateActiveLink() {
+      if (this.sections.length === 0 || !this.links) return
+
+      const scrollPos = window.scrollY + HEADER_OFFSET
+      let activeId = ''
+
+      for (let i = this.sections.length - 1; i >= 0; i--) {
+        const sec = this.sections[i]
+        if (sec.element.offsetTop <= scrollPos) {
+          activeId = sec.id
+          break
+        }
+      }
+
+      this.links.forEach((link) => {
+        const target = link.dataset.tocTarget
+        const isMatch = target === activeId
+        link.classList.toggle('text-foreground', isMatch)
+        link.classList.toggle('font-semibold', isMatch)
+        if (link.classList.contains('border-l')) {
+          link.classList.toggle('border-foreground', isMatch)
+          link.classList.toggle('border-border/50', !isMatch)
+        }
+      })
+    }
+
+    cleanup() {
+      window.removeEventListener('scroll', this.handleScroll)
+    }
+  }
+
+  let desktopTOCInstance: AchievementsDesktopTOC | null = null
+
+  document.addEventListener('astro:page-load', () => {
+    desktopTOCInstance = new AchievementsDesktopTOC()
+    desktopTOCInstance.init()
+  })
+
+  document.addEventListener('astro:before-swap', () => {
+    desktopTOCInstance?.cleanup()
+  })
+</script>
