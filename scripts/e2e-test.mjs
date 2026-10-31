@@ -934,7 +934,7 @@ registerTest({
   tier: 'Tier 1',
   feature: 'F9 - SEO Metadata',
   title:
-    'dist/index.html canonical URL points to https://darwindanish.github.io',
+    'dist/index.html canonical URL points to https://darwin-danish.github.io',
   run: () => {
     const html = readDist('index.html')
     assert(html !== null, 'dist/index.html missing')
@@ -944,7 +944,7 @@ registerTest({
       'Canonical link tag missing from dist/index.html',
     )
     assert(
-      canonical.startsWith('https://darwindanish.github.io'),
+      canonical.startsWith('https://darwin-danish.github.io'),
       `Canonical URL must point to GitHub Pages, got: ${canonical}`,
     )
     assertNotContains(
@@ -960,7 +960,7 @@ registerTest({
   tier: 'Tier 1',
   feature: 'F9 - SEO Metadata',
   title:
-    'dist/about/index.html canonical URL points to https://darwindanish.github.io/about/',
+    'dist/about/index.html canonical URL points to https://darwin-danish.github.io/about/',
   run: () => {
     const html = readDist('about/index.html')
     assert(html !== null, 'dist/about/index.html missing')
@@ -1073,8 +1073,8 @@ registerTest({
     assert(robots !== null, 'dist/robots.txt missing')
     assertMatch(
       robots,
-      /Sitemap:\s*https:\/\/darwindanish\.github\.io\//i,
-      'robots.txt must reference sitemap on https://darwindanish.github.io',
+      /Sitemap:\s*https:\/\/darwin-danish\.github\.io\//i,
+      'robots.txt must reference sitemap on https://darwin-danish.github.io',
     )
     assertNotContains(
       robots,
@@ -1115,8 +1115,8 @@ registerTest({
     assert(combined.length > 50, 'Sitemap content missing')
     assertContains(
       combined,
-      'https://darwindanish.github.io',
-      'Sitemap must contain canonical https://darwindanish.github.io',
+      'https://darwin-danish.github.io',
+      'Sitemap must contain canonical https://darwin-danish.github.io',
     )
     assertNotContains(
       combined,
@@ -2061,7 +2061,7 @@ registerTest({
     const canonical = extractCanonical(html)
     assert(canonical !== null, 'Missing canonical tag in dist/index.html')
     assert(
-      canonical.startsWith('https://darwindanish.github.io'),
+      canonical.startsWith('https://darwin-danish.github.io'),
       `Canonical URL (${canonical}) must match site URL`,
     )
   },
@@ -2116,7 +2116,7 @@ registerTest({
         l.replace(/<\/?loc>/g, ''),
       )
       for (const loc of locs) {
-        if (loc.startsWith('https://darwindanish.github.io')) {
+        if (loc.startsWith('https://darwin-danish.github.io')) {
           const urlPath = new URL(loc).pathname
           const expectedFile = urlPath.endsWith('/')
             ? path.join(DIST_DIR, urlPath, 'index.html')
@@ -2268,7 +2268,7 @@ registerTest({
   tier: 'Tier 3',
   feature: 'Pairwise: Authors ↔ SEO',
   title:
-    'Author profile canonical URL matches https://darwindanish.github.io/authors/darwindanish/ and is indexable',
+    'Author profile canonical URL matches https://darwin-danish.github.io/authors/darwindanish/ and is indexable',
   run: () => {
     const html = readDist('authors/darwindanish/index.html')
     assert(html !== null, 'dist/authors/darwindanish/index.html missing')
@@ -2291,7 +2291,7 @@ registerTest({
   tier: 'Tier 3',
   feature: 'Pairwise: Achievements ↔ SEO & Schema',
   title:
-    'Achievements route canonical URL matches https://darwindanish.github.io/achievements/ and includes valid JSON-LD schema referencing #person',
+    'Achievements route canonical URL matches https://darwin-danish.github.io/achievements/ and includes valid JSON-LD schema referencing #person',
   run: () => {
     const html = readDist('achievements/index.html')
     assert(html !== null, 'dist/achievements/index.html missing')
@@ -2303,7 +2303,7 @@ registerTest({
     )
     assertContains(
       html,
-      'https://darwindanish.github.io#person',
+      'https://darwin-danish.github.io#person',
       'JSON-LD schema must reference person node #person',
     )
     assertContains(
@@ -2437,7 +2437,7 @@ registerTest({
     assert(locs.length > 0, 'Sitemap contains zero URLs')
     for (const loc of locs) {
       assert(
-        loc.startsWith('https://darwindanish.github.io'),
+        loc.startsWith('https://darwin-danish.github.io'),
         `Invalid URL in sitemap: ${loc}`,
       )
       assert(
@@ -2504,13 +2504,13 @@ registerTest({
 
     if (ogUrl) {
       assert(
-        ogUrl.startsWith('https://darwindanish.github.io'),
+        ogUrl.startsWith('https://darwin-danish.github.io'),
         `og:url does not point to canonical domain: ${ogUrl}`,
       )
     }
     if (canonical) {
       assert(
-        canonical.startsWith('https://darwindanish.github.io'),
+        canonical.startsWith('https://darwin-danish.github.io'),
         `canonical does not point to canonical domain: ${canonical}`,
       )
     }

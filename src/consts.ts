@@ -4,7 +4,7 @@ export const SITE: Site = {
   title: 'Darwin Danish',
   description:
     'A young computer engineering student and tech enthusiast passionate about IoT, machine learning, software development, and motorsport tech & innovation',
-  href: 'https://darwindanish.github.io',
+  href: 'https://darwin-danish.github.io',
   author: 'Darwin Danish',
   locale: 'en-US',
   featuredPostCount: 2,

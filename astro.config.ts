@@ -17,7 +17,7 @@ import rehypeDocument from 'rehype-document'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  site: 'https://darwindanish.github.io',
+  site: 'https://darwin-danish.github.io',
   output: 'static',
   trailingSlash: 'always',
   image: {
