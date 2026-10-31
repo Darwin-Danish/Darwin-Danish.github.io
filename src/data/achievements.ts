@@ -24,6 +24,8 @@ export interface CompetitionImage {
   src: string
   alt: string
   caption?: string
+  width?: number
+  height?: number
 }
 
 export interface CompetitionTeamMember {

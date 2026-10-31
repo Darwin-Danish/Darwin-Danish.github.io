@@ -204,7 +204,7 @@ const blogSchema = {
                     </div>
                     {author.isRegistered ? (
                       <Link
-                        href={`/authors/${author.id}`}
+                        href={`/authors/${author.id}/`}
                         class="text-foreground font-medium hover:underline"
                       >
                         <span>{author.name}</span>
@@ -255,7 +255,7 @@ const blogSchema = {
             post.data.tags &&
               post.data.tags.length > 0 &&
               post.data.tags.map((tag) => (
-                <Link href={`/tags/${tag}`}>
+                <Link href={`/tags/${tag}/`}>
                   <Badge text={tag} />
                 </Link>
               ))

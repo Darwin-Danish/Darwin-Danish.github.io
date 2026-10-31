@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { NAV_LINKS } from '@/consts'
-import { Menu } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -28,37 +28,37 @@ const MobileMenu = () => {
   }, [])
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={(val) => setIsOpen(val)}>
-      <DropdownMenuTrigger
-        asChild
-        onClick={() => {
-          setIsOpen((val) => !val)
-        }}
-      >
-        <Button
-          variant="ghost"
-          size="icon"
-          className="-me-2 size-8 sm:hidden"
-          title="Menu"
+    <div className="flex items-center sm:hidden">
+      <DropdownMenu open={isOpen} onOpenChange={(val) => setIsOpen(val)}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-muted/40 relative size-9 rounded-md border border-border/40 text-foreground transition-colors focus-visible:ring-1 focus-visible:ring-foreground"
+            aria-label="Toggle navigation menu"
+          >
+            {isOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="end"
+          sideOffset={8}
+          className="border-border bg-background/95 w-48 rounded-lg border p-1.5 shadow-xl backdrop-blur-md"
         >
-          <Menu className="size-5" />
-          <span className="sr-only">Toggle menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-background">
-        {NAV_LINKS.map((item) => (
-          <DropdownMenuItem key={item.href} asChild>
-            <a
-              href={item.href}
-              className="w-full font-mono text-lg font-medium capitalize"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </a>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+          {NAV_LINKS.map((item) => (
+            <DropdownMenuItem key={item.href} asChild>
+              <a
+                href={item.href}
+                className="hover:bg-muted/50 hover:text-foreground text-foreground/80 flex w-full cursor-pointer items-center rounded-md px-3 py-2 font-mono text-sm font-medium transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </a>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }
 

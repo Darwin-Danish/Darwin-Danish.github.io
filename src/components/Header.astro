@@ -1,5 +1,6 @@
 ---
 import Link from '@/components/Link.astro'
+import MobileMenu from '@/components/ui/mobile-menu'
 import { NAV_LINKS } from '@/consts'
 import { Image } from 'astro:assets'
 import logo from '../../public/static/logo.png'
@@ -13,7 +14,8 @@ import logo from '../../public/static/logo.png'
       <Image src={logo} alt="Logo" class="size-5 sm:size-6" />
     </Link>
     <div class="flex items-center gap-4">
-      <nav class="flex items-center gap-6 text-sm">
+      {/* Desktop Navigation */}
+      <nav class="hidden items-center gap-6 text-sm sm:flex">
         {
           NAV_LINKS.map((item) => (
             <Link
@@ -25,6 +27,9 @@ import logo from '../../public/static/logo.png'
           ))
         }
       </nav>
+
+      {/* Mobile Burger Menu */}
+      <MobileMenu client:load transition:persist />
     </div>
   </div>
 </header>

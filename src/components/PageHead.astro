@@ -6,6 +6,7 @@ interface Props {
   description?: string
   noindex?: boolean
   keywords?: string[]
+  image?: string
 }
 
 const {
@@ -13,10 +14,15 @@ const {
   description = SITE.description,
   noindex = false,
   keywords = SITE.keywords,
+  image: customImage,
 } = Astro.props
 
 const pageTitle = title === SITE.title ? title : `${title} | ${SITE.title}`
-const image = new URL('/static/twitter-card.png', Astro.site)
+const image = customImage
+  ? (customImage.startsWith('http')
+      ? customImage
+      : new URL(customImage, Astro.site).href)
+  : new URL('/static/twitter-card.png', Astro.site).href
 ---
 
 <title>{pageTitle}</title>
@@ -24,7 +30,16 @@ const image = new URL('/static/twitter-card.png', Astro.site)
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords.join(', ')} />
 <link rel="canonical" href={Astro.url} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+  )
+}
 
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />

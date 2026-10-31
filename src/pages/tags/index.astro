@@ -19,7 +19,7 @@ const hasTags = sortedTags.length > 0
       <div class="flex flex-col gap-4">
         <div class="flex flex-wrap gap-2">
           {sortedTags.map(({ tag, count }) => (
-            <Link href={`/tags/${tag}`}>
+            <Link href={`/tags/${tag}/`}>
               <Badge text={tag}>
                 {tag}
                 <span class="text-muted-foreground ml-1.5">({count})</span>

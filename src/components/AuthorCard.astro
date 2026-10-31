@@ -13,7 +13,9 @@ interface Props {
 const { author } = Astro.props
 const { name, avatar, bio, pronouns } = author.data
 const currentPath = Astro.url.pathname
-const isAuthorPage = currentPath === `/authors/${author.id}`
+const isAuthorPage =
+  currentPath === `/authors/${author.id}/` ||
+  currentPath === `/authors/${author.id}`
 
 const socialLinks: SocialLink[] = [
   author.data.website && { href: author.data.website, label: 'Website' },
@@ -23,7 +25,7 @@ const socialLinks: SocialLink[] = [
   author.data.mail && { href: `mailto:${author.data.mail}`, label: 'Email' },
 ].filter(Boolean) as SocialLink[]
 
-const nameLink = `/authors/${author.id}`
+const nameLink = `/authors/${author.id}/`
 ---
 
 <div

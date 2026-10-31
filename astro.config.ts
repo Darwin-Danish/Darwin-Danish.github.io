@@ -19,6 +19,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   site: 'https://darwindanish.github.io',
   output: 'static',
+  trailingSlash: 'always',
   image: {
     domains: ['gravatar.com', '2.gravatar.com', '0.gravatar.com', '1.gravatar.com'],
   },
