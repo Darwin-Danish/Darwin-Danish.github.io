@@ -9,8 +9,11 @@ interface TOCItem {
 }
 
 const sections: TOCItem[] = [
+  { id: 'press-room', label: 'In The News', sub: false },
   { id: 'competitions', label: 'Competitions & Honors', sub: false },
   { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)', sub: true },
+  { id: 'additional-competitions', label: 'Additional Challenges', sub: true },
+  { id: 'credentials', label: 'Certifications', sub: false },
   { id: 'timeline', label: 'Academic Foundations', sub: false },
 ]
 ---
@@ -132,8 +135,11 @@ const sections: TOCItem[] = [
     cacheSections() {
       this.sections = []
       const sectionConfigs = [
+        { id: 'press-room', label: 'In The News' },
         { id: 'competitions', label: 'Competitions & Honors' },
         { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)' },
+        { id: 'additional-competitions', label: 'Additional Challenges' },
+        { id: 'credentials', label: 'Certifications' },
         { id: 'timeline', label: 'Academic Foundations' },
       ]
 

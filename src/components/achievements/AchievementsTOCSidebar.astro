@@ -9,8 +9,11 @@ interface TOCItem {
 }
 
 const tocItems: TOCItem[] = [
+  { id: 'press-room', label: 'In The News', sub: false },
   { id: 'competitions', label: 'Competitions & Honors', sub: false },
-  { id: 'featured-champion', label: 'Mini Inno Waste 2.0 (Juara)', sub: true },
+  { id: 'featured-champion', label: 'Mini Inno Waste 2.0', sub: true },
+  { id: 'additional-competitions', label: 'Additional Challenges', sub: true },
+  { id: 'credentials', label: 'Certifications', sub: false },
   { id: 'timeline', label: 'Academic Foundations', sub: false },
 ]
 ---
@@ -100,10 +103,10 @@ const tocItems: TOCItem[] = [
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 60
 
-      let activeId = this.sections[0].id
+      let activeId = this.sections[0]?.id || ''
 
       if (isAtBottom) {
-        activeId = this.sections[this.sections.length - 1].id
+        activeId = this.sections[this.sections.length - 1]?.id || ''
       } else {
         for (let i = this.sections.length - 1; i >= 0; i--) {
           if (scrollPos >= this.sections[i].top) {
