@@ -7,6 +7,8 @@ import { Icon } from 'astro-icon/components'
   type="button"
   aria-label="Scroll back to top"
   title="Scroll to top"
+  tabindex="-1"
+  hidden
   class="border-border/80 bg-background/90 text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:ring-ring group pointer-events-none fixed right-5 bottom-5 z-40 flex size-11 translate-y-3 scale-90 cursor-pointer items-center justify-center rounded-full border opacity-0 shadow-md backdrop-blur-md transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95 sm:right-8 sm:bottom-8 sm:size-12"
 >
   {/* Circular scroll progress indicator ring */}
@@ -110,6 +112,9 @@ import { Icon } from 'astro-icon/components'
 
     show() {
       if (!this.button) return
+      this.button.hidden = false
+      this.button.removeAttribute('aria-hidden')
+      this.button.setAttribute('tabindex', '0')
       this.button.classList.remove(
         'opacity-0',
         'pointer-events-none',
@@ -122,7 +127,6 @@ import { Icon } from 'astro-icon/components'
         'scale-100',
         'translate-y-0',
       )
-      this.button.setAttribute('aria-hidden', 'false')
     }
 
     hide() {
@@ -139,7 +143,11 @@ import { Icon } from 'astro-icon/components'
         'scale-100',
         'translate-y-0',
       )
-      this.button.setAttribute('aria-hidden', 'true')
+      this.button.setAttribute('tabindex', '-1')
+      this.button.removeAttribute('aria-hidden')
+      if (this.isHomePage()) {
+        this.button.hidden = true
+      }
     }
 
     scrollToTop = () => {

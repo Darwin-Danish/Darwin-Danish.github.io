@@ -265,14 +265,23 @@ function isCrawler(): boolean {
   )
 }
 
+// User 908599730328703017 is not monitored by Lanyard (not in Lanyard Discord server).
+// Avoid emitting 404 network errors in browser console until account is connected.
+const IS_LANYARD_ENABLED = false
+
 function useLanyardPresence(userId: string) {
   const [data, setData] = useState<LanyardResponse | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
-    // Avoid running on server or if userId is missing or if client is a search bot/crawler
-    if (!userId || typeof window === 'undefined' || isCrawler()) {
+    // Avoid running on server or if Lanyard disabled or if userId is missing or if client is a search bot/crawler
+    if (
+      !IS_LANYARD_ENABLED ||
+      !userId ||
+      typeof window === 'undefined' ||
+      isCrawler()
+    ) {
       return
     }
 

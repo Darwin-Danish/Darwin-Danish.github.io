@@ -12,7 +12,6 @@ import rehypeKatex from 'rehype-katex'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkEmoji from 'remark-emoji'
 import remarkMath from 'remark-math'
-import rehypeDocument from 'rehype-document'
 
 import tailwindcss from '@tailwindcss/vite'
 
@@ -21,15 +20,14 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   image: {
-    domains: ['gravatar.com', '2.gravatar.com', '0.gravatar.com', '1.gravatar.com'],
+    domains: [
+      'gravatar.com',
+      '2.gravatar.com',
+      '0.gravatar.com',
+      '1.gravatar.com',
+    ],
   },
-  integrations: [
-    expressiveCode(), 
-    mdx(), 
-    react(), 
-    icon(),
-    sitemap(),
-  ],
+  integrations: [expressiveCode(), mdx(), react(), icon(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },
@@ -43,12 +41,6 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
-      [
-        rehypeDocument,
-        {
-          css: 'https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css',
-        },
-      ],
       [
         rehypeExternalLinks,
         {
