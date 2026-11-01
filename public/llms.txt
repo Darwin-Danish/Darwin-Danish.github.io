@@ -1,0 +1,43 @@
+# Darwin Danish
+
+> Computer engineering student and systems builder with an ambition to engineer technology in the motorsport industry in tech & innovation. Specializes in IoT architectures, applied machine learning, embedded systems, and systems engineering.
+
+## Overview
+- **Name**: Darwin Danish (Darwin Danish Anak Geramong)
+- **Canonical Website**: https://darwindanish.github.io/
+- **Location**: Kapit, Sarawak, Malaysia
+- **Alma Mater**: Kapit National Secondary School (SMK Kapit)
+- **Primary Focus**: Motorsport Technology & Innovation, Formula 1 Telemetry & Aerodynamics Systems, Embedded IoT, Applied Machine Learning, Software Engineering
+
+## Core Navigation & Pages
+- [Homepage](https://darwindanish.github.io/): Bento grid dashboard featuring real-time presence, GitHub activity, coding metrics, and latest highlights.
+- [About](https://darwindanish.github.io/about/): Full personal narrative, career goals in motorsport tech, personal interests, and photo gallery.
+- [Work & Projects](https://darwindanish.github.io/work/): Portfolio of engineering projects, open-source models, and software architectures.
+- [Achievements](https://darwindanish.github.io/achievements/): Comprehensive timeline of international and regional competition awards, honors, and technical credentials.
+- [Blog](https://darwindanish.github.io/blog/): Technical deep-dives, hardware engineering chronicles, and tutorials.
+
+## Major Achievements & Awards
+- **Gold Award — Borneo International Innovation Creativity Competition (BIICC) 2026**: Awarded for engineering ingenuity, creative system architecture, and impactful technological problem-solving in the International Innovation & Technology category.
+- **1st Place Champion (Juara Pertama) & RM 1,000 Grand Prize — Pertandingan Reka Cipta Mini Inno Waste 2.0**: Designed and engineered Project Lumina, an intelligent AI-powered interactive waste segregation station constructed from recycled vehicle tires.
+
+## Featured Engineering Projects
+- **Project Lumina**: Interactive recycling system equipped with an onboard Raspberry Pi 4, custom offline Picovoice wake-word engine, OpenAI Whisper speech transcription, conversational intelligence, and automated emergency WhatsApp telemetry notifications. Read the full case study at https://darwindanish.github.io/blog/posts/lumina-journey/.
+- **Exoplanet Classifier**: Machine learning ensemble pipeline that analyzes astronomical light curves to classify planetary transits and filter false positives with high accuracy. Hosted on Hugging Face at https://huggingface.co/DarwinDanish/exoplanet-classifier-stacking.
+
+## Technical Skills & Tooling
+- **Hardware & Embedded**: Raspberry Pi 4, Arduino, ESP32, Sensor Interfacing (Ultrasonic, Audio, GPIO), Circuit Prototyping
+- **Machine Learning & AI**: Python, Scikit-Learn, Ensemble Stacking, Whisper STT, Picovoice Porcupine, Natural Language Interfaces
+- **Software & Systems**: TypeScript, Astro, React, Tailwind CSS, Git, Linux/Unix, REST APIs, WebSockets
+- **Languages Spoken**: Malay (Native/Bilingual), English (Fluent), German (Working), Spanish (Elementary)
+
+## Verified Contact & Profiles
+- **GitHub**: https://github.com/darwindanish
+- **LinkedIn**: https://linkedin.com/in/darwin-danish
+- **ORCID**: https://orcid.org/0009-0000-1047-4320
+- **Hugging Face**: https://huggingface.co/DarwinDanish
+- **PyPI**: https://pypi.org/user/DarwinDanish/
+- **Stack Overflow**: https://stackoverflow.com/users/22384131/darwin-danish
+- **Email**: darwindanish.work@gmail.com
+
+## Optional / Extended Context
+- [Full Agentic Context](https://darwindanish.github.io/llms-full.txt): Complete, unabridged knowledge base including all competition specifications, full project postmortems, and technical system details for deep AI agent consumption.

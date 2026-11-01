@@ -1,0 +1,108 @@
+# Complete Knowledge Base: Darwin Danish
+
+This comprehensive text document contains the full context of Darwin Danish's personal portfolio, engineering projects, competitive achievements, technical background, and articles for consumption by AI agents, autonomous web crawlers, and LLM reasoning engines.
+
+---
+
+## 1. Profile & Biography
+
+- **Full Name**: Darwin Danish Anak Geramong
+- **Display Name**: Darwin Danish
+- **Birth Date**: 2009-02-24
+- **Nationality**: Malaysian
+- **Home Region**: Kapit, Sarawak, Malaysia
+- **Institution / Secondary Education**: Kapit National Secondary School (SMK Kapit)
+- **Primary Ambition**: Engineering technology in the Formula 1 and motorsport industry in tech & innovation.
+- **Areas of Specialization**:
+  - IoT architectures and embedded computing
+  - Applied machine learning & data modeling
+  - Full-stack web technologies & static systems
+  - Motorsport telemetry, aerodynamics data systems, and performance computing
+- **Personal Interests**: Huge Formula 1 follower (particularly Carlos Sainz 🏎️), robotics, music, and software development.
+
+### Contact Channels & Identifiers
+- Website: https://darwindanish.github.io/
+- Primary Work Email: darwindanish.work@gmail.com
+- GitHub: https://github.com/darwindanish
+- LinkedIn: https://linkedin.com/in/darwin-danish
+- ORCID ID: 0009-0000-1047-4320 (https://orcid.org/0009-0000-1047-4320)
+- Hugging Face: https://huggingface.co/DarwinDanish
+- PyPI: https://pypi.org/user/DarwinDanish/
+- Stack Overflow: https://stackoverflow.com/users/22384131/darwin-danish
+- Instagram: https://www.instagram.com/darwin.danish29
+- Threads: https://www.threads.net/@darwin.danish29
+- Gravatar: https://gravatar.com/darwindanish
+
+---
+
+## 2. Competitions & Honors
+
+### Borneo International Innovation Creativity Competition (BIICC) 2026
+- **Award**: Gold Award
+- **Organizer**: Borneo International Innovation & Creativity Council
+- **Year / Date**: 2026 (ISO: 2026-04-15)
+- **Location**: Borneo, Sarawak, Malaysia
+- **Role**: Lead Architect & Systems Engineer
+- **Technologies**: IoT Systems, Embedded Computing, Machine Learning, Python, System Architecture
+- **Summary**: Recognized with the prestigious Gold Award for engineering ingenuity, creative system architecture, and impactful technological problem-solving within the international innovation category.
+
+### Pertandingan Reka Cipta Mini Inno Waste 2.0
+- **Award**: 1st Place Champion (Juara Pertama) & RM 1,000 Grand Prize
+- **Organizer**: Pejabat Pendidikan Daerah (PPD) Kapit & Environmental Education Council
+- **Date**: 9 November 2024
+- **Location**: Kapit, Sarawak, Malaysia
+- **Project Title**: Project Lumina: The Intelligent, AI-Powered Interactive Eco-Bin
+- **Team**:
+  - Darwin Danish (Lead Developer & Hardware Architect)
+  - Alexander Isaac (Mechanical Fabrication & Assembly)
+  - Jeremy Asyraf (Artistic Direction & Aesthetic Painting)
+- **Technical Specifications**:
+  - Processing Unit: Raspberry Pi 4 Model B (4GB RAM)
+  - Voice Pipeline: Custom wake-word "Hey Lumina" running offline via Picovoice Porcupine
+  - Speech Recognition: OpenAI Whisper STT with local pre-processing
+  - Language Model: Conversational AI response pipeline
+  - Level Detection: Dual HC-SR04 ultrasonic distance sensors for volumetric measurement
+  - Notification Telemetry: Twilio WhatsApp API webhook alerts to facility management when bin is full
+  - Structural Base: Upcycled discarded automotive tires, precision jigsaw cut plywood lid and mobile base with heavy-duty caster wheels.
+
+---
+
+## 3. Engineering Projects
+
+### Project Lumina (Smart Recycling Station)
+- **Repository / Article**: https://darwindanish.github.io/blog/posts/lumina-journey/
+- **Description**: An AI-integrated recycling bin crafted from repurposed tires. The device engages users with spoken dialogue upon detecting waste, answers environmental questions, and automatically alerts maintenance staff when capacity limits are triggered.
+- **Impact**: Grand prize winner at regional environmental innovation competition.
+
+### Exoplanet Classifier (Machine Learning Pipeline)
+- **Hugging Face Model**: https://huggingface.co/DarwinDanish/exoplanet-classifier-stacking
+- **Category**: Tabular Classification & Astronomy Machine Learning
+- **Description**: A multi-model ensemble classification pipeline designed to identify transit signals in astronomical light curve datasets. It utilizes stacked estimators (Random Forests, Gradient Boosting, Logistic Regression) to filter instrumental noise and false positives from genuine exoplanet candidates.
+
+---
+
+## 4. Blog Posts & Published Case Studies
+
+### "Project Lumina: The Journey of an AI-Powered, Eco-Friendly Interactive Bin"
+- **URL**: https://darwindanish.github.io/blog/posts/lumina-journey/
+- **Published**: 2024-11-10
+- **Authors**: Darwin Danish
+- **Key Chapters**:
+  1. *Shaping the Vessel (25 Oct 2024)*: Cutting wood, painting tires in vibrant colors, constructing mobile caster wheel base.
+  2. *Giving Lumina a Brain (29 Oct 2024)*: Connecting the Raspberry Pi 4, implementing "Hey Lumina" wake-word recognition, integrating conversational speech synthesis.
+  3. *Solving the Power Bottleneck (2 Nov 2024)*: Tackling power delivery limitations with an external battery pack and dual-rail wiring.
+  4. *The Ultrasonic Sensor Glitch (5 Nov 2024)*: Overcoming echo reverberation and noise inside curved rubber tire walls through software-level moving average filtering.
+  5. *WhatsApp Alert Telemetry (7 Nov 2024)*: Creating the automated dispatch alert sent to admin smartphones upon bin reaching 90% capacity.
+  6. *Competition Day & Victory (9 Nov 2024)*: Live presentation, judge interaction demo, winning 1st Place Champion and RM 1,000 grand prize.
+
+---
+
+## 5. Website Architecture & Indexing Details
+
+- **Framework**: Astro 5 (Pure Static Output)
+- **Styling**: Tailwind CSS v4 with custom JetBrains Mono typography
+- **Accessibility**: Semantic HTML5, accessible ARIA attributes, full keyboard navigation, high touch targets.
+- **Structured Data**:
+  - Schema.org/WebSite (Site Name: "Darwin Danish", URL: "https://darwindanish.github.io/")
+  - Schema.org/Person (Author profile with alumniOf, awards, sameAs links, knowsAbout)
+- **License**: Content licensed under CC-BY-4.0; Code licensed under MIT.
