@@ -36,7 +36,14 @@ const latestPostImage =
     <link
       rel="preload"
       as="image"
-      href="/static/bento/about-background-square.png"
+      href="/static/bento/about-background-square-371w.png"
+      media="(max-width: 639px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/static/bento/about-foreground-square-371w.png"
       media="(max-width: 639px)"
       fetchpriority="high"
     />
@@ -44,6 +51,13 @@ const latestPostImage =
       rel="preload"
       as="image"
       href="/static/bento/about-background.png"
+      media="(min-width: 640px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/static/bento/about-foreground.png"
       media="(min-width: 640px)"
       fetchpriority="high"
     />
@@ -59,22 +73,39 @@ const latestPostImage =
     )}
   >
     <div class="aspect-[3/4] p-2 [grid-area:a] sm:aspect-[2/1] xl:aspect-[2/1]">
-      <div class="bg-muted size-full border">
+      <div class="bg-muted relative size-full overflow-hidden border">
+        <picture>
+          <source
+            media="(max-width: 639px)"
+            srcset="/static/bento/about-background-square-371w.png 371w, /static/bento/about-background-square.png 742w"
+            sizes="(max-width: 639px) 100vw, 742px"
+          />
+          <source
+            media="(min-width: 640px)"
+            srcset="/static/bento/about-background.png"
+          />
+          <img
+            src="/static/bento/about-background-square-371w.png"
+            alt="About background"
+            class="pointer-events-none absolute inset-0 size-full object-cover object-center select-none"
+            fetchpriority="high"
+            loading="eager"
+            decoding="async"
+            width="366"
+            height="494"
+          />
+        </picture>
         <div
-          class="size-full bg-[url('/static/bento/about-background-square.png')] bg-cover bg-center bg-no-repeat sm:bg-[url('/static/bento/about-background.png')]"
+          data-overlay
+          class="relative size-full bg-[url('/static/bento/about-foreground-square-371w.png')] bg-cover bg-center bg-no-repeat transition-opacity duration-200 sm:bg-[url('/static/bento/about-foreground.png')]"
         >
-          <div
-            data-overlay
-            class="size-full bg-[url('/static/bento/about-foreground-square.png')] bg-cover bg-center bg-no-repeat transition-opacity duration-200 sm:bg-[url('/static/bento/about-foreground.png')]"
-          >
-            <div class="flex p-4">
-              <div class="hidden w-1/3 sm:block"></div>
-              <div class="space-y-4 sm:w-2/3">
-                <div
-                  class="text-foreground/80 bg-background space-y-4 text-sm text-pretty [&>p]:border [&>p]:p-3"
-                >
-                  {BioContent && <BioContent />}
-                </div>
+          <div class="relative z-10 flex p-4">
+            <div class="hidden w-1/3 sm:block"></div>
+            <div class="space-y-4 sm:w-2/3">
+              <div
+                class="text-foreground/80 bg-background space-y-4 text-sm text-pretty [&>p]:border [&>p]:p-3"
+              >
+                {BioContent && <BioContent />}
               </div>
             </div>
           </div>
@@ -144,15 +175,30 @@ const latestPostImage =
                   class="flex h-full w-full"
                 >
                   {latestPostImage ? (
-                    <img
-                      src={latestPostImage}
-                      alt={`Featured image for the latest post: ${latestPost.data.title}`}
-                      class="size-full rounded-xl border object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      width={600}
-                      height={400}
-                    />
+                    <picture>
+                      {latestPostImage ===
+                        '/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d.jpg' && (
+                        <source
+                          srcset="/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d-360w.webp 360w, /uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d-640w.webp 640w"
+                          sizes="(max-width: 639px) 340px, 600px"
+                          type="image/webp"
+                        />
+                      )}
+                      <img
+                        src={
+                          latestPostImage ===
+                          '/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d.jpg'
+                            ? '/uploads/cc7c7aaf-b7aa-4ded-a0d8-8ceb4e59b01d-360w.webp'
+                            : latestPostImage
+                        }
+                        alt={`Featured image for the latest post: ${latestPost.data.title}`}
+                        class="size-full rounded-xl border object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        width={600}
+                        height={400}
+                      />
+                    </picture>
                   ) : (
                     <div class="bg-background/50 flex size-full flex-col items-center justify-center rounded-xl border p-4 text-center backdrop-blur-sm">
                       <h3 class="mb-2 line-clamp-2 text-xl font-bold">

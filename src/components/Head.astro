@@ -156,7 +156,7 @@ const personSchema = {
 
   <link
     rel="preload"
-    href="/fonts/JetBrainsMono[wght].woff2"
+    href="/fonts/JetBrainsMono%5Bwght%5D.woff2"
     as="font"
     type="font/woff2"
     crossorigin="anonymous"
@@ -186,11 +186,21 @@ const personSchema = {
     is:inline
     set:html={JSON.stringify(personSchema)}
   />
-  <script
-    is:inline
-    src="https://analytics.ahrefs.com/analytics.js"
-    data-key="e+eIYzA9WgryqcHddae2rA"
-    async
-  ></script>
+  <script is:inline>
+    window.addEventListener('load', () => {
+      const loadAnalytics = () => {
+        const s = document.createElement('script')
+        s.src = 'https://analytics.ahrefs.com/analytics.js'
+        s.dataset.key = 'e+eIYzA9WgryqcHddae2rA'
+        s.async = true
+        document.head.appendChild(s)
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadAnalytics)
+      } else {
+        setTimeout(loadAnalytics, 1500)
+      }
+    })
+  </script>
   <slot />
 </head>

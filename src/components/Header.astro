@@ -1,6 +1,6 @@
 ---
 import Link from '@/components/Link.astro'
-import MobileMenu from '@/components/ui/mobile-menu'
+import MobileMenu from '@/components/ui/MobileMenu.astro'
 import { NAV_LINKS } from '@/consts'
 import { Image } from 'astro:assets'
 import logo from '../../public/static/logo.png'
@@ -11,7 +11,13 @@ import logo from '../../public/static/logo.png'
     class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3"
   >
     <Link href="/" class="flex shrink-0">
-      <Image src={logo} alt="Logo" class="size-5 sm:size-6" />
+      <Image
+        src={logo}
+        alt="Logo"
+        width={48}
+        height={48}
+        class="size-5 sm:size-6"
+      />
     </Link>
     <div class="flex items-center gap-4">
       {/* Desktop Navigation */}
@@ -29,7 +35,7 @@ import logo from '../../public/static/logo.png'
       </nav>
 
       {/* Mobile Burger Menu */}
-      <MobileMenu client:load transition:persist />
+      <MobileMenu />
     </div>
   </div>
 </header>

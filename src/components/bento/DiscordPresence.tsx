@@ -119,7 +119,7 @@ const AvatarSection = memo<{
   <div className="flex justify-between gap-x-1">
     <div className="relative">
       <AvatarComponent
-        src="https://2.gravatar.com/avatar/c53c92c02db7e4b3ca932c040fec22a4f365b977d2f45b72b26cd363c2dedbec?size=256&d=initials"
+        src="/static/bento/avatar.webp"
         alt="Darwin's Avatar"
         fallback="D"
         className="-mt-12 aspect-square size-16 rounded-full sm:-mt-[4.5rem] sm:size-24"
